@@ -1,0 +1,15 @@
+{
+  "name": "luxcars",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start_client": "npm start --prefix client",
+    "start_server": "npm start --prefix server",
+    "start": "npm run server_start",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
