@@ -1,0 +1,68 @@
+@use "../../sass/varibles" as vars
+@use "../../sass/break_points" as bp
+@use '../../sass/mixins' as mixins
+@use '../../sass/animations' as animations
+
+.navigation
+    height: vars.$navHeight
+    background-color: vars.$containers-color
+    padding: 0 30px
+    @include mixins.flexDisplay($primarySetting: flex-start , $secondarySetting: center)
+
+    &__icon-box
+        flex-basis: calc( 50% - 250px / 2 - 30px) //center - half searh_field width - padding
+
+        @media (max-width: bp.$small) 
+            flex-basis: 10%
+
+    &__homeIcon
+        font-size: 1.5em
+        cursor: pointer
+
+    &__searhField
+        flex-grow: 1.1
+        height: 40%
+        line-height: 20%
+
+        @media (max-width: bp.$small) 
+            width: 20%
+
+    &__searhInput
+        width: 250px
+        height: 100%
+
+        @media (max-width: bp.$medium) 
+            width: 70%
+
+        @media (max-width: bp.$small) 
+            width: 100%
+
+    &__links
+        flex-grow: 1
+        display: flex
+        
+   
+    &__link
+        flex-grow: 1
+
+        &-container
+            padding: 5px
+            width: fit-content
+            position: relative
+            top: 0
+            left: 25%
+
+            &:hover > .navigation__link-underline
+                width: 100%
+
+        &-underline
+            width: 0px
+            height: 2px
+            background-color: black
+            position: absolute
+            left: 0
+            bottom: -5px
+            transition: width 0.7s
+
+    @media (max-width: bp.$small) 
+        font-size: 0.7em

@@ -1,0 +1,52 @@
+@use '../../sass/varibles' as vars
+@use '../../sass/mixins' as mixins
+@use '../../sass/break_points' as bp
+
+.home
+    &__header
+        height: 55vh
+        color: white
+        position: relative
+        overflow: hidden
+        
+        @media (max-width: bp.$medium)
+            font-size: 0.8rem
+
+        &_background
+            position: absolute
+            top: 0
+            width: 100%
+            height: 100%
+            background-repeat: no-repeat
+            object-fit: cover
+            object-position: 20%
+            z-index: -2
+
+        &_filter
+            position: absolute
+            left: 0
+            top: 0
+            content: ""
+            display: block
+            width: 100%
+            height: 100%
+            background-color: #008baa3a
+            z-index: -1
+
+        &_title
+            margin-top: 15px
+            text-align: center
+            font-size: 1.5em
+
+
+        &__orderBox
+            position: absolute
+            left: 50%
+            top: 20%
+            transform: translateX(-50%)
+            width: clamp(340px, 50%, 700px)
+            height: 55%
+
+    &__beneffits
+        @include mixins.flexDisplay($primarySetting: space-between)
+            

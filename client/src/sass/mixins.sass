@@ -1,0 +1,14 @@
+@mixin flexDisplay($primarySetting, $secondarySetting: flex-start, $direction:row )
+    display: flex
+    justify-content: $primarySetting
+    align-items: $secondarySetting
+    flex-direction: $direction
+
+@mixin absoluteCenter($height: 0)
+    position: absolute
+    left: 50%
+    top: $height
+    transform: translate(-50%)
+    
+    
+    

@@ -6,7 +6,7 @@
   "scripts": {
     "start_client": "npm start --prefix client",
     "start_server": "npm start --prefix server",
-    "start": "npm run server_start",
+    "start": "concurrently \"npm run start_server\" \"npm run start_client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

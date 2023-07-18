@@ -1,3 +1,4 @@
 /node_modules
+/js_dist
 /.env
 /todo.txt

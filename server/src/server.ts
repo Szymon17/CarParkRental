@@ -7,4 +7,6 @@ const app = express();
 app.use(express.json());
 app.use(api);
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT, () => {
+  console.log(`starting server at port ${process.env.PORT}...`);
+});
