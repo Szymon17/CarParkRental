@@ -1,0 +1,26 @@
+.filtersSnapshot
+    width: fit-content
+
+    &__title
+        width: 100%
+        font-size: 1.5em
+
+    &__list
+        margin-top: 30px 
+
+.filtersSnapshot.vertical
+    .filtersSnapshot__list
+        display: grid
+        grid-template-columns: repeat(2, 1fr)
+        gap: 20px 30%
+            
+
+.filtersSnapshot.horizontal
+    width: 100%
+
+    .filtersSnapshot__title
+        text-align: center
+
+    .filtersSnapshot__list
+        display: flex
+        justify-content: space-between

@@ -1,4 +1,5 @@
 @use  "./sass/varibles" as vars
+@use  "./sass/break_points" as bp
 
 body 
   margin: 0
@@ -12,3 +13,11 @@ button
   
 code 
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace
+
+.container
+  width: vars.$containerWidth
+  margin: 0 auto
+
+  @media (max-width:bp.$large) 
+    width: 95%
+  
