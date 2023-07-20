@@ -7,8 +7,13 @@
 @mixin absoluteCenter($height: 0)
     position: absolute
     left: 50%
-    top: $height
-    transform: translate(-50%)
+
+    @if $height == center
+        top: 50%
+        transform: translate(-50%, -50%)
+    @else
+        top: $height
+        transform: translate(-50%)
     
     
     

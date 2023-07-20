@@ -1,4 +1,4 @@
-import { FC, HTMLAttributes } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 import "./button.styles.sass";
 
 export enum BUTTON_CLASSES {
@@ -6,12 +6,12 @@ export enum BUTTON_CLASSES {
   green = "button__green",
 }
 
-type buttonTypes = HTMLAttributes<HTMLButtonElement> & {
+type buttonTypes = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: string;
-  buttonType: BUTTON_CLASSES;
+  buttonType?: BUTTON_CLASSES;
 };
 
-const Button: FC<buttonTypes> = ({ buttonType, children, ...otherProps }) => {
+const Button: FC<buttonTypes> = ({ children, buttonType = BUTTON_CLASSES.black, ...otherProps }) => {
   return (
     <button className={`button ${buttonType}`} {...otherProps}>
       {children}

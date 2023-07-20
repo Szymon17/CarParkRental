@@ -1,0 +1,45 @@
+@use "../../sass/mixins" as mixins
+@use "../../sass/varibles" as vars
+    
+.singInPanel
+    width: 100%
+    height: 100%
+    padding: 50px
+    background-color: white
+
+    &__inputs
+        @include mixins.flexDisplay($primarySetting: flex-start, $secondarySetting: flex-start, $direction: column)
+        margin-top: 50px
+        width: 60%
+        gap: 35px 0
+
+    &__decorationLine
+        width: 100%
+        margin-top: 30px
+        
+        &__line
+            display: inline-block
+            width: 45%
+            height: 2px
+            line-height: 15px
+            background-color: vars.$primary-color
+
+        &__text
+            display: inline-block
+            width: 10%
+            height: 30px
+            line-height: 15px
+            text-align: center
+
+    &__link
+        margin: 10px auto
+        display: block
+        width: fit-content
+        font-weight: 600
+        color: #00B0C8
+        
+    
+.singInPanel button
+    margin-top: 40px
+    width: 100%
+    height: 40px

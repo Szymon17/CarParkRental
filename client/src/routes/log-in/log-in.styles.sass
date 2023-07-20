@@ -1,0 +1,19 @@
+@use '../../sass/mixins' as mixins
+@use '../../sass/varibles' as vars
+
+
+.log-in
+    &__container
+        @include mixins.absoluteCenter($height: center)
+        width: vars.$singInWidth
+
+    &__footer
+        @include mixins.absoluteCenter($height: calc(100% - 70px))
+        width: 100%
+        height: 70px
+        background-color: #2F2F2F
+        text-align: center
+        color: #c2c2c2
+        font-weight: 600
+
+        
