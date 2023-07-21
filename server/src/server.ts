@@ -1,12 +1,22 @@
 import "dotenv/config";
+import cors from "cors/lib/index.js";
 import express from "express";
 import api from "./routes/api.js";
+import { mongoConnet } from "./services/mongo.js";
 
 const app = express();
 
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 app.use(express.json());
 app.use(api);
 
-app.listen(process.env.PORT, () => {
+async function startServer() {
+  await mongoConnet();
   console.log(`starting server at port ${process.env.PORT}...`);
-});
+}
+
+app.listen(process.env.PORT, startServer);

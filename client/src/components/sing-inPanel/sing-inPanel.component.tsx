@@ -1,21 +1,29 @@
 import "./sing-inPanel.styles.sass";
 import Button from "../button/button.component";
-import { FC, ReactElement } from "react";
+import { FC, ReactElement, SyntheticEvent } from "react";
 import { Link } from "react-router-dom";
 
 type singInPanelTypes = {
   children: ReactElement;
   title: string;
+  action: Function;
   linkText: string;
   link: string;
 };
 
-const SingInPanel: FC<singInPanelTypes> = ({ children, title, linkText, link }) => {
+const SingInPanel: FC<singInPanelTypes> = ({ children, title, action, linkText, link }) => {
+  const handler = (e: SyntheticEvent) => {
+    e.preventDefault();
+    action();
+  };
+
   return (
     <div className="singInPanel">
       <h1 className="singInPanel__title">{title}</h1>
-      <div className="singInPanel__inputs">{children}</div>
-      <Button>{title}</Button>
+      <form onSubmit={handler} method="post">
+        <div className="singInPanel__inputs">{children}</div>
+        <Button type="submit">{title}</Button>
+      </form>
       <div className="singInPanel__decorationLine">
         <div className="singInPanel__decorationLine__line"></div>
         <span className="singInPanel__decorationLine__text">Lub</span>
