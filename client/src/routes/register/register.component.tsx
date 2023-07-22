@@ -4,8 +4,11 @@ import { addUser } from "../../utils/fetchFunctions";
 import { validate } from "../../utils/basicFunctions";
 import FormInput from "../../components/formInput/formInput.component";
 import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
+import { userData } from "../../store/user/user.types";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [invalidSend, setSendState] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +30,7 @@ const Register = () => {
     else if (!validate.name(surname)) setSendState(true);
     else if (!validate.phoneNumber(phoneNumber)) setSendState(true);
     else {
-      const user = {
+      const user: userData = {
         email,
         password,
         confirmPassword,
@@ -36,8 +39,8 @@ const Register = () => {
         phoneNumber,
       };
 
-      const createdUser = await addUser(user);
-      console.log(createdUser);
+      const createStatus = await addUser(user);
+      if (createStatus.status === "ok") navigate("/");
     }
   };
 

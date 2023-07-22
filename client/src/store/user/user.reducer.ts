@@ -1,25 +1,27 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { initialStateTypes, user } from "./user.types";
+import { initialStateTypes, userPayload } from "./user.types";
 
 const initialState: initialStateTypes = {
-  user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user") as string) : null,
+  user: null,
+  expireTime: null,
   status: "idle",
 };
 
 const userSlice = createSlice({
-  name: " user-slice",
+  name: "user-slice",
   initialState: initialState,
   reducers: {
-    logIn: (state, action: PayloadAction<user>) => {
+    logIn: (state, action: PayloadAction<userPayload>) => {
       const { payload } = action;
+      const { user, expire } = payload;
 
-      localStorage.setItem("user", JSON.stringify(payload));
-      state.user = payload;
+      state.expireTime = expire;
+      state.user = user;
     },
 
     logOut: state => {
-      localStorage.removeItem("user");
       state.user = null;
+      state.expireTime = null;
     },
   },
 });

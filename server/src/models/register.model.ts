@@ -6,14 +6,14 @@ async function saveUser(user: user) {
   await usersMongo.create(user);
 }
 
-async function addUserToDB(user: userData) {
+async function addUserToDB(user: userData): Promise<void | Error> {
   const emailInUse = Boolean(
     await usersMongo.findOne({
       email: user.email,
     })
   );
 
-  if (emailInUse) throw Error("ten email jest już zajęty");
+  if (emailInUse) return new Error("this email is already used");
 
   const encryptedPassword = await bcrypt.hash(user.password, 10);
 
@@ -24,14 +24,6 @@ async function addUserToDB(user: userData) {
   });
 
   await saveUser(fullUser);
-
-  return {
-    name: fullUser.name,
-    surname: fullUser.surname,
-    email: fullUser.email,
-    orders: fullUser.orders,
-    phoneNumber: fullUser.phoneNumber,
-  };
 }
 
 export { addUserToDB };

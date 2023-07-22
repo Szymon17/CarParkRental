@@ -1,25 +1,33 @@
-import { JwtPayload } from "jsonwebtoken";
-
 type userSnapshot = {
   email: string;
-  password: string;
   name: string;
   surname: string;
   phoneNumber: string;
+  orders: string[];
 };
 
-interface user extends userSnapshot {
-  orders: string[];
+type userData = {
+  email: string;
+  name: string;
+  surname: string;
+  phoneNumber: string;
+  password: string;
+  confirmPassword: string;
+};
+
+type userPayload = {
+  user: userSnapshot;
+  expire: string;
+};
+
+interface userCall extends userPayload {
+  status: string;
 }
 
-type userCall = {
-  status: string;
-  user: user;
-};
-
 type initialStateTypes = {
-  user: user | null;
+  user: userSnapshot | null;
+  expireTime: string | null;
   status: "idle" | "loading" | "failed";
 };
 
-export { userSnapshot, user, userCall, initialStateTypes };
+export { userSnapshot, userCall, initialStateTypes, userPayload, userData };

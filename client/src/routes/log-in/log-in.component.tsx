@@ -22,10 +22,10 @@ const LogIn = () => {
 
   const logInUser = async () => {
     if (!user) {
-      const newUser = await getTokenByEmailAndPassword(email, password);
-
-      if (newUser) {
-        dispatch(logIn(newUser));
+      const data = await getTokenByEmailAndPassword(email, password);
+      if (data) {
+        const { user, expire } = data;
+        dispatch(logIn({ user, expire }));
         navigate("/");
       } else console.error("Check your email or password");
     } else console.error("You are already logged in");

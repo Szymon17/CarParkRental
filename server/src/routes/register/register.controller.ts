@@ -4,15 +4,13 @@ import { addUserToDB } from "../../models/register.model.js";
 import { generateToken } from "../../utils/generateToken.js";
 
 async function httpAddUser(req: CustomRequest<userData>, res: Response) {
-  try {
-    const user = req.body;
-    const userSnapshot = await addUserToDB(user);
+  const user = req.body;
+  const isError = await addUserToDB(user);
 
-    generateToken(res, userSnapshot);
-    res.json({ status: "ok", user: userSnapshot });
-  } catch (error) {
-    res.json({ status: error.message, user: false });
-  }
+  if (!isError) {
+    generateToken(res, user.email);
+    res.status(201).json({ status: "ok" });
+  } else res.status(409).json({ error: "email already used" });
 }
 
 export { httpAddUser };
