@@ -1,6 +1,7 @@
 import "dotenv/config";
 import cors from "cors/lib/index.js";
 import express from "express";
+import cookieParser from "cookie-parser";
 import api from "./routes/api.js";
 import { mongoConnet } from "./services/mongo.js";
 
@@ -12,6 +13,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use(cookieParser());
 app.use(api);
 
 async function startServer() {

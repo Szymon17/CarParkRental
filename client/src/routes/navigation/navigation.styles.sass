@@ -5,7 +5,7 @@
 
 .navigation
     height: vars.$navHeight
-    background-color: vars.$containers-color
+    background-color: vars.$nav-color
     padding: 0 30px
     @include mixins.flexDisplay($primarySetting: flex-start , $secondarySetting: center)
 
@@ -54,6 +54,10 @@
 
             &:hover > .navigation__link-underline
                 width: 100%
+
+            &__userIcon
+                font-size: 1.5em
+                cursor: pointer
 
         &-underline
             width: 0px

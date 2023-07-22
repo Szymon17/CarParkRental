@@ -14,12 +14,11 @@ interface user extends userSnapshot {
 
 type userCall = {
   status: string;
-  user: string;
+  user: user;
 };
 
 type initialStateTypes = {
   user: user | null;
-  token: string | null;
   status: "idle" | "loading" | "failed";
 };
 

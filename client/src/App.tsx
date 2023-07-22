@@ -7,16 +7,17 @@ import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { logOut } from "./store/user/user.reducer";
 import { selectUser } from "./store/user/user.selectors";
 import { useEffect } from "react";
+import Account from "./routes/account/account.component";
 
 function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("user");
 
     if (!token || !user) dispatch(logOut);
-  }, [user]);
+  }, [user, dispatch]);
 
   return (
     <Routes>
@@ -24,6 +25,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/log-in" element={<LogIn />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/account" element={<Account />} />
       </Route>
     </Routes>
   );

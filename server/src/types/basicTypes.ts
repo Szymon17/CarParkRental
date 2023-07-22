@@ -1,11 +1,11 @@
 import { Request } from "express";
 
-type userData = {
+type userSnapshot = {
   email: string;
-  password: string;
   name: string;
   surname: string;
   phoneNumber: string;
+  orders: string[];
 };
 
 type logInWithToken = {
@@ -17,9 +17,23 @@ interface CustomRequest<T> extends Request {
   body: T;
 }
 
+interface UserRequest extends Request {
+  user: userSnapshot;
+}
+
+type userData = {
+  password: string;
+  email: string;
+  name: string;
+  surname: string;
+  phoneNumber: string;
+};
+
 interface user extends userData {
   createdAt: Date;
   orders: string[];
 }
 
-export { CustomRequest, userData, user, logInWithToken };
+type update = { email: string; newEmail?: string; name?: string; surname?: string; phoneNumber?: string };
+
+export { CustomRequest, userData, user, logInWithToken, userSnapshot, UserRequest, update };

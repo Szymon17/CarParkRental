@@ -1,14 +1,12 @@
 import "./log-in.styles.sass";
-import { useState } from "react";
-import jwt from "jsonwebtoken";
-import FormInput from "../../components/formInput/formInput.component";
-import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
+import { useEffect, useState } from "react";
 import { getTokenByEmailAndPassword } from "../../utils/fetchFunctions";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logIn } from "../../store/user/user.reducer";
-import { user } from "../../store/user/user.types";
 import { selectUser } from "../../store/user/user.selectors";
 import { useNavigate } from "react-router-dom";
+import FormInput from "../../components/formInput/formInput.component";
+import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -18,12 +16,17 @@ const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    if (user) navigate("/");
+  }, [user, navigate]);
+
   const logInUser = async () => {
     if (!user) {
-      const token = await getTokenByEmailAndPassword(email, password);
+      const newUser = await getTokenByEmailAndPassword(email, password);
 
-      if (token) {
-        dispatch(logIn(token));
+      if (newUser) {
+        dispatch(logIn(newUser));
+        navigate("/");
       } else console.error("Check your email or password");
     } else console.error("You are already logged in");
   };

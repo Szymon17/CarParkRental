@@ -1,9 +1,9 @@
 import { FC, InputHTMLAttributes } from "react";
 import "./formInput.styles.sass";
 
-type formInputTypes = InputHTMLAttributes<HTMLInputElement> & { label?: string };
+type formInputTypes = InputHTMLAttributes<HTMLInputElement> & { label?: string; invalid?: boolean };
 
-const FormInput: FC<formInputTypes> = ({ label, ...attributes }) => {
+const FormInput: FC<formInputTypes> = ({ label, invalid, ...attributes }) => {
   return (
     <div className="formInput">
       {label && (
@@ -13,7 +13,7 @@ const FormInput: FC<formInputTypes> = ({ label, ...attributes }) => {
           {label}
         </label>
       )}
-      <input {...attributes} className="formInput__input" />
+      <input {...attributes} className={`${invalid ? "formInput__input-invalid" : "formInput__input"}`} />
     </div>
   );
 };
