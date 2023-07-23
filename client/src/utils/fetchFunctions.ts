@@ -1,8 +1,8 @@
-import { userCall, userData, userPayload } from "../store/user/user.types";
+import { fetchType, userCall, userData, userPayload, userPutResponse, userUpdate } from "../store/user/user.types";
 
 const serverUrl = "http://localhost:8000";
 
-const addUser = async (user: userData) => {
+const registerUserFetch = async (user: userData): Promise<fetchType<undefined> | void> => {
   try {
     const res = await fetch(`${serverUrl}/register`, {
       method: "POST",
@@ -15,6 +15,7 @@ const addUser = async (user: userData) => {
     return await res.json();
   } catch (err) {
     console.log(err);
+    return;
   }
 };
 
@@ -47,4 +48,42 @@ const logOutUser = async () => {
   }
 };
 
-export { addUser, getTokenByEmailAndPassword, logOutUser };
+const updateUserFetch = async (userToUpdate: userUpdate): Promise<userPutResponse | undefined> => {
+  try {
+    const res = await fetch(`${serverUrl}/account`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+      credentials: "include",
+      body: JSON.stringify(userToUpdate),
+    });
+
+    const status = (await res.json()) as userPutResponse;
+
+    return status;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+const deleteUserFetch = async (email: string): Promise<fetchType<null> | undefined> => {
+  try {
+    const res = await fetch(`${serverUrl}/account`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ email }),
+    });
+
+    const status: fetchType<null> = await res.json();
+
+    return status;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { registerUserFetch, getTokenByEmailAndPassword, logOutUser, updateUserFetch, deleteUserFetch };

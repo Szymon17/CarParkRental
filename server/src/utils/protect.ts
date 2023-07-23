@@ -15,12 +15,7 @@ export default asyncHandler(async (req: UserRequest, res, next) => {
       req.user = await usersMongo.findOne({ email: decoded.email }, "-__v -_id -password -createdAt");
       next();
     } catch (error) {
-      console.error(error);
-      res.status(401);
-      throw new Error("Not authorized, token failed");
+      res.status(401).send({ error: "Not authorized, no token" });
     }
-  } else {
-    res.status(401);
-    throw new Error("Not authorized, no token");
-  }
+  } else res.status(401).send({ error: "Not authorized, no token" });
 });

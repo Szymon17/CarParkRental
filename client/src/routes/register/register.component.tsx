@@ -1,6 +1,6 @@
 import "./register.styles.sass";
 import { ChangeEvent, useState } from "react";
-import { addUser } from "../../utils/fetchFunctions";
+import { registerUserFetch } from "../../utils/fetchFunctions";
 import { validate } from "../../utils/basicFunctions";
 import FormInput from "../../components/formInput/formInput.component";
 import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
@@ -39,8 +39,8 @@ const Register = () => {
         phoneNumber,
       };
 
-      const createStatus = await addUser(user);
-      if (createStatus.status === "ok") navigate("/");
+      const createStatus = await registerUserFetch(user);
+      if (createStatus && createStatus.status === "ok") navigate("/");
     }
   };
 

@@ -80,6 +80,7 @@ $padding: 10px
                 height: 30px
                 outline: none
                 border: none
+                cursor: pointer
                 background-color: transparent
                 font-weight: 600
                 font-size: 0.9em
@@ -95,4 +96,13 @@ $padding: 10px
     &__main
         // grid-area: 2 / 2 / 2 / 3
 
-       
+
+        &__form
+            text-align: right
+            
+        &__container__inputs
+            @include mixins.flexDisplay($primarySetting: space-around, $secondarySetting: center , $direction: column)
+            min-height: 400px
+
+            &  .formInput__input
+                 height: 45px

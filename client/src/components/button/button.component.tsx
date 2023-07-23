@@ -4,6 +4,7 @@ import "./button.styles.sass";
 export enum BUTTON_CLASSES {
   black = "button__black",
   green = "button__green",
+  disable = "button__disable",
 }
 
 type buttonTypes = ButtonHTMLAttributes<HTMLButtonElement> & {

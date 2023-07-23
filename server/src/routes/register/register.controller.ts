@@ -9,8 +9,8 @@ async function httpAddUser(req: CustomRequest<userData>, res: Response) {
 
   if (!isError) {
     generateToken(res, user.email);
-    res.status(201).json({ status: "ok" });
-  } else res.status(409).json({ error: "email already used" });
+    res.status(201).json({ status: "ok", message: "Created user" });
+  } else res.status(409).json({ status: "error", message: "Email already used" });
 }
 
 export { httpAddUser };

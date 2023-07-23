@@ -4,6 +4,7 @@ import { initialStateTypes, userPayload } from "./user.types";
 const initialState: initialStateTypes = {
   user: null,
   expireTime: null,
+  nextUpdateTime: 0,
   status: "idle",
 };
 
@@ -19,6 +20,12 @@ const userSlice = createSlice({
       state.user = user;
     },
 
+    updateUserState: (state, action: PayloadAction<number>) => {
+      const { payload } = action;
+
+      state.nextUpdateTime = payload;
+    },
+
     logOut: state => {
       state.user = null;
       state.expireTime = null;
@@ -26,6 +33,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logIn, logOut } = userSlice.actions;
+export const { logIn, logOut, updateUserState } = userSlice.actions;
 
 export default userSlice.reducer;
