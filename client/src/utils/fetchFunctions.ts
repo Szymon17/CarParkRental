@@ -1,3 +1,4 @@
+import { product } from "../store/products/products.types";
 import { fetchType, userCall, userData, userPayload, userPutResponse, userUpdate } from "../store/user/user.types";
 
 const serverUrl = "http://localhost:8000";
@@ -86,4 +87,23 @@ const deleteUserFetch = async (email: string): Promise<fetchType<null> | undefin
   }
 };
 
-export { registerUserFetch, getTokenByEmailAndPassword, logOutUser, updateUserFetch, deleteUserFetch };
+const getProductsFetch = async (url: string, lastIndex: number): Promise<product[] | void> => {
+  console.log(`${serverUrl}/${url}`);
+  try {
+    const res = await fetch(`${serverUrl}/${url}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ lastIndex }),
+    });
+    const status: fetchType<product[]> = await res.json();
+
+    if (status.status === "ok") return status.payload;
+    else console.log("Get request to server failed");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { registerUserFetch, getTokenByEmailAndPassword, logOutUser, updateUserFetch, deleteUserFetch, getProductsFetch };

@@ -2,17 +2,17 @@ import { Request, Response } from "express";
 import { getAvilableCars } from "../../models/offers.model.js";
 
 async function httpGetOffers(req: Request, res: Response) {
+  const lastIndex = req.body.lastIndex | 0;
+
   console.log(req.query);
 
-  // const car = await carsMongo.find({ ...req.query }, "-_id -__v"); //id będzie potrzebne do wykluczenia zabukowanych aut i przenieść to do warsty model
   const dataOdbioru = new Date(2023, 6, 25);
   const dataZwrotu = new Date(2023, 6, 27);
 
-  console.log(dataOdbioru.toJSON(), dataZwrotu.toJSON());
+  const avilableCars = await getAvilableCars(lastIndex, dataOdbioru, dataZwrotu); //ustawić parametry jutro
 
-  const avilableCars = await getAvilableCars(dataOdbioru, dataZwrotu); //ustawić parametry jutro
-
-  res.status(200).json(avilableCars);
+  if (avilableCars.length) res.status(200).json({ status: "ok", message: "Send avilable cars", payload: avilableCars });
+  else res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });
 }
 
 export { httpGetOffers };

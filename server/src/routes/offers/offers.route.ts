@@ -3,6 +3,6 @@ import express from "express";
 
 const offersRoute = express.Router();
 
-offersRoute.get("/offers", httpGetOffers);
+offersRoute.post("/offers", httpGetOffers);
 
 export default offersRoute;

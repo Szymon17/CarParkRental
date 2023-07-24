@@ -1,7 +1,7 @@
 import ordersMongo from "./orders.mongo.js";
 import carsMongo from "./offers.mongo.js";
 
-async function getAvilableCars(receiptDate: Date, returnDate: Date, filters: any = {}) {
+async function getAvilableCars(lastIndex: number, receiptDate: Date, returnDate: Date, filters: any = {}) {
   const unvilableCars = await ordersMongo.find(
     {
       $or: [
@@ -12,11 +12,9 @@ async function getAvilableCars(receiptDate: Date, returnDate: Date, filters: any
     "-_id car_id"
   );
 
-  console.log(unvilableCars);
-
   const orders = unvilableCars.map(order => order.car_id);
 
-  return await carsMongo.find({ _id: { $nin: orders }, ...filters }, "-_id -__v");
+  return await carsMongo.find({ _id: { $nin: orders }, index: { $gt: lastIndex }, ...filters }, "-_id -__v").limit(5);
 }
 
 export { getAvilableCars };

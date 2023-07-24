@@ -14,6 +14,8 @@ const Cars = new mongoose.Schema(
     transmission: { type: String, require: true },
     fuel_usage_city: { type: String, require: true },
     fuel_usage_outcity: { type: String, require: true },
+    image_url: { type: String, require: true },
+    index: { type: Number, require: true },
   },
   { collection: "Cars" }
 );
