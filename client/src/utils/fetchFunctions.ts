@@ -88,7 +88,6 @@ const deleteUserFetch = async (email: string): Promise<fetchType<null> | undefin
 };
 
 const getProductsFetch = async (url: string, lastIndex: number): Promise<product[] | void> => {
-  console.log(`${serverUrl}/${url}`);
   try {
     const res = await fetch(`${serverUrl}/${url}`, {
       method: "POST",

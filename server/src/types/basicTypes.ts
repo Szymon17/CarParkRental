@@ -13,9 +13,7 @@ type logInWithToken = {
   password: string;
 };
 
-interface CustomRequest<T> extends Request {
-  body: T;
-}
+type CustomRequest<T> = Request<unknown, unknown, T, unknown>;
 
 interface UserRequest extends Request {
   user: userSnapshot;
@@ -36,4 +34,17 @@ interface user extends userData {
 
 type update = { email: string; newEmail?: string; name?: string; surname?: string; phoneNumber?: string };
 
-export { CustomRequest, userData, user, logInWithToken, userSnapshot, UserRequest, update };
+type RequestWithBodyAndQuery<B, Q> = Request<unknown, unknown, B, Q>;
+
+type queryBasicData = {
+  rd?: string;
+  rtd?: string;
+  pul?: string;
+  rl?: string;
+};
+
+type order = {
+  car_id: string;
+};
+
+export { CustomRequest, userData, user, logInWithToken, userSnapshot, UserRequest, update, RequestWithBodyAndQuery, queryBasicData, order };

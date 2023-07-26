@@ -1,16 +1,21 @@
 import ordersMongo from "./orders.mongo.js";
 import carsMongo from "./offers.mongo.js";
+import { order } from "../types/basicTypes.js";
 
-async function getAvilableCars(lastIndex: number, receiptDate: Date, returnDate: Date, filters: any = {}) {
-  const unvilableCars = await ordersMongo.find(
-    {
-      $or: [
-        { $and: [{ date_of_return: { $gt: receiptDate } }, { date_of_return: { $lt: returnDate } }] },
-        { $and: [{ date_of_receipt: { $lt: returnDate } }, { date_of_return: { $gt: receiptDate } }] },
-      ],
-    },
-    "-_id car_id"
-  );
+async function getAvilableCars(lastIndex: number, receiptDate: Date | null, returnDate: Date | null, filters: any = {}) {
+  let unvilableCars: order[];
+
+  if (returnDate && receiptDate)
+    unvilableCars = (await ordersMongo.find(
+      {
+        $or: [
+          { $and: [{ date_of_return: { $gt: receiptDate } }, { date_of_return: { $lt: returnDate } }] },
+          { $and: [{ date_of_receipt: { $lt: returnDate } }, { date_of_return: { $gt: receiptDate } }] },
+        ],
+      },
+      "-_id car_id"
+    )) as order[];
+  else unvilableCars = [];
 
   const orders = unvilableCars.map(order => order.car_id);
 

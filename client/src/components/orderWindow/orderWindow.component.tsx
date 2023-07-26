@@ -2,16 +2,15 @@ import "./orderWindow.styles.sass";
 import Button, { BUTTON_CLASSES } from "../button/button.component";
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dateToLocalString } from "../../utils/basicFunctions";
+import { dateToLocalString, today, tomorrow } from "../../utils/basicFunctions";
 
 const fakeArrayOfLocations = ["Warszawa", "Łódź"];
-const today = new Date();
 
 const OrderWindow = () => {
   const [pickUpLocation, setPickUpLocation] = useState("Warszawa");
   const [returnLocation, setReturnLocation] = useState("Warszawa");
   const [receiptDate, setReceiptDate] = useState(today);
-  const [returnDate, setReturnDate] = useState(new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1));
+  const [returnDate, setReturnDate] = useState(tomorrow);
   const navigate = useNavigate();
 
   const selectsHandler = (e: ChangeEvent<HTMLSelectElement>, handler: Function) => {
@@ -29,9 +28,10 @@ const OrderWindow = () => {
       receiptDate.toDateString() === returnDate.toDateString() ||
       !pickUpLocation ||
       !returnLocation
-    )
+    ) {
+      console.log("you picked wrong data");
       return;
-    else navigate(`offers/pul=${pickUpLocation}&rl=${returnLocation}&rd=${dateToLocalString(receiptDate)}&rd=${dateToLocalString(returnDate)}`);
+    } else navigate(`offers?pul=${pickUpLocation}&rl=${returnLocation}&rd=${dateToLocalString(receiptDate)}&rtd=${dateToLocalString(returnDate)}`);
   };
 
   return (

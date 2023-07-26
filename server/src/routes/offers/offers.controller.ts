@@ -1,18 +1,26 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import { getAvilableCars } from "../../models/offers.model.js";
+import { RequestWithBodyAndQuery, queryBasicData } from "../../types/basicTypes.js";
 
-async function httpGetOffers(req: Request, res: Response) {
+async function httpGetOffers(req: RequestWithBodyAndQuery<{ lastIndex: number }, queryBasicData>, res: Response) {
   const lastIndex = req.body.lastIndex | 0;
 
-  console.log(req.query);
+  const reciptDate = req.query.rd ? new Date(req.query.rd) : null;
+  const returnDate = req.query.rtd ? new Date(req.query.rtd) : null;
 
-  const dataOdbioru = new Date(2023, 6, 25);
-  const dataZwrotu = new Date(2023, 6, 27);
+  if (
+    (reciptDate !== null && isNaN(reciptDate.getDate())) ||
+    (returnDate !== null && isNaN(returnDate.getDate())) ||
+    (reciptDate === null && returnDate !== null) ||
+    (returnDate === null && reciptDate !== null)
+  )
+    res.status(404).json({ status: "error", message: "your data in filters is invalid" });
+  else {
+    const avilableCars = await getAvilableCars(lastIndex, reciptDate, returnDate);
 
-  const avilableCars = await getAvilableCars(lastIndex, dataOdbioru, dataZwrotu); //ustawić parametry jutro
-
-  if (avilableCars.length) res.status(200).json({ status: "ok", message: "Send avilable cars", payload: avilableCars });
-  else res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });
+    if (avilableCars.length) res.status(200).json({ status: "ok", message: "Send avilable cars", payload: avilableCars });
+    else res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });
+  }
 }
 
 export { httpGetOffers };

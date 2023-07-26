@@ -1,0 +1,15 @@
+@use "../../sass/varibles" as vars
+@use "../../sass/mixins" as mixins
+
+.offers
+    @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:flex-start )
+    padding: 10px 20px
+    background-color: vars.$container-color
+
+    & > .filtres
+        flex-basis: 20%
+     
+    &__products
+        padding: 0 30px
+        float: right
+        flex-basis: 80%

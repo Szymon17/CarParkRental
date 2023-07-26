@@ -1,6 +1,9 @@
 const polishLetters = ["ą", "ć", "ę", "ł", "ń", "ó", "ś", "ź", "ż"];
 const polishReplacement = ["a", "c", "e", "l", "n", "o", "s", "z", "z"];
 
+export const today = new Date();
+export const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
 export const replacePolishLterals = (text: string): string => {
   for (let i = 0; i < polishLetters.length; i++) {
     text = text.replaceAll(polishLetters[i], polishReplacement[i]);

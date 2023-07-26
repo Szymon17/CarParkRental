@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getProducts } from "../../store/products/products.actions";
 import { selectLastIndex, selectProducts } from "../../store/products/products.selectors";
+import Filtres from "../../components/filtres/filtres.component";
 
 const testProduct = {
   year: 2019,
@@ -27,10 +28,19 @@ const Offers = () => {
   const products = useAppSelector(selectProducts);
 
   useEffect(() => {
-    dispatch(getProducts({ url: "offers", lastIndex: lastIndex }));
+    const regexp = /(offers\S+)/;
+    const link = window.location.href.toString().match(regexp);
+
+    if (link) dispatch(getProducts({ url: link[0], lastIndex: lastIndex }));
+    else dispatch(getProducts({ url: "offers", lastIndex: lastIndex }));
   }, []);
 
-  return <div className="offers">Offers</div>;
+  return (
+    <div className="offers container">
+      <Filtres />
+      <main className="offers__products">x</main>
+    </div>
+  );
 };
 
 export default Offers;
