@@ -1,9 +1,13 @@
 import "./offers.styles.sass";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getProducts } from "../../store/products/products.actions";
-import { selectLastIndex, selectProducts } from "../../store/products/products.selectors";
+import { selectProducts } from "../../store/products/products.selectors";
 import Filtres from "../../components/filtres/filtres.component";
+import ProductCard from "../../components/product-card/product-card.component";
+import Button from "../../components/button/button.component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 
 const testProduct = {
   year: 2019,
@@ -13,6 +17,7 @@ const testProduct = {
   daily_price: 200,
   power: 400,
   brand: "Ford",
+  model: "Mustang",
   engine_capacity: "5.0l",
   color: "blue",
   transmission: "manual",
@@ -22,23 +27,53 @@ const testProduct = {
   index: 2,
 };
 
+const testProducts = [testProduct, testProduct, testProduct, testProduct];
+
 const Offers = () => {
   const dispatch = useAppDispatch();
-  const lastIndex = useAppSelector(selectLastIndex);
   const products = useAppSelector(selectProducts);
+
+  const [filtersAreOpen, setFiltersState] = useState(false);
+
+  const filtersRef = useRef<HTMLDivElement>(null);
+  const productsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const regexp = /(offers\S+)/;
     const link = window.location.href.toString().match(regexp);
 
-    if (link) dispatch(getProducts({ url: link[0], lastIndex: lastIndex }));
-    else dispatch(getProducts({ url: "offers", lastIndex: lastIndex }));
+    if (link) dispatch(getProducts({ url: link[0], lastIndex: 0 }));
+    else dispatch(getProducts({ url: "offers", lastIndex: 0 }));
   }, []);
+
+  const toggleFiltersVisability = () => {
+    if (filtersRef.current && productsRef.current) {
+      filtersRef.current.classList.toggle("open");
+      productsRef.current.classList.toggle("hidden");
+
+      setFiltersState(!filtersAreOpen);
+    }
+  };
 
   return (
     <div className="offers container">
-      <Filtres />
-      <main className="offers__products">x</main>
+      <div className="offers__filters-switch">
+        <h2 className="offers__filters-switch-title">Filtry</h2>
+        <div>
+          <button onClick={toggleFiltersVisability} className="offers__filters-switch-button">
+            {!filtersAreOpen ? <FontAwesomeIcon icon={faBars} /> : <FontAwesomeIcon icon={faClose} />}
+          </button>
+          <span className="offers__filters-switch-text">{!filtersAreOpen ? "Pokaż" : "Ukryj"} wszsytkie filtry</span>
+        </div>
+      </div>
+      <div ref={filtersRef} className="offers__filters-box">
+        <Filtres />
+      </div>
+      <main ref={productsRef} className="offers__products">
+        {testProducts.map(product => (
+          <ProductCard product={product} />
+        ))}
+      </main>
     </div>
   );
 };

@@ -22,7 +22,10 @@ const productsSlice = createSlice({
         if (payload) {
           state.products = payload;
           state.status = "idle";
-        } else state.status = "failed";
+        } else {
+          state.products = [];
+          state.status = "failed";
+        }
       });
   },
 });

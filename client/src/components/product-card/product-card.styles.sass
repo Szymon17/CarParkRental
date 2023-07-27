@@ -1,0 +1,60 @@
+@use '../../sass/varibles' as vars
+@use '../../sass/mixins' as mixins
+@use '../../sass/break_points' as bp
+    
+.product-card
+    padding: 20px
+    display: flex
+    align-items: center
+    margin-bottom: 30px
+    width: 100%
+    height: calc( (100vh - vars.$navHeight) / 4 - 30px)
+    box-shadow: 0 6px 8px 4px #0000004f
+    border-radius: 5px
+    background-color: darken(vars.$container-color, 1%)
+
+    @media (max-width: bp.$large)
+        padding: 5px 5px
+        height: 150px
+
+    @media (max-width: bp.$small)
+        font-size: 0.7rem
+
+    &__img
+        height: 100%
+
+        @media (max-width: bp.$medium)
+            height: 80%
+
+        @media (max-width: bp.$small)
+            height: 50%
+
+    &__description
+        @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:center , $direction:column)
+        flex-grow: 1
+        height: 100%
+
+        &__icons
+            @include mixins.flexDisplay($primarySetting: space-around )
+            width: 100%
+            font-size: 1.3em
+
+            @media (max-width: bp.$medium)
+                flex-wrap: wrap
+                gap: 10px 0
+
+        &__icons-box
+            @media (max-width: bp.$medium)
+                width: 50%
+                padding-left: 10%
+
+            &-icon
+                margin-right: 10px
+
+    & .button
+        @media (max-width: bp.$medium)
+            width: 100px
+            height: 25px
+        
+        
+

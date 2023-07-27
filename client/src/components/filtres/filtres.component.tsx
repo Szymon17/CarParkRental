@@ -1,14 +1,18 @@
 import "./filtres.styles.sass";
 import { useState, ChangeEvent } from "react";
-import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import FormInput from "../formInput/formInput.component";
 import { dateToLocalString, tomorrow } from "../../utils/basicFunctions";
 import Button from "../button/button.component";
+import { useAppDispatch } from "../../store/hooks";
+import { getProducts } from "../../store/products/products.actions";
 
 const triallLocations = ["Wrocław", "Warszawa", "Kraków", "Łódź", "Wrocław", "Kraków", "Łódź"];
 
 const Filtres = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const [searchParams] = useSearchParams();
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(1000);
@@ -18,11 +22,15 @@ const Filtres = () => {
   const [rentalDate, setRentalDate] = useState(searchParams.get("rd") ? new Date(searchParams.get("rd") as string) : new Date());
   const [returnDate, setReturnDate] = useState(searchParams.get("rtd") ? new Date(searchParams.get("rtd") as string) : new Date(tomorrow));
 
-  const [numberOfSits, setNumberOfSits] = useState(null);
-  const [fuelType, setFuelType] = useState(null);
-  const [driveType, setDriveType] = useState(null);
+  const [numberOfSits, setNumberOfSits] = useState(searchParams.get("number_of_seats") || null);
+  const [fuelType, setFuelType] = useState(searchParams.get("fuel_type") || null);
+  const [driveType, setDriveType] = useState(searchParams.get("drive_type") || null);
 
   const filters: { name: string; value: string | null }[] = [
+    { name: "pul", value: pickUpLocation },
+    { name: "rl", value: returnLocation },
+    { name: "rd", value: dateToLocalString(rentalDate) },
+    { name: "rtd", value: dateToLocalString(returnDate) },
     { name: "number_of_seats", value: numberOfSits },
     { name: "fuel_type", value: fuelType },
     { name: "drive_type", value: driveType },
@@ -65,7 +73,10 @@ const Filtres = () => {
       return acc;
     }, "");
 
-    navigate(link);
+    if (link) {
+      navigate(link);
+      dispatch(getProducts({ url: "offers" + link, lastIndex: 0 }));
+    }
   };
 
   return (

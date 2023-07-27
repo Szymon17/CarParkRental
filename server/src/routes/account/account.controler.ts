@@ -1,8 +1,8 @@
+import asyncHandler from "express-async-handler";
 import { Response } from "express";
 import { CustomRequest, UserRequest, update } from "../../types/basicTypes.js";
-import usersMongo from "../../models/users.mongo.js";
-import asyncHandler from "express-async-handler";
 import { deleteUser, updateUser } from "../../models/account.model.js";
+import jwt from "jsonwebtoken";
 
 const updateProfile = asyncHandler(async (req: CustomRequest<update> & UserRequest, res: Response) => {
   const user = req.user;
@@ -24,10 +24,15 @@ const updateProfile = asyncHandler(async (req: CustomRequest<update> & UserReque
 });
 
 async function deleteProfile(req: CustomRequest<{ email: string }>, res: Response) {
-  const user = await deleteUser(req.body.email);
+  const token = req.cookies.jwt;
+  const tokenEmail = jwt.decode(token).email;
 
-  if (user) res.status(200).json({ status: "ok", meaasge: "Deleted" });
-  else res.status(204).json({ status: "error", message: "Invalid user data" });
+  if (req.body.email === tokenEmail) {
+    const user = await deleteUser(req.body.email);
+
+    if (user) res.status(200).json({ status: "ok", meaasge: "Deleted" });
+    else res.json({ status: "error", message: "Invalid user data" });
+  } else res.json({ status: "error", message: "Your token don't match with email to delete" });
 }
 
 export { updateProfile, deleteProfile };

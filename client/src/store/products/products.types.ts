@@ -6,12 +6,13 @@ type product = {
   daily_price: number;
   power: number;
   brand: string;
+  model: string;
   engine_capacity: string;
   color: string;
   transmission: string;
   fuel_usage_city: string;
   fuel_usage_outcity: string;
-  image_url: string;
+  img_url: string;
   index: number;
 };
 

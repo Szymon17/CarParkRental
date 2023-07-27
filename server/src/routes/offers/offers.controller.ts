@@ -8,6 +8,10 @@ async function httpGetOffers(req: RequestWithBodyAndQuery<{ lastIndex: number },
   const reciptDate = req.query.rd ? new Date(req.query.rd) : null;
   const returnDate = req.query.rtd ? new Date(req.query.rtd) : null;
 
+  const filters = { ...req.query };
+
+  delete filters.pul, delete filters.rd, delete filters.rl, delete filters.rtd;
+
   if (
     (reciptDate !== null && isNaN(reciptDate.getDate())) ||
     (returnDate !== null && isNaN(returnDate.getDate())) ||
@@ -16,7 +20,7 @@ async function httpGetOffers(req: RequestWithBodyAndQuery<{ lastIndex: number },
   )
     res.status(404).json({ status: "error", message: "your data in filters is invalid" });
   else {
-    const avilableCars = await getAvilableCars(lastIndex, reciptDate, returnDate);
+    const avilableCars = await getAvilableCars(lastIndex, filters, reciptDate, returnDate);
 
     if (avilableCars.length) res.status(200).json({ status: "ok", message: "Send avilable cars", payload: avilableCars });
     else res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });

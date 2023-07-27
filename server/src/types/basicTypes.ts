@@ -41,6 +41,9 @@ type queryBasicData = {
   rtd?: string;
   pul?: string;
   rl?: string;
+  number_of_seats?: string;
+  fuel_type?: string;
+  drive_type?: string;
 };
 
 type order = {

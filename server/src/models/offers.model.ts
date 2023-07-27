@@ -2,7 +2,7 @@ import ordersMongo from "./orders.mongo.js";
 import carsMongo from "./offers.mongo.js";
 import { order } from "../types/basicTypes.js";
 
-async function getAvilableCars(lastIndex: number, receiptDate: Date | null, returnDate: Date | null, filters: any = {}) {
+async function getAvilableCars(lastIndex: number, filters: any = {}, receiptDate: Date | null, returnDate: Date | null) {
   let unvilableCars: order[];
 
   if (returnDate && receiptDate)

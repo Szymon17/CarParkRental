@@ -9,6 +9,7 @@ const Cars = new mongoose.Schema(
     daily_price: { type: Number, require: true },
     power: { type: Number, require: true },
     brand: { type: String, require: true },
+    model: { type: String, require: true },
     engine_capacity: { type: String, require: true },
     color: { type: String, require: true },
     transmission: { type: String, require: true },
