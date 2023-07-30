@@ -3,6 +3,7 @@ import Button, { BUTTON_CLASSES } from "../button/button.component";
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { dateToLocalString, today, tomorrow } from "../../utils/basicFunctions";
+import SelectLocations from "../select-locations/select-locations.component";
 
 const fakeArrayOfLocations = ["Warszawa", "Łódź"];
 
@@ -40,19 +41,11 @@ const OrderWindow = () => {
         <div className="orderWindow__item">
           <div className="orderWindow__inputContainer">
             <label className="orderWindow__inputLabel">Miejsce odbioru</label>
-            <select onChange={e => selectsHandler(e, setPickUpLocation)} className="orderWindow__input">
-              {fakeArrayOfLocations.map((location, index) => (
-                <option key={index}>{location}</option>
-              ))}
-            </select>
+            <SelectLocations changeHandler={e => selectsHandler(e, setPickUpLocation)} locations={fakeArrayOfLocations} />
           </div>
           <div className="orderWindow__inputContainer">
             <label className="orderWindow__inputLabel">Miejsce zwrotu</label>
-            <select onChange={e => selectsHandler(e, setReturnLocation)} className="orderWindow__input">
-              {fakeArrayOfLocations.map((location, index) => (
-                <option key={index}>{location}</option>
-              ))}
-            </select>
+            <SelectLocations changeHandler={e => selectsHandler(e, setReturnLocation)} locations={fakeArrayOfLocations} />
           </div>
         </div>
         <div className="orderWindow__item">
@@ -62,7 +55,7 @@ const OrderWindow = () => {
               type="date"
               value={dateToLocalString(receiptDate)}
               onChange={e => inputsHandler(e, setReceiptDate)}
-              className="orderWindow__input"
+              className="orderWindow__dateInput"
             ></input>
           </div>
           <div className="orderWindow__inputContainer">
@@ -71,7 +64,7 @@ const OrderWindow = () => {
               type="date"
               value={dateToLocalString(returnDate)}
               onChange={e => inputsHandler(e, setReturnDate)}
-              className="orderWindow__input"
+              className="orderWindow__dateInput"
             ></input>
           </div>
         </div>

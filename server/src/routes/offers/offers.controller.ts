@@ -1,16 +1,16 @@
 import { Response } from "express";
 import { getAvilableCars } from "../../models/offers.model.js";
-import { RequestWithBodyAndQuery, queryBasicData } from "../../types/basicTypes.js";
+import { RequestWithQuery, queryBasicData } from "../../types/basicTypes.js";
 
-async function httpGetOffers(req: RequestWithBodyAndQuery<{ lastIndex: number }, queryBasicData>, res: Response) {
-  const lastIndex = req.body.lastIndex | 0;
+async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Response) {
+  const lastIndex = req.query.index ? Number(req.query.index) : 0;
 
   const reciptDate = req.query.rd ? new Date(req.query.rd) : null;
   const returnDate = req.query.rtd ? new Date(req.query.rtd) : null;
 
   const filters = { ...req.query };
 
-  delete filters.pul, delete filters.rd, delete filters.rl, delete filters.rtd;
+  delete filters.pul, delete filters.rd, delete filters.rl, delete filters.rtd, delete filters.index;
 
   if (
     (reciptDate !== null && isNaN(reciptDate.getDate())) ||

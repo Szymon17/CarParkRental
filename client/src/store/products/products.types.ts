@@ -14,6 +14,7 @@ type product = {
   fuel_usage_outcity: string;
   img_url: string;
   index: number;
+  addons: string[];
 };
 
 type initialStateTypes = {

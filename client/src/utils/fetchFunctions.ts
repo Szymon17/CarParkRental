@@ -87,15 +87,9 @@ const deleteUserFetch = async (email: string): Promise<fetchType<null> | undefin
   }
 };
 
-const getProductsFetch = async (url: string, lastIndex: number): Promise<product[] | void> => {
+const getProductsFetch = async (params: string): Promise<product[] | void> => {
   try {
-    const res = await fetch(`${serverUrl}/${url}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ lastIndex }),
-    });
+    const res = await fetch(`${serverUrl}/offers${params}`);
     const status: fetchType<product[]> = await res.json();
 
     if (status.status === "ok") return status.payload;
@@ -105,4 +99,16 @@ const getProductsFetch = async (url: string, lastIndex: number): Promise<product
   }
 };
 
-export { registerUserFetch, getTokenByEmailAndPassword, logOutUser, updateUserFetch, deleteUserFetch, getProductsFetch };
+const getProductByIndexFetch = async (index: number | string): Promise<product | void> => {
+  try {
+    const res = await fetch(`${serverUrl}/offers/product?index=${index}`);
+    const status: fetchType<product> = await res.json();
+
+    if (status.status === "ok") return status.payload;
+    else console.log("Get request to server failed");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { registerUserFetch, getTokenByEmailAndPassword, logOutUser, updateUserFetch, deleteUserFetch, getProductsFetch, getProductByIndexFetch };

@@ -17,6 +17,7 @@ const Cars = new mongoose.Schema(
     fuel_usage_outcity: { type: String, require: true },
     image_url: { type: String, require: true },
     index: { type: Number, require: true },
+    addons: { type: Array, require: true },
   },
   { collection: "Cars" }
 );

@@ -1,0 +1,23 @@
+{
+  "translation": {
+    "number_of_sits": "Liczba miejsc",
+    "fuel_type": "Rodzaj paliwa",
+    "gasoline": "Benzyna",
+    "electric": "Elektryczny",
+    "drive_type": "Napęd",
+    "rear axle": "Tylnia oś",
+    "front axle": "Przednia oś",
+    "check": "Sprawdź",
+    "day": "Dzień",
+    "order": "Zamów",
+    "details": "Szczegóły",
+    "brand": "Marka",
+    "year": "Rocznik",
+    "capacity": "Pojemność silnika",
+    "color": "Kolor",
+    "transmission": "Skrzynia biegów",
+    "fuel consumption city": "Spalanie w mieście",
+    "fuel consumption out of city": "Spalanie poza miastem",
+    "power": "Moc"
+  }
+}

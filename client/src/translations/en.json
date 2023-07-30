@@ -1,0 +1,23 @@
+{
+  "translation": {
+    "number_of_sits": "Number of sits",
+    "fuel_type": "Fuel type",
+    "gasoline": "Gasoline",
+    "electric": "Electric",
+    "drive_type": "Drive type",
+    "rear axle": "Rear axle",
+    "front axle": "Front axle",
+    "check": "Check",
+    "day": "Day",
+    "order": "Order",
+    "details": "Details",
+    "brand": "Brand",
+    "year": "Year",
+    "capacity": "Capacity",
+    "color": "Color",
+    "transmission": "Transmission",
+    "fuel consumption city": "City fuel consumption",
+    "fuel consumption out of city": "Out-of-town fuel consumption",
+    "power": "Power"
+  }
+}

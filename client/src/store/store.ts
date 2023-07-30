@@ -1,5 +1,5 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
-import { persistStore, PersistConfig, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import { persistStore, PersistConfig, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import rootReducer from "./root.reducer";
 
@@ -20,23 +20,13 @@ const persistConfig: persistConfigExtendType = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const ignoreActions = [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER];
-
 export const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware => {
     if (process.env.NODE_ENV !== "production") {
-      return getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: ignoreActions,
-        },
-      }).concat(logger);
+      return getDefaultMiddleware({ serializableCheck: false }).concat(logger);
     } else {
-      return getDefaultMiddleware({
-        serializableCheck: {
-          ignoredActions: ignoreActions,
-        },
-      });
+      return getDefaultMiddleware({ serializableCheck: false });
     }
   },
 

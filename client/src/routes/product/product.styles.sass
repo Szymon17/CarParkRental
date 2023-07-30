@@ -1,0 +1,111 @@
+@use '../../sass/varibles' as vars
+@use '../../sass/mixins' as mixins
+@use '../../sass/break_points' as bp
+
+.product
+    min-height: calc( 100vh - vars.$navHeight )
+    padding: 30px 150px
+    background-color: vars.$container-color
+
+    @media ( max-width:bp.$large)
+        padding: 30px 20px
+
+    &__header
+        margin-top: 20px
+        position: relative
+        height: 22vh
+
+        @media ( max-width:bp.$large)
+            height: fit-content
+            overflow-y: auto
+            overflow-x: hidden
+            font-size: 0.7em
+           
+        &__img
+            position: absolute
+            top: 50%
+            left: 0
+            transform: translateY(-50%)
+            width: 30%
+
+
+            @media ( max-width:bp.$extra-large)
+                width: 40%
+
+            @media ( max-width:bp.$large)
+                position: static
+                transform: translateX(-50%)
+                margin-left: 50%
+
+            @media ( max-width:bp.$small)
+                width: 80%
+            
+            
+
+        &__description
+            @include mixins.flexDisplay($primarySetting: space-between, $secondarySetting: center, $direction: column)
+            width: 60%
+            height: 100%
+            float: right
+
+            @media ( max-width:bp.$large)
+                width: 100%
+                gap: 10px
+
+            &__title
+                font-size: 2em
+
+            &__price
+                font-size: 1.5em
+    &__section
+        margin-top: 100px
+        padding: 0 40px    
+
+        &-title
+            margin-bottom: 30px    
+
+    &__details__lists
+        @include mixins.flexDisplay($primarySetting: space-between)
+
+        @media ( max-width:  bp.$medium)
+            flex-direction: column
+            
+
+    &__details__list
+        list-style: none
+        font-weight: 550
+        width: 40%
+        display: inline-block
+        padding: 0
+
+        @media ( max-width:bp.$medium)
+            width: 100%       
+
+        &__item
+            @include mixins.flexDisplay($primarySetting: space-between)
+            margin-bottom: 10px
+
+            &__right
+                color: #0088e2
+                font-weight: 400
+
+    &__addons__list
+        display: grid
+        grid-template-columns: repeat(3, auto) 
+        justify-content: space-between
+        gap: 20px 0
+
+        @media ( max-width: bp.$medium )
+            grid-template-columns: repeat(2, auto) 
+
+        @media ( max-width: bp.$small )
+            grid-template-columns: repeat(1, auto) 
+            
+
+                
+                
+            
+            
+        
+        
+        

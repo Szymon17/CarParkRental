@@ -28,7 +28,7 @@
             width: 20%
 
     &__searhInput
-        width: 250px
+        width: 200px
         height: 100%
 
         @media (max-width: bp.$medium) 
@@ -40,6 +40,7 @@
     &__links
         flex-grow: 1
         display: flex
+        align-items: center
         
    
     &__link
@@ -67,6 +68,24 @@
             left: 0
             bottom: -5px
             transition: width 0.7s
+
+
+
+        &__switch-language-icon
+            display: inline
+            width: 40px
+            height: 40px
+            cursor: pointer
+            margin: 0 5px
+            filter: grayscale(80%)
+            transition: all 0.7s
+       
+            @media (max-width:bp.$medium) 
+                width: 20px
+                height: 20px
+
+        &__switch-language-icon.active
+            filter: none
 
     @media (max-width: bp.$small) 
         font-size: 0.7em

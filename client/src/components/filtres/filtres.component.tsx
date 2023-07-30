@@ -6,6 +6,7 @@ import { dateToLocalString, tomorrow } from "../../utils/basicFunctions";
 import Button from "../button/button.component";
 import { useAppDispatch } from "../../store/hooks";
 import { getProducts } from "../../store/products/products.actions";
+import { saveOrderData } from "../../store/order/order.reducer";
 
 const triallLocations = ["Wrocław", "Warszawa", "Kraków", "Łódź", "Wrocław", "Kraków", "Łódź"];
 
@@ -19,7 +20,7 @@ const Filtres = () => {
 
   const [pickUpLocation, setPickUpLocation] = useState(searchParams.get("pul") || "Wybierz lokację");
   const [returnLocation, setReturnLocation] = useState(searchParams.get("rl") || "Wybierz lokację");
-  const [rentalDate, setRentalDate] = useState(searchParams.get("rd") ? new Date(searchParams.get("rd") as string) : new Date());
+  const [pickUpDate, setPickUpDate] = useState(searchParams.get("rd") ? new Date(searchParams.get("rd") as string) : new Date());
   const [returnDate, setReturnDate] = useState(searchParams.get("rtd") ? new Date(searchParams.get("rtd") as string) : new Date(tomorrow));
 
   const [numberOfSits, setNumberOfSits] = useState(searchParams.get("number_of_seats") || null);
@@ -29,7 +30,7 @@ const Filtres = () => {
   const filters: { name: string; value: string | null }[] = [
     { name: "pul", value: pickUpLocation },
     { name: "rl", value: returnLocation },
-    { name: "rd", value: dateToLocalString(rentalDate) },
+    { name: "rd", value: dateToLocalString(pickUpDate) },
     { name: "rtd", value: dateToLocalString(returnDate) },
     { name: "number_of_seats", value: numberOfSits },
     { name: "fuel_type", value: fuelType },
@@ -75,7 +76,8 @@ const Filtres = () => {
 
     if (link) {
       navigate(link);
-      dispatch(getProducts({ url: "offers" + link, lastIndex: 0 }));
+      dispatch(getProducts(link));
+      dispatch(saveOrderData({ pickUpDate, returnDate, pickUpLocation, returnLocation }));
     }
   };
 
@@ -115,12 +117,12 @@ const Filtres = () => {
         </div>
         <div className="filtres__data__dates">
           <FormInput
-            onChange={e => new Date(e.target.value) < returnDate && setRentalDate(new Date(e.target.value))}
-            value={dateToLocalString(rentalDate)}
+            onChange={e => new Date(e.target.value) < returnDate && setPickUpDate(new Date(e.target.value))}
+            value={dateToLocalString(pickUpDate)}
             type="date"
           ></FormInput>
           <FormInput
-            onChange={e => new Date(e.target.value) > rentalDate && setReturnDate(new Date(e.target.value))}
+            onChange={e => new Date(e.target.value) > pickUpDate && setReturnDate(new Date(e.target.value))}
             value={dateToLocalString(returnDate)}
             type="date"
           ></FormInput>

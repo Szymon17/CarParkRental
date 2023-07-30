@@ -1,10 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getProductsFetch } from "../../utils/fetchFunctions";
 
-const getProducts = createAsyncThunk("getProducts", async (params: { url: string; lastIndex: number }) => {
-  const { url, lastIndex } = params;
-
-  const products = await getProductsFetch(url, lastIndex);
+const getProducts = createAsyncThunk("getProducts", async (params: string) => {
+  const products = await getProductsFetch(params);
 
   return products;
 });

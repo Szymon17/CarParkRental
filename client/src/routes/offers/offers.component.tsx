@@ -5,7 +5,6 @@ import { getProducts } from "../../store/products/products.actions";
 import { selectProducts } from "../../store/products/products.selectors";
 import Filtres from "../../components/filtres/filtres.component";
 import ProductCard from "../../components/product-card/product-card.component";
-import Button from "../../components/button/button.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,6 +24,17 @@ const testProduct = {
   fuel_usage_outcity: "13l",
   img_url: "test",
   index: 2,
+  addons: [
+    "Elektryczne szyby",
+    "Elektryczne szyby",
+    "Elektryczne szyby",
+    "Elektryczne szyby",
+    "Elektryczne szyby",
+    "Elektryczne szyby",
+    "Elektryczne szyby",
+    "Elektryczne szyby",
+    "Elektryczne szyby",
+  ],
 };
 
 const testProducts = [testProduct, testProduct, testProduct, testProduct];
@@ -39,11 +49,11 @@ const Offers = () => {
   const productsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const regexp = /(offers\S+)/;
+    const regexp = /\?[\S]+/;
     const link = window.location.href.toString().match(regexp);
 
-    if (link) dispatch(getProducts({ url: link[0], lastIndex: 0 }));
-    else dispatch(getProducts({ url: "offers", lastIndex: 0 }));
+    if (link) dispatch(getProducts(link[0]));
+    else dispatch(getProducts(""));
   }, []);
 
   const toggleFiltersVisability = () => {

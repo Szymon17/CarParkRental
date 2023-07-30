@@ -5,8 +5,21 @@ import Button from "../button/button.component";
 import testImg from "../../assets/mustang.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faGasPump, faGauge, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { saveOrderIndex } from "../../store/order/order.reducer";
+import { useAppDispatch } from "../../store/hooks";
 
 const ProductCard: FC<{ product: product }> = ({ product }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
+
+  const goToProduct = () => {
+    dispatch(saveOrderIndex(product.index));
+    navigate("/product?index=" + product.index);
+  };
+
   return (
     <div className="product-card">
       <img className="product-card__img" src={testImg} />
@@ -19,7 +32,7 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
           </div>
           <div className="product-card__description__icons-box">
             <FontAwesomeIcon icon={faGasPump} className="product-card__description__icons-icon"></FontAwesomeIcon>
-            <span className="product-card__description__icons-value">{product.fuel_type}</span>
+            <span className="product-card__description__icons-value"> {t(product.fuel_type)}</span>
           </div>
           <div className="product-card__description__icons-box">
             <FontAwesomeIcon icon={faGauge} className="product-card__description__icons-icon"></FontAwesomeIcon>
@@ -30,7 +43,7 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
             <span className="product-card__description__icons-value">{product.year}</span>
           </div>
         </div>
-        <Button>Sprawdź</Button>
+        <Button onClick={goToProduct}>{t("check")}</Button>
       </div>
     </div>
   );
