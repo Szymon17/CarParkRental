@@ -1,12 +1,12 @@
 type orderData = {
-  pickUpDate: Date;
-  returnDate: Date;
-  pickUpLocation: String;
-  returnLocation: String;
+  date_of_receipt: Date;
+  date_of_return: Date;
+  place_of_receipt: String;
+  place_of_return: String;
 };
 
 type orderInitialState = orderData & {
-  orderIndex: number | null;
+  productIndex: number | null;
 };
 
 export { orderData, orderInitialState };

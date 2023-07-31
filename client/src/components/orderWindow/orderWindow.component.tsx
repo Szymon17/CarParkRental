@@ -1,38 +1,43 @@
 import "./orderWindow.styles.sass";
 import Button, { BUTTON_CLASSES } from "../button/button.component";
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { dateToLocalString, today, tomorrow } from "../../utils/basicFunctions";
 import SelectLocations from "../select-locations/select-locations.component";
-
-const fakeArrayOfLocations = ["Warszawa", "Łódź"];
+import { useAppDispatch } from "../../store/hooks";
+import { saveOrderData } from "../../store/order/order.reducer";
+import { useTranslation } from "react-i18next";
 
 const OrderWindow = () => {
-  const [pickUpLocation, setPickUpLocation] = useState("Warszawa");
-  const [returnLocation, setReturnLocation] = useState("Warszawa");
-  const [receiptDate, setReceiptDate] = useState(today);
-  const [returnDate, setReturnDate] = useState(tomorrow);
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [place_of_receipt, set_place_of_receipt] = useState("Warszawa");
+  const [place_of_return, set_place_of_return] = useState("Warszawa");
+  const [date_of_receipt, set_date_of_receipt] = useState(today);
+  const [date_of_return, set_date_of_return] = useState(tomorrow);
 
-  const selectsHandler = (e: ChangeEvent<HTMLSelectElement>, handler: Function) => {
-    handler(e.target.value);
-  };
-
-  const inputsHandler = (e: ChangeEvent<HTMLInputElement>, handler: Function) => {
-    handler(new Date(e.target.value));
+  const inputsHandler = (value: Date | string, handler: Function) => {
+    handler(value);
   };
 
   const search = () => {
     if (
-      receiptDate < today ||
-      receiptDate > returnDate ||
-      receiptDate.toDateString() === returnDate.toDateString() ||
-      !pickUpLocation ||
-      !returnLocation
+      date_of_receipt < today ||
+      date_of_receipt > date_of_return ||
+      date_of_receipt.toDateString() === date_of_return.toDateString() ||
+      !place_of_receipt ||
+      !place_of_return
     ) {
       console.log("you picked wrong data");
       return;
-    } else navigate(`offers?pul=${pickUpLocation}&rl=${returnLocation}&rd=${dateToLocalString(receiptDate)}&rtd=${dateToLocalString(returnDate)}`);
+    } else {
+      dispatch(saveOrderData({ place_of_receipt, place_of_return, date_of_receipt, date_of_return }));
+      navigate(
+        `offers?pul=${place_of_receipt}&rl=${place_of_return}&rd=${dateToLocalString(date_of_receipt)}&rtd=${dateToLocalString(date_of_return)}`
+      );
+    }
   };
 
   return (
@@ -40,30 +45,30 @@ const OrderWindow = () => {
       <div className="orderWindow__container">
         <div className="orderWindow__item">
           <div className="orderWindow__inputContainer">
-            <label className="orderWindow__inputLabel">Miejsce odbioru</label>
-            <SelectLocations changeHandler={e => selectsHandler(e, setPickUpLocation)} locations={fakeArrayOfLocations} />
+            <label className="orderWindow__inputLabel">{t("pick up location")}</label>
+            <SelectLocations changeHandler={e => inputsHandler(e.target.value, set_place_of_receipt)} />
           </div>
           <div className="orderWindow__inputContainer">
-            <label className="orderWindow__inputLabel">Miejsce zwrotu</label>
-            <SelectLocations changeHandler={e => selectsHandler(e, setReturnLocation)} locations={fakeArrayOfLocations} />
+            <label className="orderWindow__inputLabel">{t("return location")}</label>
+            <SelectLocations changeHandler={e => inputsHandler(e.target.value, set_place_of_return)} />
           </div>
         </div>
         <div className="orderWindow__item">
           <div className="orderWindow__inputContainer">
-            <label className="orderWindow__inputLabel">Data odbioru</label>
+            <label className="orderWindow__inputLabel">{t("pick up date")}</label>
             <input
               type="date"
-              value={dateToLocalString(receiptDate)}
-              onChange={e => inputsHandler(e, setReceiptDate)}
+              value={dateToLocalString(date_of_receipt)}
+              onChange={e => inputsHandler(new Date(e.target.value), set_date_of_receipt)}
               className="orderWindow__dateInput"
             ></input>
           </div>
           <div className="orderWindow__inputContainer">
-            <label className="orderWindow__inputLabel">Data zwrotu</label>
+            <label className="orderWindow__inputLabel">{t("return date")}</label>
             <input
               type="date"
-              value={dateToLocalString(returnDate)}
-              onChange={e => inputsHandler(e, setReturnDate)}
+              value={dateToLocalString(date_of_return)}
+              onChange={e => inputsHandler(new Date(e.target.value), set_date_of_return)}
               className="orderWindow__dateInput"
             ></input>
           </div>
@@ -71,7 +76,7 @@ const OrderWindow = () => {
       </div>
       <div className="orderWindow__buttonContainer">
         <Button buttonType={BUTTON_CLASSES.green} onClick={search}>
-          Szukaj
+          {t("check")}
         </Button>
       </div>
     </div>

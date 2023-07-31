@@ -15,7 +15,6 @@ type persistConfigExtendType = PersistConfig<rootReducerType> & {
 const persistConfig: persistConfigExtendType = {
   key: "root",
   storage,
-  whitelist: ["user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

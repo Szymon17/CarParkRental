@@ -6,6 +6,7 @@ type userSnapshot = {
   surname: string;
   phoneNumber: string;
   orders: string[];
+  _id?: string;
 };
 
 type logInWithToken = {
@@ -32,7 +33,7 @@ interface user extends userData {
   orders: string[];
 }
 
-type update = { email: string; newEmail?: string; name?: string; surname?: string; phoneNumber?: string };
+type update = { newEmail?: string; name?: string; surname?: string; phoneNumber?: string };
 
 type RequestWithQuery<Q> = Request<unknown, unknown, unknown, Q>;
 
@@ -47,8 +48,17 @@ type queryBasicData = {
   index?: string;
 };
 
-type order = {
-  car_id: string;
+type orderData = {
+  date_of_receipt: string;
+  date_of_return: string;
+  place_of_receipt: string;
+  place_of_return: string;
 };
 
-export { CustomRequest, userData, user, logInWithToken, userSnapshot, UserRequest, update, RequestWithQuery, queryBasicData, order };
+type order = orderData & {
+  car_id: string;
+  user_id: string;
+  cancel: boolean;
+};
+
+export { CustomRequest, userData, user, logInWithToken, userSnapshot, UserRequest, update, RequestWithQuery, queryBasicData, orderData, order };

@@ -3,11 +3,11 @@ import { today, tomorrow } from "../../utils/basicFunctions";
 import { orderData, orderInitialState } from "./order.types";
 
 const initialState: orderInitialState = {
-  pickUpDate: today,
-  returnDate: tomorrow,
-  pickUpLocation: "Warszawa",
-  returnLocation: "Warszawa",
-  orderIndex: null,
+  date_of_receipt: today,
+  date_of_return: tomorrow,
+  place_of_receipt: "Warszawa",
+  place_of_return: "Warszawa",
+  productIndex: null,
 };
 
 const orderSlice = createSlice({
@@ -16,18 +16,18 @@ const orderSlice = createSlice({
   reducers: {
     saveOrderData: (state, action: PayloadAction<orderData>) => {
       const { payload } = action;
-      const { pickUpDate, pickUpLocation, returnDate, returnLocation } = payload;
+      const { date_of_receipt, date_of_return, place_of_receipt, place_of_return } = payload;
 
-      state.pickUpDate = pickUpDate;
-      state.pickUpLocation = pickUpLocation;
-      state.returnDate = returnDate;
-      state.returnLocation = returnLocation;
+      state.date_of_receipt = date_of_receipt;
+      state.date_of_return = date_of_return;
+      state.place_of_receipt = place_of_receipt;
+      state.place_of_return = place_of_return;
     },
 
     saveOrderIndex: (state, action: PayloadAction<number>) => {
       const { payload } = action;
 
-      state.orderIndex = payload;
+      state.productIndex = payload;
     },
   },
 });

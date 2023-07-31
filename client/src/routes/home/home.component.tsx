@@ -7,17 +7,20 @@ import lockImg from "../../assets/lock.png";
 import moneyImg from "../../assets/money.png";
 import OrderWindow from "../../components/orderWindow/orderWindow.component";
 import FiltersSnapshot from "../../components/filtersSnapshot/filtersSnapshot.component";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="home">
       <header className="home__header">
-        <h1 className="home__header_title">Wypożyczalnia aut - Bezpiecznie, zaoszczędź nawet 50%</h1>
+        <h1 className="home__header_title">{t("home baner")}</h1>
         <div className="home__header__orderBox">
           <OrderWindow />
         </div>
         <img className="home__header_background" src={headerImg} alt="background" />
-        <div className="home__header_filter"></div>
+        <div className="home__header_filter" />
       </header>
       <div className="container">
         <div className="home__beneffits">
@@ -52,12 +55,12 @@ const Home = () => {
         <div className="home__filtersContainer">
           <FiltersSnapshot
             links={["Warszawa", "Łódź", "Kraków", "Gdańsk", "Toruń", "Wrocław"]}
-            title="Najczęśniej sprawdzane lokalizacje"
+            title={t("often checked locations")}
             filterClass="location"
           />
           <FiltersSnapshot
             links={["Chevrolet", "Opel", "Renault", "Toyota", "Ford", "Dodge"]}
-            title="Najczęśniej sprawdzane marki"
+            title={t("often checked brands")}
             filterClass="vehicleBrand"
           />
         </div>
@@ -82,7 +85,7 @@ const Home = () => {
         <div className="home__offtenChosenFiltres">
           <FiltersSnapshot
             links={["Sport", "SUV", "Offroad", "Hatchback", "Kombi", "Sedan"]}
-            title="Najczęśniej sprawdzane rodzaje samochodów"
+            title={t("often checked car types")}
             filterClass="vehicleType"
             horizontal={true}
           />

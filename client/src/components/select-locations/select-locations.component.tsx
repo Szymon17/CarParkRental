@@ -1,15 +1,18 @@
 import "./select-locations.styles.sass";
-import { ChangeEventHandler, FC } from "react";
+import { useAppSelector } from "../../store/hooks";
+import { ChangeEventHandler, FC, HTMLAttributes } from "react";
+import { selectLocations } from "../../store/locations/locations.selector";
 
-type selectLocationsTypes = {
-  locations: string[];
-  changeHandler: ChangeEventHandler<HTMLSelectElement>;
-};
+type selectLocationsTypes = HTMLAttributes<HTMLSelectElement> & { changeHandler: ChangeEventHandler<HTMLSelectElement> };
 
-const SelectLocations: FC<selectLocationsTypes> = ({ locations, changeHandler }) => {
+const triallLocations = ["Wrocław", "Warszawa", "Kraków", "Łódź", "Wrocław", "Kraków", "Łódź"];
+
+const SelectLocations: FC<selectLocationsTypes> = ({ changeHandler, ...otherProps }) => {
+  const locations = useAppSelector(selectLocations);
+
   return (
-    <select onChange={changeHandler} className="select-locations">
-      {locations.map((location, index) => (
+    <select {...otherProps} onChange={changeHandler} className="select-locations">
+      {triallLocations.map((location, index) => (
         <option key={index}>{location}</option>
       ))}
     </select>

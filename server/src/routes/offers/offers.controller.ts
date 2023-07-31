@@ -1,6 +1,14 @@
 import { Response } from "express";
-import { getAvilableCars } from "../../models/offers.model.js";
-import { RequestWithQuery, queryBasicData } from "../../types/basicTypes.js";
+import { getAvilableCars, getOfferByIndex, saveOrder } from "../../models/offers.model.js";
+import { CustomRequest, RequestWithQuery, UserRequest, orderData, queryBasicData } from "../../types/basicTypes.js";
+import { updateUserOrders } from "../../models/account.model.js";
+
+const validateOrderData = (userDataOb: orderData): boolean => {
+  const { date_of_receipt, date_of_return, place_of_receipt, place_of_return } = userDataOb;
+
+  if (date_of_receipt && date_of_return && place_of_receipt && place_of_return && new Date(date_of_receipt) < new Date(date_of_return)) return true;
+  else return false;
+};
 
 async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Response) {
   const lastIndex = req.query.index ? Number(req.query.index) : 0;
@@ -27,7 +35,29 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
   }
 }
 
-export { httpGetOffers };
+async function httpPostOrder(req: UserRequest & CustomRequest<{ userData: orderData; productIndex: number }>, res: Response) {
+  if (req.user && req.body.productIndex && validateOrderData(req.body.userData)) {
+    const product = await getOfferByIndex(req.body.productIndex);
+
+    const chargedAccount = true;
+
+    if (product && chargedAccount) {
+      const user_id = req.user._id;
+      const car_id = product.id as string;
+      const order = { ...req.body.userData, user_id, car_id, cancel: false };
+
+      const orderResult = await saveOrder(order);
+
+      if (orderResult) {
+        const userResult = await updateUserOrders(orderResult._id.toString(), req.user.email);
+        if (userResult) res.status(202).json({ status: "ok", message: "Created order" });
+        else res.status(404).json({ status: "error", message: "This order is unvilable" });
+      } else res.status(404).json({ status: "error", message: "This order is unvilable" });
+    }
+  } else res.status(404).json({ status: "error", message: "bad data request" });
+}
+
+export { httpGetOffers, httpPostOrder };
 
 // const car = {
 //   year: 2019,

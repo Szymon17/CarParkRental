@@ -1,3 +1,4 @@
+import { orderData, orderInitialState } from "../store/order/order.types";
 import { product } from "../store/products/products.types";
 import { fetchType, userCall, userData, userPayload, userPutResponse, userUpdate } from "../store/user/user.types";
 
@@ -111,4 +112,53 @@ const getProductByIndexFetch = async (index: number | string): Promise<product |
   }
 };
 
-export { registerUserFetch, getTokenByEmailAndPassword, logOutUser, updateUserFetch, deleteUserFetch, getProductsFetch, getProductByIndexFetch };
+const getLocationsFetch = async () => {
+  try {
+    const res = await fetch(`${serverUrl}/locations`);
+    const status: fetchType<string[]> = await res.json();
+
+    if (status.status === "ok") return status.payload;
+    else console.log("Get request to server failed");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const saveOrderFetch = async (data: orderInitialState) => {
+  const userData: orderData = {
+    date_of_receipt: data.date_of_receipt,
+    date_of_return: data.date_of_return,
+    place_of_receipt: data.place_of_receipt,
+    place_of_return: data.place_of_return,
+  };
+  const productIndex = data.productIndex;
+
+  try {
+    const res = await fetch(`${serverUrl}/offers/order`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      credentials: "include",
+      body: JSON.stringify({ userData, productIndex }),
+    });
+    const status: fetchType<null> = await res.json();
+
+    if (status.status === "ok") return status.status;
+    else console.log("Get request to server failed");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export {
+  registerUserFetch,
+  getTokenByEmailAndPassword,
+  logOutUser,
+  updateUserFetch,
+  deleteUserFetch,
+  getProductsFetch,
+  getProductByIndexFetch,
+  getLocationsFetch,
+  saveOrderFetch,
+};
