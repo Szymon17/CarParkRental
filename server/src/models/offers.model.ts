@@ -14,11 +14,8 @@ async function getUnvilableCars(receiptDate: Date, returnDate: Date) {
   )) as { car_id: string }[];
 }
 
-async function getAvilableCars(lastIndex: number, filters: any = {}, receiptDate: Date | null, returnDate: Date | null) {
-  let unvilableCars: { car_id: string }[];
-
-  if (returnDate && receiptDate) unvilableCars = await getUnvilableCars(receiptDate, returnDate);
-  else unvilableCars = [];
+async function getAvilableCars(lastIndex: number, filters: any = {}, receiptDate: Date, returnDate: Date) {
+  let unvilableCars: { car_id: string }[] = await getUnvilableCars(receiptDate, returnDate);
 
   const orders = unvilableCars.map(order => order.car_id);
   return await carsMongo

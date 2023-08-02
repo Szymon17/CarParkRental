@@ -1,9 +1,11 @@
 import "./translations/i18n";
+import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { selectExpireTime, selectUser, selectUserDropdownState } from "./store/user/user.selectors";
 import { changeUserDropdown, logOut } from "./store/user/user.reducer";
+import { ToastContainer } from "react-toastify";
 import Navigation from "./routes/navigation/navigation.component";
 import Home from "./routes/home/home.component";
 import LogIn from "./routes/log-in/log-in.component";
@@ -42,6 +44,7 @@ function App() {
           <Route path="/summary" element={<Summary />} />
         </Route>
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { logIn } from "../../store/user/user.reducer";
 import { selectUser } from "../../store/user/user.selectors";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import FormInput from "../../components/formInput/formInput.component";
 import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
 import { useTranslation } from "react-i18next";
@@ -29,8 +30,8 @@ const LogIn = () => {
         const { user, expire } = data;
         dispatch(logIn({ user, expire }));
         navigate("/");
-      } else console.error("Check your email or password");
-    } else console.error("You are already logged in");
+      } else toast.error(t("check your login data"));
+    } else toast.error(t("already logged-in"));
   };
 
   return (

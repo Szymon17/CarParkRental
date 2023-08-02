@@ -1,12 +1,13 @@
 import "./orderWindow.styles.sass";
-import Button, { BUTTON_CLASSES } from "../button/button.component";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dateToLocalString, today, tomorrow } from "../../utils/basicFunctions";
-import SelectLocations from "../select-locations/select-locations.component";
+import { dateToLocalString, maxDaysTimeDifferenceIsValid, today, tomorrow } from "../../utils/basicFunctions";
 import { useAppDispatch } from "../../store/hooks";
 import { saveOrderData } from "../../store/order/order.reducer";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import Button, { BUTTON_CLASSES } from "../button/button.component";
+import SelectLocations from "../select-locations/select-locations.component";
 
 const OrderWindow = () => {
   const { t } = useTranslation();
@@ -23,16 +24,13 @@ const OrderWindow = () => {
   };
 
   const search = () => {
-    if (
-      date_of_receipt < today ||
-      date_of_receipt > date_of_return ||
-      date_of_receipt.toDateString() === date_of_return.toDateString() ||
-      !place_of_receipt ||
-      !place_of_return
-    ) {
-      console.log("you picked wrong data");
-      return;
-    } else {
+    if (date_of_receipt < today) toast.error(t("back date alert"));
+    else if (date_of_receipt > date_of_return) toast.error(t("high return alert date"));
+    else if (date_of_receipt.toDateString() === date_of_return.toDateString()) toast.error(t("same date alert"));
+    else if (!place_of_receipt || !place_of_return) toast.error(t("no location alert"));
+    else if (!maxDaysTimeDifferenceIsValid(date_of_receipt.getTime(), date_of_return.getTime()))
+      toast.error(t("receipt date earlier than return date"));
+    else {
       dispatch(saveOrderData({ place_of_receipt, place_of_return, date_of_receipt, date_of_return }));
       navigate(
         `offers?pul=${place_of_receipt}&rl=${place_of_return}&rd=${dateToLocalString(date_of_receipt)}&rtd=${dateToLocalString(date_of_return)}`

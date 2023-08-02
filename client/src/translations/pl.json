@@ -56,6 +56,17 @@
     "repeat password": "Powtórz hasło",
     "or": "Lub",
     "offers": "Oferty",
-    "about": "O nas"
+    "about": "O nas",
+    "back date alert": "Nie możesz wybrać daty wstecz",
+    "high return alert date": "Data odbioru jest większa niż data zwrotu",
+    "no location alert": "Nie wybrałeś lokalizacji",
+    "receipt date earlier than return date": "Data odbioru nie może być wyższa niż data zwrotu",
+    "already logged-in": "Jesteś już zalogowany",
+    "check your login data": "Sprawdź swoje dane logowania",
+    "invalid email": "Twój email jest niepoprawny",
+    "invalid password": "Twoje hasło jest niepoprawne",
+    "invalid name": "Podane imię jest niepoprawne",
+    "invalid surname": "Podane nazwisko jest niepoprawne",
+    "invalid phone number": "Twój numer telefonu jest niepoprawny"
   }
 }

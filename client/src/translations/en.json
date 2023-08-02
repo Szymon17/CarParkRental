@@ -56,6 +56,17 @@
     "repeat password": "Repeat password",
     "or": "Or",
     "offers": "Offers",
-    "about": "About"
+    "about": "About",
+    "back date alert": "You cannot select a date back",
+    "high return alert date": "The collection date is greater than the return date",
+    "no location alert": "You have not selected a location",
+    "receipt date earlier than return date": "The receipt date cannot be higher than the return date",
+    "already logged-in": "You are already logged in",
+    "check your login data": "Check your email or password",
+    "invalid email": "Your email is invalid",
+    "invalid password": "Your password is invalid",
+    "invalid name": "Invalid name",
+    "invalid surname": "Invalid surname",
+    "invalid phone number": "Your phone nuber is invalid"
   }
 }

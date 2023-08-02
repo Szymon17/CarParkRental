@@ -42,3 +42,10 @@ export const validate = {
     return Boolean(phoneNumber.match(regExp));
   },
 };
+
+export const maxDaysTimeDifferenceIsValid = (receiptDateTime: number, returnDateTime: number, days: number = 10) => {
+  const daysMs = 1000 * 60 * 60 * 24 * days;
+  const timeDifference = returnDateTime - receiptDateTime;
+
+  return daysMs > timeDifference;
+};

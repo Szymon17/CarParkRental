@@ -11,6 +11,7 @@ const validateOrderData = (userDataOb: orderData): boolean => {
 };
 
 async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Response) {
+  const tenDaysInMs = 864000000;
   const lastIndex = req.query.index ? Number(req.query.index) : Infinity;
 
   const reciptDate = req.query.rd ? new Date(req.query.rd) : null;
@@ -20,19 +21,16 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 
   delete filters.pul, delete filters.rd, delete filters.rl, delete filters.rtd, delete filters.index;
 
-  if (
-    (reciptDate !== null && isNaN(reciptDate.getDate())) ||
-    (returnDate !== null && isNaN(returnDate.getDate())) ||
-    (reciptDate === null && returnDate !== null) ||
-    (returnDate === null && reciptDate !== null)
-  )
-    res.status(404).json({ status: "error", message: "your data in filters is invalid" });
-  else {
+  if (reciptDate !== null && !isNaN(reciptDate.getDate()) && returnDate !== null && !isNaN(returnDate.getDate()) && reciptDate < returnDate) {
+    const timeDiff = returnDate.getTime() - reciptDate.getTime();
+
+    if (timeDiff > tenDaysInMs) return res.status(404).json({ status: "error", message: "your rent time is too long" });
+
     const avilableCars = await getAvilableCars(lastIndex, filters, reciptDate, returnDate);
 
-    if (avilableCars.length) res.status(200).json({ status: "ok", message: "Send avilable cars", payload: avilableCars });
-    else res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });
-  }
+    if (avilableCars.length === 0) return res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });
+    else return res.status(200).json({ status: "ok", message: "Send avilable cars", payload: avilableCars });
+  } else return res.status(404).json({ status: "error", message: "your data in filters is invalid" });
 }
 
 async function httpPostOrder(req: UserRequest & CustomRequest<{ userData: orderData; productIndex: number }>, res: Response) {

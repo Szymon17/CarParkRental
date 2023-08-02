@@ -2,11 +2,12 @@ import "./register.styles.sass";
 import { ChangeEvent, useState } from "react";
 import { registerUserFetch } from "../../utils/fetchFunctions";
 import { validate } from "../../utils/basicFunctions";
-import FormInput from "../../components/formInput/formInput.component";
-import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
+import { toast } from "react-toastify";
 import { userData } from "../../store/user/user.types";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import FormInput from "../../components/formInput/formInput.component";
+import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
 
 const Register = () => {
   const { t } = useTranslation();
@@ -25,12 +26,17 @@ const Register = () => {
     return array.join("");
   };
 
+  const showError = (errorMessage: string) => {
+    setSendState(true);
+    toast.error(t(errorMessage));
+  };
+
   const registerUser = async () => {
-    if (!validate.email(email)) setSendState(true);
-    else if (!validate.password(password, confirmPassword)) setSendState(true);
-    else if (!validate.name(name)) setSendState(true);
-    else if (!validate.name(surname)) setSendState(true);
-    else if (!validate.phoneNumber(phoneNumber)) setSendState(true);
+    if (!validate.email(email)) showError("invalid email");
+    else if (!validate.password(password, confirmPassword)) showError("invalid password");
+    else if (!validate.name(name)) showError("invalid name");
+    else if (!validate.name(surname)) showError("invalid surname");
+    else if (!validate.phoneNumber(phoneNumber)) showError("invalid phone number");
     else {
       const user: userData = {
         email,
