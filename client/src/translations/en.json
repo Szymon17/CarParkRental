@@ -42,6 +42,20 @@
     "price": "Price",
     "receipt data": "Receipt data",
     "client data": "Client data",
-    "product data": "Product data"
+    "product data": "Product data",
+    "there is nothing to display": "There is nothing to display",
+    "dates": "Dates",
+    "safety": "Safety",
+    "payments": "Payments",
+    "safety description": "The cars in our offers have personalized insurance so that you feel safe in the event of a breakdown or damage",
+    "dates description": "Thanks to the large selection that we have created over the years, we offer the availability of interesting offers in many locations and at any time",
+    "payments description": "On our website you will not encounter anything like 'hidden costs', feel free to browse our offers and you have up to 72 hours to withdraw from the contract!",
+    "password": "Password",
+    "log-in": "Log-in",
+    "register": "Register",
+    "repeat password": "Repeat password",
+    "or": "Or",
+    "offers": "Offers",
+    "about": "About"
   }
 }

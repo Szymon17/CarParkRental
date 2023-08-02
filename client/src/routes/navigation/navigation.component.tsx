@@ -4,21 +4,30 @@ import { useEffect, useState } from "react";
 import { faCarRear, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, Outlet } from "react-router-dom";
-import { useAppSelector } from "../../store/hooks";
-import { selectUser } from "../../store/user/user.selectors";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { selectUser, selectUserDropdownState } from "../../store/user/user.selectors";
+import { changeUserDropdown } from "../../store/user/user.reducer";
+import { dateToLocalString, today, tomorrow } from "../../utils/basicFunctions";
+import { saveOrderData } from "../../store/order/order.reducer";
+import { useTranslation } from "react-i18next";
 import PLflag from "../../assets/pl-flag.png";
 import ENflag from "../../assets/en-flag.png";
-import AccountDropdow from "../../components/account-dropdown/account-dropdown.component";
+import AccountDropdown from "../../components/account-dropdown/account-dropdown.component";
 
 const Navigation = () => {
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const userDropdownState = useAppSelector(selectUserDropdownState);
 
-  const [open, setOpenState] = useState(false);
   const [language, setLanguage] = useState("pl");
 
   useEffect(() => {
     i18n.changeLanguage(language);
   }, [language]);
+
+  const saveData = () =>
+    dispatch(saveOrderData({ place_of_receipt: "Wrocław", place_of_return: "Wrocław", date_of_receipt: today, date_of_return: tomorrow }));
 
   return (
     <>
@@ -48,28 +57,34 @@ const Navigation = () => {
           </li>
           <li className="navigation__link">
             <div className="navigation__link-container">
-              <Link to="about">O nas</Link>
+              <Link to="about"> {t("about")}</Link>
               <div className="navigation__link-underline"></div>
             </div>
           </li>
           <li className="navigation__link">
             <div className="navigation__link-container">
-              <Link to="offers">Ofety</Link>
+              <Link onClick={saveData} to={`offers?rd=${dateToLocalString(today)}&rtd${dateToLocalString(tomorrow)}`}>
+                {t("offers")}
+              </Link>
               <div className="navigation__link-underline"></div>
             </div>
           </li>
           <li className="navigation__link">
             <div className="navigation__link-container">
               {user ? (
-                <FontAwesomeIcon onClick={() => setOpenState(!open)} className="navigation__link-container__userIcon" icon={faUser} />
+                <FontAwesomeIcon
+                  onClick={() => dispatch(changeUserDropdown(!userDropdownState))}
+                  className="navigation__link-container__userIcon"
+                  icon={faUser}
+                />
               ) : (
-                <Link to="log-in">Zaloguj się</Link>
+                <Link to="log-in">{t("log-in")}</Link>
               )}
               <div className="navigation__link-underline"></div>
             </div>
           </li>
         </ul>
-        {open && user && <AccountDropdow />}
+        {userDropdownState && user && <AccountDropdown />}
       </nav>
       <Outlet />
     </>

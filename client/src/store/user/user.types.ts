@@ -3,7 +3,7 @@ type userSnapshot = {
   name: string;
   surname: string;
   phoneNumber: string;
-  orders: string[];
+  orders: number[];
 };
 
 type userUpdate = {
@@ -48,6 +48,7 @@ type initialStateTypes = {
   expireTime: string | null;
   nextUpdateTime: number;
   status: "idle" | "loading" | "failed";
+  userDropdown: boolean;
 };
 
 export { userSnapshot, userCall, initialStateTypes, userPayload, userData, userUpdate, userPutResponse, fetchType };

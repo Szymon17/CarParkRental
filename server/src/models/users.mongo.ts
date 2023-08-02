@@ -7,7 +7,7 @@ const User = new mongoose.Schema(
     name: { type: String, required: true },
     surname: { type: String, required: true },
     phoneNumber: { type: String, required: true },
-    orders: { type: [String], required: true },
+    orders: { type: [{ id: String, carIndex: Number }], required: true },
     createdAt: { type: Date, required: true },
   },
   { collection: "Users" }

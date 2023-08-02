@@ -42,6 +42,20 @@
     "price": "Cena",
     "receipt data": "Dane odbioru",
     "client data": "Dane klienta",
-    "product data": "Dane produktu"
+    "product data": "Dane produktu",
+    "there is nothing to display": "Nie ma nic do wyświetlenia",
+    "dates": "Terminy",
+    "safety": "Bezpieczeństwo",
+    "payments": "Płatności",
+    "dates description": "Dzięki dużemu wyborowi, który stworzyliśmy na przestrzeni lat, oferujemy dostępność ciekawych ofert w wielu lokalizacjach i w każdym terminie",
+    "safety description": "Samochody w naszych ofertach posiadają spersonalizowane ubezpieczenie abyś czuł się bezpiecznie w razie awarii lub szkody",
+    "payments description": "Na naszej stronie nie spotkasz się z niczym takim jak 'ukryte koszta', czuj się swobodnie przeglądają nasze oferty a na odstąpienie od umowy masz aż 72h!",
+    "password": "Hasło",
+    "log-in": "Zaloguj się",
+    "register": "Zarejstruj się",
+    "repeat password": "Powtórz hasło",
+    "or": "Lub",
+    "offers": "Oferty",
+    "about": "O nas"
   }
 }

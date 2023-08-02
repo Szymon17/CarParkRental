@@ -2,45 +2,19 @@ import "./offers.styles.sass";
 import { useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { getProducts } from "../../store/products/products.actions";
-import { selectProducts } from "../../store/products/products.selectors";
-import Filtres from "../../components/filtres/filtres.component";
-import ProductCard from "../../components/product-card/product-card.component";
+import { selectProducts, selectProductsStatus } from "../../store/products/products.selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
-
-const testProduct = {
-  year: 2019,
-  number_of_seats: 5,
-  drive_type: "rear axle",
-  fuel_type: "gasoline",
-  daily_price: 200,
-  power: 400,
-  brand: "Ford",
-  model: "Mustang",
-  engine_capacity: "5.0l",
-  color: "blue",
-  transmission: "manual",
-  fuel_usage_city: "15l",
-  fuel_usage_outcity: "13l",
-  img_url: "test",
-  index: 2,
-  addons: [
-    "Elektryczne szyby",
-    "Elektryczne szyby",
-    "Elektryczne szyby",
-    "Elektryczne szyby",
-    "Elektryczne szyby",
-    "Elektryczne szyby",
-    "Elektryczne szyby",
-    "Elektryczne szyby",
-    "Elektryczne szyby",
-  ],
-};
-
-const testProducts = [testProduct, testProduct, testProduct, testProduct];
+import { useTranslation } from "react-i18next";
+import Filtres from "../../components/filtres/filtres.component";
+import ProductCard from "../../components/product-card/product-card.component";
+import Spinner from "../../components/spinner/spinner.component";
+import CustomError from "../../components/custom-error/custom-error.component";
 
 const Offers = () => {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const productStatus = useAppSelector(selectProductsStatus);
   const products = useAppSelector(selectProducts);
 
   const [filtersAreOpen, setFiltersState] = useState(false);
@@ -79,10 +53,18 @@ const Offers = () => {
       <div ref={filtersRef} className="offers__filters-box">
         <Filtres />
       </div>
-      <main ref={productsRef} className="offers__products">
-        {testProducts.map(product => (
-          <ProductCard product={product} />
-        ))}
+      <main ref={productsRef} className="offers__main">
+        {products.length > 0 ? (
+          <div className="offers__products">
+            {products.map(product => (
+              <ProductCard product={product} />
+            ))}
+          </div>
+        ) : productStatus === "loading" ? (
+          <Spinner />
+        ) : (
+          <CustomError>{t("there is nothing to display")}</CustomError>
+        )}
       </main>
     </div>
   );

@@ -6,6 +6,7 @@ const initialState: initialStateTypes = {
   expireTime: null,
   nextUpdateTime: 0,
   status: "idle",
+  userDropdown: false,
 };
 
 const userSlice = createSlice({
@@ -30,9 +31,19 @@ const userSlice = createSlice({
       state.user = null;
       state.expireTime = null;
     },
+
+    changeUserDropdown: (state, action: PayloadAction<boolean>) => {
+      const { payload } = action;
+
+      state.userDropdown = payload;
+    },
+    updateUserOrders: (state, action: PayloadAction<number>) => {
+      const { payload } = action;
+      if (state.user) state.user.orders.push(payload);
+    },
   },
 });
 
-export const { logIn, logOut, updateUserState } = userSlice.actions;
+export const { logIn, logOut, updateUserState, changeUserDropdown, updateUserOrders } = userSlice.actions;
 
 export default userSlice.reducer;

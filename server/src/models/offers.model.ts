@@ -21,8 +21,10 @@ async function getAvilableCars(lastIndex: number, filters: any = {}, receiptDate
   else unvilableCars = [];
 
   const orders = unvilableCars.map(order => order.car_id);
-
-  return await carsMongo.find({ _id: { $nin: orders }, index: { $gt: lastIndex }, ...filters }, "-_id -__v").limit(5);
+  return await carsMongo
+    .find({ _id: { $nin: orders }, index: { $lt: lastIndex }, ...filters }, "-_id -__v")
+    .sort({ index: -1 })
+    .limit(4);
 }
 
 async function getOfferByIndex(index: number) {
@@ -31,7 +33,6 @@ async function getOfferByIndex(index: number) {
 
 async function saveOrder(order: order) {
   const unvilableCars = await getUnvilableCars(new Date(order.date_of_receipt), new Date(order.date_of_return));
-
   const matchCar = unvilableCars.find(car => car.car_id === order.car_id);
 
   if (matchCar) return;

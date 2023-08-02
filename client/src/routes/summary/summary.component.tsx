@@ -1,7 +1,7 @@
 import "./summary.styles.sass";
 import Button from "../../components/button/button.component";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectOrder } from "../../store/order/order.selector";
 import { selectUser } from "../../store/user/user.selectors";
 import { useEffect } from "react";
@@ -9,6 +9,7 @@ import { dateToLocalString } from "../../utils/basicFunctions";
 import { selectProductByIndex } from "../../store/products/products.selectors";
 import { useNavigate } from "react-router-dom";
 import { saveOrderFetch } from "../../utils/fetchFunctions";
+import { updateUserOrders } from "../../store/user/user.reducer";
 
 const testProduct = {
   year: 2019,
@@ -30,6 +31,7 @@ const testProduct = {
 };
 
 const Summary = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const order = useAppSelector(selectOrder);
@@ -44,6 +46,7 @@ const Summary = () => {
   const submit = async () => {
     if (product?.index) {
       const status = await saveOrderFetch(order);
+      dispatch(updateUserOrders(product.index));
       if (status === "ok") navigate("/");
     }
   };

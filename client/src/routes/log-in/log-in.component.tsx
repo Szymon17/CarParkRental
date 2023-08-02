@@ -7,8 +7,10 @@ import { selectUser } from "../../store/user/user.selectors";
 import { useNavigate } from "react-router-dom";
 import FormInput from "../../components/formInput/formInput.component";
 import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
+import { useTranslation } from "react-i18next";
 
 const LogIn = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
@@ -34,17 +36,16 @@ const LogIn = () => {
   return (
     <div className="log-in">
       <div className="log-in__container">
-        <SingInPanel action={logInUser} title="Zaloguj się" linkText="Zarejstruj się" link="/register">
+        <SingInPanel action={logInUser} title={t("log-in")} linkText={t("register")} link="/register">
           <>
             <FormInput label="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
-            <FormInput label="Hasło" type="password" value={password} onChange={e => setPassword(e.target.value)} />
+            <FormInput label={t("password")} type="password" value={password} onChange={e => setPassword(e.target.value)} />
           </>
         </SingInPanel>
       </div>
       <footer className="log-in__footer">
-        <p className="log-in__footer__text">Konto testowe</p>
         <p className="log-in__footer__text">Email: Test@gmaill.com</p>
-        <p className="log-in__footer__text">Hasło: 123456</p>
+        <p className="log-in__footer__text">{t("password")}: 123456</p>
       </footer>
     </div>
   );

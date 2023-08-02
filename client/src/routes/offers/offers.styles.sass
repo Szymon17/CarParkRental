@@ -25,7 +25,11 @@
 
         &.open
             display: block
-     
+    &__main
+        width: 100%
+        min-height: calc( 100vh - vars.$navHeight )
+        position: relative 
+
     &__products
         margin: 0 auto
         max-width: 1000px
@@ -68,3 +72,7 @@
 
         &-text
             font-size: 0.7em
+    
+    & .spinner, & .custom-error
+        @include mixins.absoluteCenter($height:center)
+        

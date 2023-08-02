@@ -1,13 +1,13 @@
 import "./home.styles.sass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCar, faLocationDot, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { useTranslation } from "react-i18next";
 import headerImg from "../../assets/BanerBackground.jpg";
 import calendarImg from "../../assets/calendar.png";
 import lockImg from "../../assets/lock.png";
 import moneyImg from "../../assets/money.png";
 import OrderWindow from "../../components/orderWindow/orderWindow.component";
 import FiltersSnapshot from "../../components/filtersSnapshot/filtersSnapshot.component";
-import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const { t } = useTranslation();
@@ -27,28 +27,22 @@ const Home = () => {
           <div className="home__beneffits__item">
             <img className="home__beneffits__item__icon" src={calendarImg} alt="calendarImg" />
             <div className="home__beneffits__item__descriptionContainer">
-              <h2 className="home__beneffits__item__title">Elastyczność</h2>
-              <p className="home__beneffits__item__text">
-                Oferujemy darmową wycenę oraz odstąpienie od wyporzyczenia na 72h przed twoim terminem zupełnie za darmo
-              </p>
+              <h2 className="home__beneffits__item__title">{t("dates")}</h2>
+              <p className="home__beneffits__item__text">{t("dates description")}</p>
             </div>
           </div>
           <div className="home__beneffits__item">
             <img className="home__beneffits__item__icon" src={lockImg} alt="calendarImg" />
             <div className="home__beneffits__item__descriptionContainer">
-              <h2 className="home__beneffits__item__title">Bezpieczeństwo</h2>
-              <p className="home__beneffits__item__text">
-                Samochody w naszych ofertach posiadają spersonalizowane ubezpieczenie abyś czuł się bezpiecznie w razie awarii lub szkody
-              </p>
+              <h2 className="home__beneffits__item__title">{t("safety")}</h2>
+              <p className="home__beneffits__item__text">{t("safety description")}</p>
             </div>
           </div>
           <div className="home__beneffits__item">
             <img className="home__beneffits__item__icon" src={moneyImg} alt="calendarImg" />
             <div className="home__beneffits__item__descriptionContainer">
-              <h2 className="home__beneffits__item__title">Proste płatności</h2>
-              <p className="home__beneffits__item__text">
-                Składanie zamówień jest szybkie i proste a wszystkie kosztu wynajmu podajemy w podsumowaniu
-              </p>
+              <h2 className="home__beneffits__item__title">{t("payments")}</h2>
+              <p className="home__beneffits__item__text">{t("payments description")}</p>
             </div>
           </div>
         </div>

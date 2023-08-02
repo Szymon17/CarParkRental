@@ -6,8 +6,10 @@ import FormInput from "../../components/formInput/formInput.component";
 import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
 import { userData } from "../../store/user/user.types";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [invalidSend, setSendState] = useState(false);
   const [email, setEmail] = useState("");
@@ -51,7 +53,7 @@ const Register = () => {
   return (
     <div className="register">
       <div className="register__container">
-        <SingInPanel title="Zarejstruj się" linkText="Zaloguj się" link="/log-in" action={registerUser}>
+        <SingInPanel title={t("register")} linkText={t("log-in")} link="/log-in" action={registerUser}>
           <>
             <FormInput
               label="Email"
@@ -61,29 +63,35 @@ const Register = () => {
               onChange={e => changeEvent(e, setEmail)}
             />
             <FormInput
-              label="Hasło"
+              label={t("password")}
               invalid={invalidSend && !validate.password(password, confirmPassword)}
               type="password"
               value={password}
               onChange={e => changeEvent(e, setPassword)}
             />
             <FormInput
-              label="Powtórz hasło"
+              label={t("repeat password")}
               invalid={invalidSend && !validate.password(password, confirmPassword)}
               type="password"
               value={confirmPassword}
               onChange={e => changeEvent(e, setConfirmPassword)}
             />
-            <FormInput label="Imię" type="text" invalid={invalidSend && !validate.name(name)} value={name} onChange={e => changeEvent(e, setName)} />
             <FormInput
-              label="Nazwisko"
+              label={t("name")}
+              type="text"
+              invalid={invalidSend && !validate.name(name)}
+              value={name}
+              onChange={e => changeEvent(e, setName)}
+            />
+            <FormInput
+              label={t("surname")}
               type="text"
               invalid={invalidSend && !validate.name(surname)}
               value={surname}
               onChange={e => changeEvent(e, setSurname)}
             />
             <FormInput
-              label="nr.tel"
+              label={t("phone number")}
               type="text"
               invalid={invalidSend && !validate.phoneNumber(phoneNumber)}
               value={phoneNumber}

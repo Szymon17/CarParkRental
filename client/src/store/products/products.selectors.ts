@@ -12,4 +12,6 @@ const selectLastIndex = createSelector([selectProductsReducer], ({ products }) =
   products[products.length - 1] ? products[products.length - 1].index : 0
 );
 
-export { selectProducts, selectLastIndex, selectProductByIndex };
+const selectProductsStatus = createSelector([selectProductsReducer], ({ status }) => status);
+
+export { selectProducts, selectLastIndex, selectProductByIndex, selectProductsStatus };
