@@ -1,9 +1,9 @@
 import "./filtersSnapshot.styles.sass";
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { replacePolishLterals } from "../../utils/basicFunctions";
+import { dateToLocalString, dayAfterTomorrow, replacePolishLterals, tomorrow } from "../../utils/basicFunctions";
 
-const filterClasses = ["vehicleBrand", "location", "vehicleType"] as const;
+const filterClasses = ["brand", "location", "type"] as const;
 
 type filtersSnapshotTypes = {
   links: string[];
@@ -18,7 +18,15 @@ const FiltersSnapshot: FC<filtersSnapshotTypes> = ({ links, title, filterClass, 
       <h1 className="filtersSnapshot__title">{title}</h1>
       <ul className="filtersSnapshot__list">
         {links.map((link, index) => (
-          <Link key={index} className="filtersSnapshot__list__item" to={`offers/${filterClass}=${replacePolishLterals(link.toLowerCase())}`}>
+          <Link
+            key={index}
+            className="filtersSnapshot__list__item"
+            to={`offers?rd=${dateToLocalString(tomorrow)}&rtd=${dateToLocalString(dayAfterTomorrow)}&${
+              filterClass === "location"
+                ? "pul=" + replacePolishLterals(link) + "&rl=" + replacePolishLterals(link)
+                : filterClass + "=" + replacePolishLterals(link.toLowerCase())
+            }`}
+          >
             {link}
           </Link>
         ))}

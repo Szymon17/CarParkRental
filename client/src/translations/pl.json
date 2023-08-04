@@ -2,13 +2,15 @@
   "translation": {
     "number_of_sits": "Liczba miejsc",
     "fuel_type": "Rodzaj paliwa",
-    "gasoline": "Benzyna",
-    "electric": "Elektryczny",
     "drive_type": "Napęd",
-    "rear axle": "Tylnia oś",
-    "front axle": "Przednia oś",
+    "Gasoline": "Benzyna",
+    "Electric": "Elektryczny",
+    "Rear axle": "Tylnia oś",
+    "Front axle": "Przednia oś",
+    "Manual": "Manualna",
+    "Automatic": "Automatyczna",
     "check": "Sprawdź",
-    "day": "Dzień",
+    "day": "Doba",
     "order": "Zamów",
     "details": "Szczegóły",
     "brand": "Marka",
@@ -63,10 +65,16 @@
     "receipt date earlier than return date": "Data odbioru nie może być wyższa niż data zwrotu",
     "already logged-in": "Jesteś już zalogowany",
     "check your login data": "Sprawdź swoje dane logowania",
+    "succesful login": "Logowanie udane",
     "invalid email": "Twój email jest niepoprawny",
     "invalid password": "Twoje hasło jest niepoprawne",
     "invalid name": "Podane imię jest niepoprawne",
     "invalid surname": "Podane nazwisko jest niepoprawne",
-    "invalid phone number": "Twój numer telefonu jest niepoprawny"
+    "invalid phone number": "Twój numer telefonu jest niepoprawny",
+    "profile": "Mój profil",
+    "logout": "Wyloguj się",
+    "history of orders": "Historia zamówień",
+    "delete account": "Usuń konto",
+    "save": "Zapisz"
   }
 }

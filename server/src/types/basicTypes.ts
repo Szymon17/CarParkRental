@@ -1,12 +1,18 @@
 import { Request } from "express";
+import { ObjectId } from "mongoose";
+
+type userOrder = {
+  index: number;
+  id: string;
+};
 
 type userSnapshot = {
   email: string;
   name: string;
   surname: string;
   phoneNumber: string;
-  orders: string[];
-  _id?: string;
+  orders: userOrder[];
+  _id?: ObjectId;
 };
 
 type logInWithToken = {
@@ -37,15 +43,22 @@ type update = { newEmail?: string; name?: string; surname?: string; phoneNumber?
 
 type RequestWithQuery<Q> = Request<unknown, unknown, unknown, Q>;
 
-type queryBasicData = {
+type aditionalfilters = {
+  number_of_seats?: string;
+  fuel_type?: string;
+  drive_type?: string;
+  brand?: string;
+  car_type?: string;
+};
+
+type queryBasicData = aditionalfilters & {
   rd?: string;
   rtd?: string;
   pul?: string;
   rl?: string;
-  number_of_seats?: string;
-  fuel_type?: string;
-  drive_type?: string;
   index?: string;
+  price_from?: string;
+  price_to?: string;
 };
 
 type orderData = {
@@ -61,4 +74,33 @@ type order = orderData & {
   cancel: boolean;
 };
 
-export { CustomRequest, userData, user, logInWithToken, userSnapshot, UserRequest, update, RequestWithQuery, queryBasicData, orderData, order };
+type dataToGetoffers = {
+  receiptDate: Date;
+  returnDate: Date;
+  receiptLocation: string;
+  price_from: number;
+  price_to: number;
+};
+
+type fetchType = {
+  status: string;
+  message: string;
+  payload?: any;
+};
+
+export {
+  CustomRequest,
+  userData,
+  user,
+  logInWithToken,
+  userSnapshot,
+  UserRequest,
+  update,
+  RequestWithQuery,
+  queryBasicData,
+  orderData,
+  order,
+  dataToGetoffers,
+  aditionalfilters,
+  fetchType,
+};

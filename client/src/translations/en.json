@@ -62,11 +62,17 @@
     "no location alert": "You have not selected a location",
     "receipt date earlier than return date": "The receipt date cannot be higher than the return date",
     "already logged-in": "You are already logged in",
+    "succesful login": "Login syccesfuly",
     "check your login data": "Check your email or password",
     "invalid email": "Your email is invalid",
     "invalid password": "Your password is invalid",
     "invalid name": "Invalid name",
     "invalid surname": "Invalid surname",
-    "invalid phone number": "Your phone nuber is invalid"
+    "invalid phone number": "Your phone nuber is invalid",
+    "profile": "My profile",
+    "logout": "Logout",
+    "history of orders": "History of orders",
+    "delete account": "Delete account",
+    "save": "Save"
   }
 }

@@ -1,9 +1,14 @@
+import { orderData } from "../order/order.types";
+import { product } from "../products/products.types";
+
+type userOrder = { orderData: orderData; car: product };
+
 type userSnapshot = {
   email: string;
   name: string;
   surname: string;
   phoneNumber: string;
-  orders: number[];
+  orders: userOrder[];
 };
 
 type userUpdate = {
@@ -37,18 +42,13 @@ interface userCall extends userPayload {
   status: string;
 }
 
-type fetchType<T> = {
-  status: string;
-  message: string;
-  payload?: T;
-};
-
-type initialStateTypes = {
+type userInitialStateTypes = {
   user: userSnapshot | null;
   expireTime: string | null;
   nextUpdateTime: number;
-  status: "idle" | "loading" | "failed";
+  userStatus: "idle" | "loading" | "failed";
+  ordersStatus: "idle" | "loading" | "failed";
   userDropdown: boolean;
 };
 
-export { userSnapshot, userCall, initialStateTypes, userPayload, userData, userUpdate, userPutResponse, fetchType };
+export { userSnapshot, userCall, userInitialStateTypes, userPayload, userData, userUpdate, userPutResponse, userOrder };

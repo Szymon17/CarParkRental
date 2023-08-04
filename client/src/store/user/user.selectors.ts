@@ -9,6 +9,10 @@ export const selectNextUpdateTime = createSelector([selectUserState], ({ nextUpd
 
 export const selectUserDropdownState = createSelector([selectUserState], ({ userDropdown }) => userDropdown);
 
+export const selectUserOrders = createSelector([selectUserState], ({ user }) => user?.orders);
+
+export const selectLastOrderIndex = createSelector([selectUserState], ({ user }) => user?.orders.length || 0);
+
 export const selectExpireTime = createSelector([selectUserState], ({ expireTime }) => {
   if (expireTime) return new Date(expireTime).getTime();
   else return new Date().getTime();

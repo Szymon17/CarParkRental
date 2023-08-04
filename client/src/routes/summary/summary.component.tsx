@@ -9,7 +9,6 @@ import { dateToLocalString } from "../../utils/basicFunctions";
 import { selectProductByIndex } from "../../store/products/products.selectors";
 import { useNavigate } from "react-router-dom";
 import { saveOrderFetch } from "../../utils/fetchFunctions";
-import { updateUserOrders } from "../../store/user/user.reducer";
 
 const testProduct = {
   year: 2019,
@@ -46,7 +45,7 @@ const Summary = () => {
   const submit = async () => {
     if (product?.index) {
       const status = await saveOrderFetch(order);
-      dispatch(updateUserOrders(product.index));
+
       if (status === "ok") navigate("/");
     }
   };

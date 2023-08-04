@@ -7,6 +7,7 @@ const initialState: orderInitialState = {
   date_of_return: tomorrow,
   place_of_receipt: "Warszawa",
   place_of_return: "Warszawa",
+  canclel: false,
   productIndex: null,
 };
 

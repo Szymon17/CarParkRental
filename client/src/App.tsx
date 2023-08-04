@@ -14,6 +14,8 @@ import Account from "./routes/account/account.component";
 import Offers from "./routes/offers/offers.component";
 import Product from "./routes/product/product.component";
 import Summary from "./routes/summary/summary.component";
+import Profile from "./components/profile/profile.component";
+import OrderHistory from "./components/order-history/order-history.component";
 
 function App() {
   const user = useAppSelector(selectUser);
@@ -38,8 +40,11 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/log-in" element={<LogIn />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/offers/*" element={<Offers />} />
+          <Route path="/account" element={<Account />}>
+            <Route index element={<Profile />} />
+            <Route path="/account/history" element={<OrderHistory />} />
+          </Route>
+          <Route path="/offers" element={<Offers />} />
           <Route path="/product" element={<Product />} />
           <Route path="/summary" element={<Summary />} />
         </Route>

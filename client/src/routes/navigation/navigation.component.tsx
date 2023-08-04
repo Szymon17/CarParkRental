@@ -7,7 +7,7 @@ import { Link, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectUser, selectUserDropdownState } from "../../store/user/user.selectors";
 import { changeUserDropdown } from "../../store/user/user.reducer";
-import { dateToLocalString, today, tomorrow } from "../../utils/basicFunctions";
+import { dateToLocalString, dayAfterTomorrow, tomorrow } from "../../utils/basicFunctions";
 import { saveOrderData } from "../../store/order/order.reducer";
 import { useTranslation } from "react-i18next";
 import PLflag from "../../assets/pl-flag.png";
@@ -27,7 +27,7 @@ const Navigation = () => {
   }, [language]);
 
   const saveData = () =>
-    dispatch(saveOrderData({ place_of_receipt: "Wrocław", place_of_return: "Wrocław", date_of_receipt: today, date_of_return: tomorrow }));
+    dispatch(saveOrderData({ place_of_receipt: "Wrocław", place_of_return: "Wrocław", date_of_receipt: tomorrow, date_of_return: dayAfterTomorrow }));
 
   return (
     <>
@@ -63,7 +63,10 @@ const Navigation = () => {
           </li>
           <li className="navigation__link">
             <div className="navigation__link-container">
-              <Link onClick={saveData} to={`offers?rd=${dateToLocalString(today)}&rtd${dateToLocalString(tomorrow)}`}>
+              <Link
+                onClick={saveData}
+                to={`offers?rd=${dateToLocalString(tomorrow)}&rtd=${dateToLocalString(dayAfterTomorrow)}&pul=Warszawa&rl=Warszawa`}
+              >
                 {t("offers")}
               </Link>
               <div className="navigation__link-underline"></div>

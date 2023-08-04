@@ -3,10 +3,12 @@ type orderData = {
   date_of_return: Date;
   place_of_receipt: String;
   place_of_return: String;
+  canclel?: boolean;
 };
 
 type orderInitialState = orderData & {
   productIndex: number | null;
+  canclel: boolean;
 };
 
 export { orderData, orderInitialState };

@@ -1,8 +1,14 @@
 import { orderData, orderInitialState } from "../store/order/order.types";
 import { product } from "../store/products/products.types";
-import { fetchType, userCall, userData, userPayload, userPutResponse, userUpdate } from "../store/user/user.types";
+import { userCall, userData, userOrder, userPayload, userPutResponse, userUpdate } from "../store/user/user.types";
 
 const serverUrl = "http://localhost:8000";
+
+type fetchType<T> = {
+  status: string;
+  message: string;
+  payload?: T;
+};
 
 const registerUserFetch = async (user: userData): Promise<fetchType<undefined> | void> => {
   try {
@@ -151,6 +157,17 @@ const saveOrderFetch = async (data: orderInitialState) => {
   }
 };
 
+const getUserOrders = async (lastOrderIndex: number) => {
+  try {
+    const res = await fetch(`${serverUrl}/offers/user_orders?index=${lastOrderIndex}`, { credentials: "include" });
+    const status: fetchType<userOrder[]> = await res.json();
+
+    if (status.status === "ok") return status.payload;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export {
   registerUserFetch,
   getTokenByEmailAndPassword,
@@ -161,4 +178,5 @@ export {
   getProductByIndexFetch,
   getLocationsFetch,
   saveOrderFetch,
+  getUserOrders,
 };

@@ -1,7 +1,7 @@
 import "./orderWindow.styles.sass";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dateToLocalString, maxDaysTimeDifferenceIsValid, today, tomorrow } from "../../utils/basicFunctions";
+import { dateToLocalString, dayAfterTomorrow, maxDaysTimeDifferenceIsValid, tomorrow } from "../../utils/basicFunctions";
 import { useAppDispatch } from "../../store/hooks";
 import { saveOrderData } from "../../store/order/order.reducer";
 import { useTranslation } from "react-i18next";
@@ -16,15 +16,15 @@ const OrderWindow = () => {
   const dispatch = useAppDispatch();
   const [place_of_receipt, set_place_of_receipt] = useState("Warszawa");
   const [place_of_return, set_place_of_return] = useState("Warszawa");
-  const [date_of_receipt, set_date_of_receipt] = useState(today);
-  const [date_of_return, set_date_of_return] = useState(tomorrow);
+  const [date_of_receipt, set_date_of_receipt] = useState(tomorrow);
+  const [date_of_return, set_date_of_return] = useState(dayAfterTomorrow);
 
   const inputsHandler = (value: Date | string, handler: Function) => {
     handler(value);
   };
 
   const search = () => {
-    if (date_of_receipt < today) toast.error(t("back date alert"));
+    if (date_of_receipt < tomorrow) toast.error(t("back date alert"));
     else if (date_of_receipt > date_of_return) toast.error(t("high return alert date"));
     else if (date_of_receipt.toDateString() === date_of_return.toDateString()) toast.error(t("same date alert"));
     else if (!place_of_receipt || !place_of_return) toast.error(t("no location alert"));

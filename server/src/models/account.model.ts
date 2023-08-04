@@ -14,7 +14,7 @@ async function findUserWithEmailAndPassword(email: string, password: string) {
         name: user.name,
         surname: user.surname,
         phoneNumber: user.phoneNumber,
-        orders: user.orders.map(order => order.carIndex),
+        orders: [],
       };
   }
 }

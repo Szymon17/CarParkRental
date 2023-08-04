@@ -1,0 +1,12 @@
+@use "../../sass/mixins" as mixins
+
+.profile
+    margin-top: 30px
+    text-align: right
+            
+    &__inputs
+        @include mixins.flexDisplay($primarySetting: space-around, $secondarySetting: center , $direction: column)
+        min-height: 400px
+
+        &  .formInput__input
+            height: 45px

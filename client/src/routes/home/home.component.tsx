@@ -55,7 +55,7 @@ const Home = () => {
           <FiltersSnapshot
             links={["Chevrolet", "Opel", "Renault", "Toyota", "Ford", "Dodge"]}
             title={t("often checked brands")}
-            filterClass="vehicleBrand"
+            filterClass="brand"
           />
         </div>
       </div>
@@ -80,7 +80,7 @@ const Home = () => {
           <FiltersSnapshot
             links={["Sport", "SUV", "Offroad", "Hatchback", "Kombi", "Sedan"]}
             title={t("often checked car types")}
-            filterClass="vehicleType"
+            filterClass="type"
             horizontal={true}
           />
         </div>

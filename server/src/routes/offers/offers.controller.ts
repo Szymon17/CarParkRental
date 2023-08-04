@@ -1,7 +1,8 @@
 import { Response } from "express";
-import { getAvilableCars, getOfferByIndex, saveOrder } from "../../models/offers.model.js";
-import { CustomRequest, RequestWithQuery, UserRequest, orderData, queryBasicData } from "../../types/basicTypes.js";
+import { getAvilableCars, getOfferByIndex, getOffersById, getOrders, saveOrder } from "../../models/offers.model.js";
+import { CustomRequest, RequestWithQuery, UserRequest, aditionalfilters, orderData, queryBasicData } from "../../types/basicTypes.js";
 import { updateUserOrders } from "../../models/account.model.js";
+import { ObjectId } from "mongoose";
 
 const validateOrderData = (userDataOb: orderData): boolean => {
   const { date_of_receipt, date_of_return, place_of_receipt, place_of_return } = userDataOb;
@@ -10,23 +11,51 @@ const validateOrderData = (userDataOb: orderData): boolean => {
   else return false;
 };
 
+const validateGetOffersData = (reciptDate: Date, returnDate: Date): boolean => {
+  return (
+    reciptDate !== null &&
+    !isNaN(reciptDate.getDate()) &&
+    returnDate !== null &&
+    !isNaN(returnDate.getDate()) &&
+    reciptDate < returnDate &&
+    reciptDate > new Date()
+  );
+};
+
+const createFilters = (query: queryBasicData): aditionalfilters => {
+  const filters: aditionalfilters = {};
+
+  if (query.drive_type) filters.drive_type = query.drive_type;
+  if (query.fuel_type) filters.fuel_type = query.fuel_type;
+  if (query.fuel_type) filters.fuel_type = query.fuel_type;
+  if (query.number_of_seats) filters.number_of_seats = query.number_of_seats;
+  if (query.brand) filters.brand = query.brand;
+  if (query.car_type) filters.car_type = query.car_type;
+
+  return filters;
+};
+
 async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Response) {
   const tenDaysInMs = 864000000;
   const lastIndex = req.query.index ? Number(req.query.index) : Infinity;
 
-  const reciptDate = req.query.rd ? new Date(req.query.rd) : null;
+  const receiptDate = req.query.rd ? new Date(req.query.rd) : null;
   const returnDate = req.query.rtd ? new Date(req.query.rtd) : null;
 
-  const filters = { ...req.query };
+  const receiptLocation = req.query.pul;
+  const returnLocation = req.query.rl;
 
-  delete filters.pul, delete filters.rd, delete filters.rl, delete filters.rtd, delete filters.index;
+  const price_from = Number(req.query.price_from) || 0;
+  const price_to = Number(req.query.price_to) || 500;
 
-  if (reciptDate !== null && !isNaN(reciptDate.getDate()) && returnDate !== null && !isNaN(returnDate.getDate()) && reciptDate < returnDate) {
-    const timeDiff = returnDate.getTime() - reciptDate.getTime();
+  const filters = createFilters(req.query);
+
+  if (validateGetOffersData(receiptDate, returnDate) && receiptLocation !== null && returnLocation !== null) {
+    const timeDiff = returnDate.getTime() - receiptDate.getTime();
 
     if (timeDiff > tenDaysInMs) return res.status(404).json({ status: "error", message: "your rent time is too long" });
 
-    const avilableCars = await getAvilableCars(lastIndex, filters, reciptDate, returnDate);
+    const avilableCars = await getAvilableCars(lastIndex, filters, { returnDate, receiptLocation, receiptDate, price_from, price_to });
 
     if (avilableCars.length === 0) return res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });
     else return res.status(200).json({ status: "ok", message: "Send avilable cars", payload: avilableCars });
@@ -34,6 +63,7 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 }
 
 async function httpPostOrder(req: UserRequest & CustomRequest<{ userData: orderData; productIndex: number }>, res: Response) {
+  console.log(req.user && req.body.productIndex && validateOrderData(req.body.userData));
   if (req.user && req.body.productIndex && validateOrderData(req.body.userData)) {
     const product = await getOfferByIndex(req.body.productIndex);
 
@@ -55,27 +85,50 @@ async function httpPostOrder(req: UserRequest & CustomRequest<{ userData: orderD
   } else res.status(404).json({ status: "error", message: "bad data request" });
 }
 
-export { httpGetOffers, httpPostOrder };
+async function httpGetProductByIndex(req: RequestWithQuery<{ index: number }>, res: Response) {
+  const index = Number(req.query.index) || -1;
 
-// const car = {
-//   year: 2019,
-//   number_of_seats: 5,
-//   drive_type: "rear axle",
-//   fuel_type: "gasoline",
-//   daily_price: 200,
-//   power: 400,
-//   brand: "Ford",
-//   engine_capacity: "5.0l",
-//   color: "blue",
-//   transmission: "manual",
-//   fuel_usage_city: "15l",
-//   fuel_usage_outcity: "13l",
-// };
+  if (index !== -1) {
+    const product = await getOfferByIndex(index);
+    if (product) return res.status(200).json({ status: "ok", message: "Responsed product", payload: product });
+    else return res.status(404).json({ status: "error", message: "Your product index is invalid" });
+  } else return res.status(404).json({ status: "error", message: "There is nothing to return" });
+}
 
-// const createorder = {
-//   car_id: "64bd6876c26883e911251521",
-//   user_id: "64bd363b722d8b96abd5dad1",
-//   date_of_receipt: new Date(2023, 6, 25),
-//   date_of_return: new Date(2023, 6, 27),
-//   cancel: false
-// };
+async function httpGetUserOrderedProducts(req: UserRequest & RequestWithQuery<{ idnex: string }>, res: Response) {
+  const user = req.user;
+  const index = req.query.index ? Number(req.query.index) : -1;
+
+  if (index !== -1 && user) {
+    const ordersId: string[] = [];
+
+    for (let i = 0; i < 3; i++) {
+      const order = user.orders[user.orders.length - 1 - index - i];
+      if (order) ordersId.push(order.id);
+    }
+
+    const orders = await getOrders(ordersId);
+
+    const cars_id = orders.map(order => order.car_id);
+    const cars = await getOffersById(cars_id);
+
+    const payload = orders.map(orderData => {
+      const car = JSON.parse(JSON.stringify(cars.find(car => car.id === orderData.car_id)));
+      const data = JSON.parse(JSON.stringify(orderData));
+
+      delete car._id, delete data.user_id, delete data.car_id;
+
+      if (car)
+        return {
+          car,
+          data,
+        };
+      else return { data, car: "This car is not avilable" };
+    });
+
+    if (orders) return res.status(200).json({ status: "ok", message: "Responsed user orders", payload });
+    else return res.status(404).json({ status: "error", message: "Something is wrong with orders" });
+  } else return res.status(404).json({ status: "error", message: "There is no user or lastIndex is invalid" });
+}
+
+export { httpGetOffers, httpPostOrder, httpGetProductByIndex, httpGetUserOrderedProducts };

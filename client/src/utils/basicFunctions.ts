@@ -3,6 +3,7 @@ const polishReplacement = ["a", "c", "e", "l", "n", "o", "s", "z", "z"];
 
 export const today = new Date();
 export const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+export const dayAfterTomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2);
 
 export const replacePolishLterals = (text: string): string => {
   for (let i = 0; i < polishLetters.length; i++) {

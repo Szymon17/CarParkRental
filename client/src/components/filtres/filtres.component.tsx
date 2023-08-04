@@ -1,7 +1,7 @@
 import "./filtres.styles.sass";
 import { useState, ChangeEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { dateToLocalString, tomorrow } from "../../utils/basicFunctions";
+import { dateToLocalString, dayAfterTomorrow, tomorrow } from "../../utils/basicFunctions";
 import { useAppDispatch } from "../../store/hooks";
 import { getProducts } from "../../store/products/products.actions";
 import { saveOrderData } from "../../store/order/order.reducer";
@@ -15,14 +15,19 @@ const Filtres = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const maxValueForInput = 500;
+  const maxAmountDifference = 50;
+
   const [searchParams] = useSearchParams();
   const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(1000);
+  const [maxValue, setMaxValue] = useState(maxValueForInput);
 
-  const [place_of_receipt, set_place_of_receipt] = useState(searchParams.get("pul") || "Wybierz lokację");
-  const [place_of_return, set_place_of_return] = useState(searchParams.get("rl") || "Wybierz lokację");
-  const [date_of_receipt, set_date_of_receipt] = useState(searchParams.get("rd") ? new Date(searchParams.get("rd") as string) : new Date());
-  const [date_of_return, set_date_of_return] = useState(searchParams.get("rtd") ? new Date(searchParams.get("rtd") as string) : new Date(tomorrow));
+  const [place_of_receipt, set_place_of_receipt] = useState(searchParams.get("pul") || "Warszawa");
+  const [place_of_return, set_place_of_return] = useState(searchParams.get("rl") || "Warszawa");
+  const [date_of_receipt, set_date_of_receipt] = useState(searchParams.get("rd") ? new Date(searchParams.get("rd") as string) : new Date(tomorrow));
+  const [date_of_return, set_date_of_return] = useState(
+    searchParams.get("rtd") ? new Date(searchParams.get("rtd") as string) : new Date(dayAfterTomorrow)
+  );
 
   const [numberOfSits, setNumberOfSits] = useState(searchParams.get("number_of_seats") || null);
   const [fuelType, setFuelType] = useState(searchParams.get("fuel_type") || null);
@@ -36,11 +41,13 @@ const Filtres = () => {
     { name: "number_of_seats", value: numberOfSits },
     { name: "fuel_type", value: fuelType },
     { name: "drive_type", value: driveType },
+    { name: "price_from", value: minValue.toString() },
+    { name: "price_to", value: maxValue.toString() },
   ];
 
   const progressBarStyles = {
-    left: `${(minValue / 1000) * 100}%`,
-    right: `${100 - (maxValue / 1000) * 100}%`,
+    left: `${(minValue / maxValueForInput) * 100}%`,
+    right: `${100 - (maxValue / maxValueForInput) * 100}%`,
   };
 
   const priceInputsHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,10 +55,10 @@ const Filtres = () => {
     const value = Number(element.value);
 
     if (element.classList.contains("minValue")) {
-      if (value + 100 > maxValue) setMinValue(maxValue - 100);
+      if (value + maxAmountDifference > maxValue) setMinValue(maxValue - maxAmountDifference);
       else setMinValue(value);
     } else if (element.classList.contains("maxValue")) {
-      if (value - 100 < minValue) setMaxValue(minValue + 100);
+      if (value - maxAmountDifference < minValue) setMaxValue(minValue + maxAmountDifference);
       else setMaxValue(Number(e.target.value));
     }
   };
@@ -86,7 +93,10 @@ const Filtres = () => {
     <aside className="filtres">
       <section className="filtres__header">
         <h1 className="filtres__header-title">{t("filters")}</h1>
-        <Link to={"/offers"} className="filtres__header-clearFiltres">
+        <Link
+          to={`/offers?rd=${dateToLocalString(date_of_receipt)}&rtd=${dateToLocalString(date_of_return)}`}
+          className="filtres__header-clearFiltres"
+        >
           {t("clear filters")}
         </Link>
       </section>
@@ -96,8 +106,22 @@ const Filtres = () => {
           <span className="filtres__price__box-minValue">{minValue}ZŁ</span>
           <span className="filtres__price__box-maxValue">{maxValue}ZŁ</span>
           <div style={progressBarStyles} className="filtres__price__box-progress"></div>
-          <input type="range" min={0} value={minValue} max={1000} onChange={priceInputsHandler} className="filtres__price__box-input minValue" />
-          <input type="range" min={0} value={maxValue} max={1000} onChange={priceInputsHandler} className="filtres__price__box-input maxValue" />
+          <input
+            type="range"
+            min={0}
+            value={minValue}
+            max={maxValueForInput}
+            onChange={priceInputsHandler}
+            className="filtres__price__box-input minValue"
+          />
+          <input
+            type="range"
+            min={0}
+            value={maxValue}
+            max={maxValueForInput}
+            onChange={priceInputsHandler}
+            className="filtres__price__box-input maxValue"
+          />
         </div>
       </section>
       <section className="filtres__data filtres__section">
@@ -141,16 +165,16 @@ const Filtres = () => {
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
-              <input value={"petrol"} checked={fuelType === "petrol"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
-              <span>{t("gasoline")}</span>
+              <input value={"Gasoline"} checked={fuelType === "Gasoline"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
+              <span>{t("Gasoline")}</span>
             </li>
             <li className="filtres__section__list__item">
-              <input value={"diesel"} checked={fuelType === "diesel"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
+              <input value={"Diesel"} checked={fuelType === "Diesel"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
               <span>Diesel</span>
             </li>
             <li className="filtres__section__list__item">
-              <input value={"electric"} checked={fuelType === "electric"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
-              <span>{t("electric")}</span>
+              <input value={"Electric"} checked={fuelType === "Electric"} onChange={e => checkboxHandler(e, setFuelType)} type="checkbox" />
+              <span>{t("Electric")}</span>
             </li>
           </ul>
         </div>
@@ -164,12 +188,12 @@ const Filtres = () => {
               <span>4x4</span>
             </li>
             <li className="filtres__section__list__item">
-              <input value={"rear axle"} checked={driveType === "rear axle"} onChange={e => checkboxHandler(e, setDriveType)} type="checkbox" />
-              <span>{t("rear axle")}</span>
+              <input value={"Rear axle"} checked={driveType === "Rear axle"} onChange={e => checkboxHandler(e, setDriveType)} type="checkbox" />
+              <span>{t("Rear axle")}</span>
             </li>
             <li className="filtres__section__list__item">
-              <input value={"front axle"} checked={driveType === "front axle"} onChange={e => checkboxHandler(e, setDriveType)} type="checkbox" />
-              <span>{t("front axle")}</span>
+              <input value={"Front axle"} checked={driveType === "Front axle"} onChange={e => checkboxHandler(e, setDriveType)} type="checkbox" />
+              <span>{t("Front axle")}</span>
             </li>
           </ul>
         </div>
