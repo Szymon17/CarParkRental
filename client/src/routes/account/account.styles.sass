@@ -10,9 +10,15 @@ $padding: 10px
     height: calc( 100vh - vars.$navHeight )
 
     &__container
+        width: 80%
+        margin: 0 auto
         background-color: vars.$container-color
         height: 100%
         overflow: hidden
+
+        @media ( max-width: bp.$large )
+            width: 100%
+            
 
     &__profile
         margin: 20px auto 0 auto

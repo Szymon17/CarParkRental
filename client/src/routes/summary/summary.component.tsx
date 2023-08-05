@@ -1,36 +1,16 @@
 import "./summary.styles.sass";
 import Button from "../../components/button/button.component";
 import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../store/hooks";
 import { selectOrder } from "../../store/order/order.selector";
 import { selectUser } from "../../store/user/user.selectors";
 import { useEffect } from "react";
-import { dateToLocalString } from "../../utils/basicFunctions";
+import { calculatePrice, calculateRentDays, dateToLocalString } from "../../utils/basicFunctions";
 import { selectProductByIndex } from "../../store/products/products.selectors";
 import { useNavigate } from "react-router-dom";
 import { saveOrderFetch } from "../../utils/fetchFunctions";
 
-const testProduct = {
-  year: 2019,
-  number_of_seats: 5,
-  drive_type: "rear axle",
-  fuel_type: "gasoline",
-  daily_price: 200,
-  power: 400,
-  brand: "Ford",
-  model: "Mustang",
-  engine_capacity: "5.0l",
-  color: "blue",
-  transmission: "manual",
-  fuel_usage_city: "15l",
-  fuel_usage_outcity: "13l",
-  img_url: "../assets/mustang.png",
-  index: 2,
-  addons: ["Elektryczne szyby", "Elektryczne szyby", "Elektryczne szyby", "Elektryczne szyby", "Elektryczne szyby", "Elektryczne szyby"],
-};
-
 const Summary = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const order = useAppSelector(selectOrder);
@@ -48,18 +28,6 @@ const Summary = () => {
 
       if (status === "ok") navigate("/");
     }
-  };
-
-  const calculateRentDays = () => {
-    const timeDifference = new Date(order.date_of_return).getTime() - new Date(order.date_of_receipt).getTime();
-    return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
-  };
-
-  const calculatePrice = (productPrice: number | undefined) => {
-    if (!productPrice) return NaN;
-
-    const rentDays = calculateRentDays();
-    return productPrice * rentDays;
   };
 
   return (
@@ -118,11 +86,17 @@ const Summary = () => {
       <div className="summary__right">
         <div className="summary__right__informations">
           <h2 className="summary__right__informations__title">{t("value of purchase")}</h2>
-          <span className="summary__right__informations__ammount">{`${calculatePrice(testProduct.daily_price)}ZŁ`}</span>
+          <span className="summary__right__informations__ammount">{`${calculatePrice(
+            product?.daily_price,
+            order.date_of_receipt,
+            order.date_of_return
+          )}ZŁ`}</span>
           <h2 className="summary__right__informations__title">{t("additional costs")}</h2>
           <span className="summary__right__informations__ammount">0ZŁ</span>
           <h2 className="summary__right__informations__title">{t("rental days")}</h2>
-          <span className="summary__right__informations__ammount">{`${calculateRentDays()} ${t("days")}`}</span>
+          <span className="summary__right__informations__ammount">{`${calculateRentDays(order.date_of_receipt, order.date_of_return)} ${t(
+            "days"
+          )}`}</span>
         </div>
         <Button onClick={submit}>{t("order")}</Button>
       </div>

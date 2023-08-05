@@ -50,3 +50,15 @@ export const maxDaysTimeDifferenceIsValid = (receiptDateTime: number, returnDate
 
   return daysMs > timeDifference;
 };
+
+export const calculateRentDays = (date_of_receipt: string | Date, date_of_return: string | Date) => {
+  const timeDifference = new Date(date_of_return).getTime() - new Date(date_of_receipt).getTime();
+  return Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+};
+
+export const calculatePrice = (productPrice: number | undefined, date_of_receipt: string | Date, date_of_return: string | Date) => {
+  if (!productPrice) return NaN;
+
+  const rentDays = calculateRentDays(date_of_receipt, date_of_return);
+  return productPrice * rentDays;
+};

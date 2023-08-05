@@ -1,5 +1,11 @@
+@use '../../sass/break_points' as bp
+
 .order-history
-    padding: 30px 50px
+    padding: 30px
     width:  100%
     height:100%
     overflow: auto
+
+    @media ( max-width: bp.$extra-large )
+        padding: 10px
+

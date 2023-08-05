@@ -73,6 +73,10 @@
     "logout": "Logout",
     "history of orders": "History of orders",
     "delete account": "Delete account",
-    "save": "Save"
+    "save": "Save",
+    "amount": "Amount",
+    "finished": "finished",
+    "canceled": "canceled",
+    "pending": "pending"
   }
 }

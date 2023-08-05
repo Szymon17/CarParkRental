@@ -1,7 +1,7 @@
 import "./order-history.styles.sass";
 import { UIEvent } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectFetchOrdersState, selectLastOrderIndex, selectUserOrders } from "../../store/user/user.selectors";
+import { selectFetchOrdersState, selectOrdersCount, selectUserOrders } from "../../store/user/user.selectors";
 import { addUserOrders } from "../../store/user/user.actions";
 import CustomError from "../custom-error/custom-error.component";
 import { useTranslation } from "react-i18next";
@@ -11,12 +11,13 @@ const OrderHistory = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const orders = useAppSelector(selectUserOrders);
-  const ordersLastIndex = useAppSelector(selectLastOrderIndex);
+  const ordersCount = useAppSelector(selectOrdersCount);
   const shouldFetchOrders = useAppSelector(selectFetchOrdersState);
 
   const scrollHandler = (e: UIEvent<HTMLElement>) => {
     const el = e.currentTarget;
-    console.log(el.offsetTop, el.clientHeight);
+
+    if (el.scrollTop + el.offsetHeight >= el.scrollHeight - 10 && shouldFetchOrders) dispatch(addUserOrders(ordersCount));
   };
 
   return (

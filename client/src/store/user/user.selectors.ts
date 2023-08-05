@@ -13,7 +13,7 @@ export const selectUserDropdownState = createSelector([selectUserState], ({ user
 
 export const selectUserOrders = createSelector([selectUserState], ({ user }) => user?.orders);
 
-export const selectLastOrderIndex = createSelector([selectUserState], ({ user }) => user?.orders.length || 0);
+export const selectOrdersCount = createSelector([selectUserState], ({ user }) => user?.orders.length || 0);
 
 export const selectFetchOrdersState = createSelector([selectUserState], ({ shouldFetchOrders }) => shouldFetchOrders);
 

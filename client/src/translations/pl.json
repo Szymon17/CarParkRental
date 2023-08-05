@@ -75,6 +75,10 @@
     "logout": "Wyloguj się",
     "history of orders": "Historia zamówień",
     "delete account": "Usuń konto",
-    "save": "Zapisz"
+    "save": "Zapisz",
+    "amount": "Kwota",
+    "finished": "zakończono",
+    "canceled": "anulowano",
+    "pending": "oczekujące"
   }
 }

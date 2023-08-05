@@ -31,7 +31,7 @@ const Account = () => {
 
   return (
     <div className="account">
-      <div className="account__container container">
+      <div className="account__container">
         <div className="account__profile">
           <aside className="account__aside">
             <div className="account__aside__profile__title">

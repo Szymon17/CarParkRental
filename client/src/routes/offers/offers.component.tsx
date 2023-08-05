@@ -56,8 +56,8 @@ const Offers = () => {
       <main ref={productsRef} className="offers__main">
         {products.length > 0 ? (
           <div className="offers__products">
-            {products.map(product => (
-              <ProductCard product={product} />
+            {products.map((product, index) => (
+              <ProductCard key={index} product={product} />
             ))}
           </div>
         ) : productStatus === "loading" ? (

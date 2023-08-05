@@ -1,6 +1,8 @@
 @use '../../sass/mixins' as mixins
+@use '../../sass/break_points' as bp
     
 .orderHistoryItem
+    position: relative
     margin: 0 auto
     margin-bottom: 40px
     padding: 10px
@@ -10,48 +12,115 @@
     border-radius: 6px
     transition: 0.5s 0.2s height
 
+    @media ( max-width: bp.$medium )
+        padding: 0
+        height: 330px
+        
+
     &__header
         @include mixins.flexDisplay($primarySetting: space-between)
         height: 150px
         width: 100%
+            
+        @media ( max-width: bp.$medium )
+            flex-direction: column
+            align-items: center
+            height: 300px
 
     &__img
         padding: 15px
         height: 100%
 
+        @media ( max-width: bp.$medium )
+            width: 50%
+            height: auto
+
+        @media ( max-width: bp.$small )
+            width: 70%
+            
+
     &__description
-        flex-grow: 1
+        position: relative
         height: 100%
+        flex-grow: 1
         font-size: 1em
         text-align: center
+
+        @media ( max-width: bp.$medium )
+            position: static
 
     &__title
         font-size: 1.1em
         font-weight: 500
 
+        @media ( max-width: bp.$medium )
+            margin-bottom: 10px
+
     &__basicData
-        position: relative
         margin-top: 10px
         display: grid
         grid-template-columns: repeat(2, 1fr)
         gap: 30px 0
+
+        @media ( max-width: bp.$medium )
+            gap: 10px
         
     &__extendIcon
-        @include mixins.absoluteCenter($height: calc(100% + 10px))
+        position: absolute
+        bottom: 10px
+        left: 50%
+        transform: translateX(-50%) rotate(0deg)
         cursor: pointer
-        transform: rotate(0deg)
         transition: 0.5s all
 
     &__body
-        margin-top: 50px
+        margin-top: 40px
         padding: 0 10px
         height: 0
         opacity: 0
         transition: 0.3s all
 
+        @media (max-width: bp.$medium)
+            margin: 0
+
+    &__price
+        text-align: center
+        margin-bottom: 20px
+
+
+
+    &__statusBox 
+        position: absolute
+        bottom: 10px
+        right: 10px
+
+        @media (max-width: bp.$medium)
+            bottom: 40px
+            right: 50%
+            transform: translateX(50%)
+        
+        & > span
+            margin: 0 5px
+            font-weight: 600
+
+    &__pending
+        color: #ffa600
+
+    &__finished
+        color: #2cbe00
+
+    &__canceled
+        color: #f70000
+
+    & .productDetails
+        display: none
+
 .orderHistoryItem.extended
-    height: 400px
+    height: 450px
     transition: 0.5s height
+
+    @media ( max-width: bp.$medium )
+        height: 750px
 
     .orderHistoryItem__body
         display: block
@@ -60,6 +129,9 @@
         opacity: 1
 
     .orderHistoryItem__extendIcon
-        transform: rotate(180deg)
+        transform: translateX(-50%) rotate(180deg)
+
+    & .productDetails
+        display: block
 
     
