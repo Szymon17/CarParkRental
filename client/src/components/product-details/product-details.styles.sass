@@ -1,0 +1,29 @@
+@use '../../sass/mixins' as mixins
+@use '../../sass/break_points' as bp
+
+.productDetails
+    width: 100%
+
+    &__lists
+        @include mixins.flexDisplay($primarySetting: space-between)
+
+        @media ( max-width:  bp.$medium)
+            flex-direction: column
+            
+    &__list
+        list-style: none
+        font-weight: 550
+        width: 40%
+        display: inline-block
+        padding: 0
+
+        @media ( max-width:bp.$medium)
+            width: 100%       
+
+        &__item
+            @include mixins.flexDisplay($primarySetting: space-between)
+            margin-bottom: 10px
+
+            &__right
+                color: #0088e2
+                font-weight: 400

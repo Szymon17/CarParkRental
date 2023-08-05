@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { replaceProducts } from "../../store/products/products.reducer";
 import Button from "../../components/button/button.component";
+import ProductDetails from "../../components/product-details/product-details.component";
 
 const Product = () => {
   const navigate = useNavigate();
@@ -43,53 +44,8 @@ const Product = () => {
             </div>
           </header>
           <section className="product__details product__section">
+            <ProductDetails product={productInStorage} />
             <h2 className="product__section-title">{t("details")}</h2>
-            <div className="product__details__lists">
-              <ul className="product__details__list">
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">{t("brand")}</span>
-                  <span className="product__details__list__item__right">{productInStorage.brand}</span>
-                </li>
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">Model</span>
-                  <span className="product__details__list__item__right">{productInStorage.model}</span>
-                </li>
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">{t("year")}</span>
-                  <span className="product__details__list__item__right">{productInStorage.year}</span>
-                </li>
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">{t("capacity")}</span>
-                  <span className="product__details__list__item__right">{productInStorage.engine_capacity}</span>
-                </li>
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">{t("color")}</span>
-                  <span className="product__details__list__item__right">{t(productInStorage.color)}</span>
-                </li>
-              </ul>
-              <ul className="product__details__list">
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">{t("transmission")}</span>
-                  <span className="product__details__list__item__right">{t(productInStorage.transmission)}</span>
-                </li>
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">{t("fuel consumption city")}</span>
-                  <span className="product__details__list__item__right">{productInStorage.fuel_usage_city}</span>
-                </li>
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">{t("fuel consumption out of city")}</span>
-                  <span className="product__details__list__item__right">{productInStorage.fuel_usage_outcity}</span>
-                </li>
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">{t("drive_type")}</span>
-                  <span className="product__details__list__item__right">{t(productInStorage.drive_type)}</span>
-                </li>
-                <li className="product__details__list__item">
-                  <span className="product__details__list__item__left">{t("power")}</span>
-                  <span className="product__details__list__item__right">{productInStorage.power}hp</span>
-                </li>
-              </ul>
-            </div>
           </section>
           <section className="product__addons product__section">
             <h2 className="product__section-title">{t("addons")}</h2>

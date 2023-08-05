@@ -1,11 +1,13 @@
-import { userSnapshot, update, user, userData } from "../types/basicTypes.js";
+import { userSnapshot, update, user, userData, userOrder } from "../types/basicTypes.js";
+import { getOffersById, getOrders } from "./offers.model.js";
 import usersMongo from "./users.mongo.js";
 import bcrypt from "bcrypt";
 
 async function findUserWithEmailAndPassword(email: string, password: string) {
   const user = await usersMongo.findOne({ email: email }, "-__v -_id -createdAt");
+  const orders = await getThreeUserOrders(user.orders, 0);
 
-  if (user) {
+  if (user && orders) {
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (isPasswordValid)
@@ -14,7 +16,7 @@ async function findUserWithEmailAndPassword(email: string, password: string) {
         name: user.name,
         surname: user.surname,
         phoneNumber: user.phoneNumber,
-        orders: [],
+        orders,
       };
   }
 }
@@ -84,4 +86,32 @@ async function addUserToDB(user: userData): Promise<void | Error> {
   await saveUser(fullUser);
 }
 
-export { updateUser, deleteUser, findUser, updateUserOrders, findUserWithEmailAndPassword, addUserToDB };
+async function getThreeUserOrders(userOrders: userOrder[], index: number) {
+  const ordersId: string[] = [];
+
+  for (let i = 1; i <= 3; i++) {
+    const order = userOrders[userOrders.length - 1 - index - 1 - i];
+    if (order) ordersId.push(order.id);
+  }
+
+  const orders = await getOrders(ordersId);
+
+  const cars_id = orders.map(order => order.car_id);
+  const cars = await getOffersById(cars_id);
+
+  return orders.map(orderData => {
+    const car = JSON.parse(JSON.stringify(cars.find(car => car.id === orderData.car_id)));
+    const data = JSON.parse(JSON.stringify(orderData));
+
+    delete car._id, delete data.user_id, delete data.car_id;
+
+    if (car)
+      return {
+        car,
+        data,
+      };
+    else return { data, car: "This car is not avilable" };
+  });
+}
+
+export { updateUser, deleteUser, findUser, updateUserOrders, findUserWithEmailAndPassword, addUserToDB, getThreeUserOrders };

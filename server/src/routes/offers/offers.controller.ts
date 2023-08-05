@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { getAvilableCars, getOfferByIndex, getOffersById, getOrders, saveOrder } from "../../models/offers.model.js";
 import { CustomRequest, RequestWithQuery, UserRequest, aditionalfilters, orderData, queryBasicData } from "../../types/basicTypes.js";
-import { updateUserOrders } from "../../models/account.model.js";
+import { getThreeUserOrders, updateUserOrders } from "../../models/account.model.js";
 import { ObjectId } from "mongoose";
 
 const validateOrderData = (userDataOb: orderData): boolean => {
@@ -100,35 +100,11 @@ async function httpGetUserOrderedProducts(req: UserRequest & RequestWithQuery<{ 
   const index = req.query.index ? Number(req.query.index) : -1;
 
   if (index !== -1 && user) {
-    const ordersId: string[] = [];
+    const payload = await getThreeUserOrders(user.orders, index);
 
-    for (let i = 0; i < 3; i++) {
-      const order = user.orders[user.orders.length - 1 - index - i];
-      if (order) ordersId.push(order.id);
-    }
-
-    const orders = await getOrders(ordersId);
-
-    const cars_id = orders.map(order => order.car_id);
-    const cars = await getOffersById(cars_id);
-
-    const payload = orders.map(orderData => {
-      const car = JSON.parse(JSON.stringify(cars.find(car => car.id === orderData.car_id)));
-      const data = JSON.parse(JSON.stringify(orderData));
-
-      delete car._id, delete data.user_id, delete data.car_id;
-
-      if (car)
-        return {
-          car,
-          data,
-        };
-      else return { data, car: "This car is not avilable" };
-    });
-
-    if (orders) return res.status(200).json({ status: "ok", message: "Responsed user orders", payload });
-    else return res.status(404).json({ status: "error", message: "Something is wrong with orders" });
-  } else return res.status(404).json({ status: "error", message: "There is no user or lastIndex is invalid" });
+    if (payload.length > 0) return res.status(200).json({ status: "ok", message: "Responsed user orders", payload });
+    else return res.status(404).json({ status: "error", message: "lastIndex is poprably invalid" });
+  } else return res.status(404).json({ status: "error", message: "There is no user" });
 }
 
 export { httpGetOffers, httpPostOrder, httpGetProductByIndex, httpGetUserOrderedProducts };

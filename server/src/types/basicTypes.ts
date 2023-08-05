@@ -2,7 +2,7 @@ import { Request } from "express";
 import { ObjectId } from "mongoose";
 
 type userOrder = {
-  index: number;
+  carIndex: number;
   id: string;
 };
 
@@ -103,4 +103,5 @@ export {
   dataToGetoffers,
   aditionalfilters,
   fetchType,
+  userOrder,
 };

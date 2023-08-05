@@ -1,19 +1,20 @@
 import "./log-in.styles.sass";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectUser } from "../../store/user/user.selectors";
+import { selectUser, selectUserStatus } from "../../store/user/user.selectors";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import FormInput from "../../components/formInput/formInput.component";
-import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
 import { useTranslation } from "react-i18next";
 import { logInUser } from "../../store/user/user.actions";
+import FormInput from "../../components/formInput/formInput.component";
+import SingInPanel from "../../components/sing-inPanel/sing-inPanel.component";
 
 const LogIn = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const userState = useAppSelector(selectUserStatus);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,14 +31,15 @@ const LogIn = () => {
   }, [user, navigate]);
 
   const tryLogIn = () => {
-    dispatch(
-      logInUser({
-        email,
-        password,
-        succesHandler: () => toast.success(t("succesful login")),
-        errorHandler: () => toast.error(t("check your login data")),
-      })
-    );
+    if (userState !== "loading")
+      dispatch(
+        logInUser({
+          email,
+          password,
+          succesHandler: () => toast.success(t("succesful login")),
+          errorHandler: () => toast.error(t("check your login data")),
+        })
+      );
   };
 
   return (

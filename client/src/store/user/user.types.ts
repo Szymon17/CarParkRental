@@ -1,7 +1,7 @@
 import { orderData } from "../order/order.types";
 import { product } from "../products/products.types";
 
-type userOrder = { orderData: orderData; car: product };
+type userOrder = { data: orderData; car: product };
 
 type userSnapshot = {
   email: string;
@@ -48,6 +48,7 @@ type userInitialStateTypes = {
   nextUpdateTime: number;
   userStatus: "idle" | "loading" | "failed";
   ordersStatus: "idle" | "loading" | "failed";
+  shouldFetchOrders: boolean;
   userDropdown: boolean;
 };
 

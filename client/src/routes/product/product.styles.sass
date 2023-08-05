@@ -57,37 +57,13 @@
 
             &__price
                 font-size: 1.5em
+
     &__section
         margin-top: 100px
         padding: 0 40px    
 
         &-title
             margin-bottom: 30px    
-
-    &__details__lists
-        @include mixins.flexDisplay($primarySetting: space-between)
-
-        @media ( max-width:  bp.$medium)
-            flex-direction: column
-            
-
-    &__details__list
-        list-style: none
-        font-weight: 550
-        width: 40%
-        display: inline-block
-        padding: 0
-
-        @media ( max-width:bp.$medium)
-            width: 100%       
-
-        &__item
-            @include mixins.flexDisplay($primarySetting: space-between)
-            margin-bottom: 10px
-
-            &__right
-                color: #0088e2
-                font-weight: 400
 
     &__addons__list
         display: grid

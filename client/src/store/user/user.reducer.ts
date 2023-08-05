@@ -10,6 +10,7 @@ const initialState: userInitialStateTypes = {
   nextUpdateTime: 0,
   userStatus: "idle",
   ordersStatus: "idle",
+  shouldFetchOrders: true,
   userDropdown: false,
 };
 
@@ -45,6 +46,7 @@ const userSlice = createSlice({
 
         if (payload) {
           const { user, expire } = payload;
+
           state.expireTime = expire;
           state.user = user;
           state.userStatus = "idle";
@@ -57,8 +59,10 @@ const userSlice = createSlice({
       .addCase(addUserOrders.fulfilled, (state, action) => {
         const { payload } = action;
 
-        if (payload && state.user) {
-          state.user.orders = [...state.user.orders, ...payload];
+        if (state.user) {
+          if (payload) {
+            state.user.orders = [...state.user.orders, ...payload];
+          } else state.shouldFetchOrders = false;
         } else state.ordersStatus = "failed";
       });
   },
