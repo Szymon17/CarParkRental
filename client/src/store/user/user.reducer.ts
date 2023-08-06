@@ -1,7 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { userInitialStateTypes } from "./user.types";
-import { orderData } from "../order/order.types";
-import { product } from "../products/products.types";
+import { userInitialStateTypes, userOrder } from "./user.types";
 import { addUserOrders, logInUser } from "./user.actions";
 
 const initialState: userInitialStateTypes = {
@@ -27,12 +25,19 @@ const userSlice = createSlice({
     logOut: state => {
       state.user = null;
       state.expireTime = null;
+      state.shouldFetchOrders = true;
     },
 
     changeUserDropdown: (state, action: PayloadAction<boolean>) => {
       const { payload } = action;
 
       state.userDropdown = payload;
+    },
+
+    saveUserOrder: (state, action: PayloadAction<userOrder>) => {
+      const { payload } = action;
+
+      if (state.user) state.user.orders.unshift(payload);
     },
   },
 
@@ -68,6 +73,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logOut, updateUserState, changeUserDropdown } = userSlice.actions;
+export const { logOut, updateUserState, changeUserDropdown, saveUserOrder } = userSlice.actions;
 
 export default userSlice.reducer;

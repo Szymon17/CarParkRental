@@ -16,12 +16,19 @@ import Product from "./routes/product/product.component";
 import Summary from "./routes/summary/summary.component";
 import Profile from "./components/profile/profile.component";
 import OrderHistory from "./components/order-history/order-history.component";
+import { getLocations } from "./store/locations/locations.actions";
+import { selectLocations } from "./store/locations/locations.selector";
 
 function App() {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
+  const locations = useAppSelector(selectLocations);
   const userDropdownState = useAppSelector(selectUserDropdownState);
   const expireTime = useAppSelector(selectExpireTime);
-  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (locations.length === 0) dispatch(getLocations());
+  }, []);
 
   useEffect(() => {
     if (user && expireTime && expireTime < new Date().getTime()) {

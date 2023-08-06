@@ -1,7 +1,7 @@
 import "./summary.styles.sass";
 import Button from "../../components/button/button.component";
 import { useTranslation } from "react-i18next";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectOrder } from "../../store/order/order.selector";
 import { selectUser } from "../../store/user/user.selectors";
 import { useEffect } from "react";
@@ -9,9 +9,12 @@ import { calculatePrice, calculateRentDays, dateToLocalString } from "../../util
 import { selectProductByIndex } from "../../store/products/products.selectors";
 import { useNavigate } from "react-router-dom";
 import { saveOrderFetch } from "../../utils/fetchFunctions";
+import { saveUserOrder } from "../../store/user/user.reducer";
+import { toast } from "react-toastify";
 
 const Summary = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const order = useAppSelector(selectOrder);
   const user = useAppSelector(selectUser);
@@ -26,7 +29,11 @@ const Summary = () => {
     if (product?.index) {
       const status = await saveOrderFetch(order);
 
-      if (status === "ok") navigate("/");
+      if (status === "ok") {
+        dispatch(saveUserOrder({ car: product, data: order }));
+        toast(t("ordered"));
+        navigate("/");
+      }
     }
   };
 

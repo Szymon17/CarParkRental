@@ -77,6 +77,7 @@
     "amount": "Amount",
     "finished": "finished",
     "canceled": "canceled",
-    "pending": "pending"
+    "pending": "pending",
+    "ordered": "You ordered a car"
   }
 }

@@ -4,6 +4,7 @@ import "./button.styles.sass";
 export enum BUTTON_CLASSES {
   black = "button__black",
   green = "button__green",
+  reverse = "button__reverse",
   disable = "button__disable",
 }
 

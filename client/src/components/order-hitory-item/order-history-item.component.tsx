@@ -28,8 +28,8 @@ const OrderHistoryItem: FC<{ order: userOrder }> = ({ order }) => {
   };
 
   useEffect(() => {
-    if (today > new Date(data.date_of_receipt)) setStatus("pending");
-    if (data.canclel) setStatus("canceled");
+    if (today < new Date(data.date_of_receipt)) setStatus("pending");
+    else if (data.canclel) setStatus("canceled");
     else setStatus("finished");
   }, []);
 

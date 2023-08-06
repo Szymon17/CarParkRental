@@ -54,7 +54,16 @@ async function saveOrder(order: order) {
 }
 
 async function getOrders(ordersId: string[]) {
-  return await ordersMongo.find({ _id: { $in: ordersId } }, "-__v -_id -_user_id");
+  const orders = await ordersMongo.find({ _id: { $in: ordersId } }, "-__v -_user_id");
+
+  const sortedOrders = [];
+
+  ordersId.forEach(orderID => {
+    const item = orders.find(order => String(order._id) === orderID);
+    sortedOrders.push(item);
+  });
+
+  return sortedOrders;
 }
 
 export { getAvilableCars, getOfferByIndex, saveOrder, getOrders, getOffersById };

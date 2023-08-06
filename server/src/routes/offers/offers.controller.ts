@@ -1,8 +1,7 @@
 import { Response } from "express";
-import { getAvilableCars, getOfferByIndex, getOffersById, getOrders, saveOrder } from "../../models/offers.model.js";
+import { getAvilableCars, getOfferByIndex, saveOrder } from "../../models/offers.model.js";
 import { CustomRequest, RequestWithQuery, UserRequest, aditionalfilters, orderData, queryBasicData } from "../../types/basicTypes.js";
-import { getThreeUserOrders, updateUserOrders } from "../../models/account.model.js";
-import { ObjectId } from "mongoose";
+import { updateUserOrders } from "../../models/account.model.js";
 
 const validateOrderData = (userDataOb: orderData): boolean => {
   const { date_of_receipt, date_of_return, place_of_receipt, place_of_return } = userDataOb;
@@ -63,7 +62,6 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 }
 
 async function httpPostOrder(req: UserRequest & CustomRequest<{ userData: orderData; productIndex: number }>, res: Response) {
-  console.log(req.user && req.body.productIndex && validateOrderData(req.body.userData));
   if (req.user && req.body.productIndex && validateOrderData(req.body.userData)) {
     const product = await getOfferByIndex(req.body.productIndex);
 
@@ -95,16 +93,4 @@ async function httpGetProductByIndex(req: RequestWithQuery<{ index: number }>, r
   } else return res.status(404).json({ status: "error", message: "There is nothing to return" });
 }
 
-async function httpGetUserOrderedProducts(req: UserRequest & RequestWithQuery<{ idnex: string }>, res: Response) {
-  const user = req.user;
-  const index = req.query.index ? Number(req.query.index) : -1;
-
-  if (index !== -1 && user) {
-    const payload = await getThreeUserOrders(user.orders, index);
-
-    if (payload.length > 0) return res.status(200).json({ status: "ok", message: "Responsed user orders", payload });
-    else return res.status(404).json({ status: "error", message: "lastIndex is poprably invalid" });
-  } else return res.status(404).json({ status: "error", message: "There is no user" });
-}
-
-export { httpGetOffers, httpPostOrder, httpGetProductByIndex, httpGetUserOrderedProducts };
+export { httpGetOffers, httpPostOrder, httpGetProductByIndex };

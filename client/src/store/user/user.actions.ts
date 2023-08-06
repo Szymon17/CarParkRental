@@ -15,8 +15,8 @@ const logInUser = createAsyncThunk(
   }
 );
 
-const addUserOrders = createAsyncThunk("add-user-orders", async (lastOrderIndex: number) => {
-  const userOrders = await getUserOrders(lastOrderIndex);
+const addUserOrders = createAsyncThunk("add-user-orders", async ({ ordersCount, itemsCount }: { ordersCount: number; itemsCount: number }) => {
+  const userOrders = await getUserOrders(ordersCount, itemsCount);
 
   return userOrders;
 });

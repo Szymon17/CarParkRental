@@ -120,7 +120,7 @@ const getProductByIndexFetch = async (index: number | string): Promise<product |
 
 const getLocationsFetch = async () => {
   try {
-    const res = await fetch(`${serverUrl}/locations`);
+    const res = await fetch(`${serverUrl}/localizations`);
     const status: fetchType<string[]> = await res.json();
 
     if (status.status === "ok") return status.payload;
@@ -157,9 +157,9 @@ const saveOrderFetch = async (data: orderInitialState) => {
   }
 };
 
-const getUserOrders = async (lastOrderIndex: number) => {
+const getUserOrders = async (lastOrderIndex: number, itemsCount: number) => {
   try {
-    const res = await fetch(`${serverUrl}/offers/user_orders?index=${lastOrderIndex}`, { credentials: "include" });
+    const res = await fetch(`${serverUrl}/user_orders?index=${lastOrderIndex}&count=${itemsCount}`, { credentials: "include" });
     const status: fetchType<userOrder[]> = await res.json();
 
     if (status.status === "ok") return status.payload;

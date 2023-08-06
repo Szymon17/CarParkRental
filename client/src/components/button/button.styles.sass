@@ -8,6 +8,7 @@
     font-weight: 600
     cursor: pointer
     border-radius: 5px
+    transition: all 0.3s
 
     &__green
         background-color: #319029
@@ -16,6 +17,15 @@
     &__black
         background-color: black
         color: white
+
+    &__reverse
+        background-color: #ebebeb
+        color: black
+        font-weight: 700
+
+        &:hover
+            box-shadow: inset 2px 1px 5px 0 black
+            text-shadow: 3px 3px 5px #0000006b
 
     &__disable
         cursor: default

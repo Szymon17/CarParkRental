@@ -2,9 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getLocationsFetch } from "../../utils/fetchFunctions";
 
 const getLocations = createAsyncThunk("getLocations", async () => {
-  const locatons = await getLocationsFetch();
+  const locations = await getLocationsFetch();
 
-  return locatons;
+  return locations;
 });
 
 export { getLocations };

@@ -79,6 +79,7 @@
     "amount": "Kwota",
     "finished": "zakończono",
     "canceled": "anulowano",
-    "pending": "oczekujące"
+    "pending": "oczekujące",
+    "ordered": "Auto zostało zamówione"
   }
 }

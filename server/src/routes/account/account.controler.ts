@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import asyncHandler from "express-async-handler";
-import { CustomRequest, UserRequest, update, logInWithToken, userData } from "../../types/basicTypes.js";
-import { addUserToDB, deleteUser, findUserWithEmailAndPassword, updateUser } from "../../models/account.model.js";
+import { CustomRequest, UserRequest, update, logInWithToken, userData, RequestWithQuery } from "../../types/basicTypes.js";
+import { addUserToDB, deleteUser, findUserWithEmailAndPassword, getFourUserOrders, updateUser } from "../../models/account.model.js";
 import { generateToken } from "../../utils/generateToken.js";
 
 const updateProfile = asyncHandler(async (req: CustomRequest<update> & UserRequest, res: Response) => {
@@ -61,4 +61,16 @@ async function httpAddUser(req: CustomRequest<userData>, res: Response) {
   } else res.status(409).json({ status: "error", message: "Email already used" });
 }
 
-export { updateProfile, deleteProfile, httpLogInWithToken, logoutUser, httpAddUser };
+async function httpGetUserOrderedProducts(req: UserRequest & RequestWithQuery<{ idnex: string }>, res: Response) {
+  const user = req.user;
+  const index = req.query.index ? Number(req.query.index) : -1;
+
+  if (index !== -1 && user) {
+    const payload = await getFourUserOrders(user.orders, index);
+
+    if (payload.length > 0) return res.status(200).json({ status: "ok", message: "Responsed user orders", payload });
+    else return res.status(404).json({ status: "error", message: "lastIndex is poprably invalid" });
+  } else return res.status(404).json({ status: "error", message: "There is no user" });
+}
+
+export { updateProfile, deleteProfile, httpLogInWithToken, logoutUser, httpAddUser, httpGetUserOrderedProducts };
