@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 
 async function findUserWithEmailAndPassword(email: string, password: string) {
   const user = await usersMongo.findOne({ email: email }, "-__v -_id -createdAt");
-  const orders = await getFourUserOrders(user.orders, 0);
+  const orders = await getUserOrders(user.orders, 0);
 
   if (user && orders) {
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -86,10 +86,10 @@ async function addUserToDB(user: userData): Promise<void | Error> {
   await saveUser(fullUser);
 }
 
-async function getFourUserOrders(userOrders: userOrder[], index: number) {
+async function getUserOrders(userOrders: userOrder[], index: number, itemsCount: number = 4) {
   const ordersId: string[] = [];
 
-  for (let i = 1; i <= 4; i++) {
+  for (let i = 1; i <= itemsCount; i++) {
     const order = userOrders[userOrders.length - index - i];
     if (order) ordersId.push(order.id);
   }
@@ -114,4 +114,4 @@ async function getFourUserOrders(userOrders: userOrder[], index: number) {
   });
 }
 
-export { updateUser, deleteUser, findUser, updateUserOrders, findUserWithEmailAndPassword, addUserToDB, getFourUserOrders };
+export { updateUser, deleteUser, findUser, updateUserOrders, findUserWithEmailAndPassword, addUserToDB, getUserOrders };

@@ -1,8 +1,8 @@
 import "./offers.styles.sass";
-import { useEffect, useRef, useState } from "react";
+import { UIEvent, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { getProducts } from "../../store/products/products.actions";
-import { selectProducts, selectProductsStatus } from "../../store/products/products.selectors";
+import { getProducts, addProducts } from "../../store/products/products.actions";
+import { selectLastIndex, selectProductFetchState, selectProducts, selectProductsStatus } from "../../store/products/products.selectors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
@@ -10,24 +10,40 @@ import Filtres from "../../components/filtres/filtres.component";
 import ProductCard from "../../components/product-card/product-card.component";
 import Spinner from "../../components/spinner/spinner.component";
 import CustomError from "../../components/custom-error/custom-error.component";
+import { changeShouldFetchState } from "../../store/products/products.reducer";
+
+const regexp = /\?[\S]+/;
 
 const Offers = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const productStatus = useAppSelector(selectProductsStatus);
   const products = useAppSelector(selectProducts);
+  const lastIndex = useAppSelector(selectLastIndex);
+  const shouldFetch = useAppSelector(selectProductFetchState);
 
   const [filtersAreOpen, setFiltersState] = useState(false);
+  const [fetchDelay, setFetchDelay] = useState(false);
 
   const filtersRef = useRef<HTMLDivElement>(null);
   const productsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const regexp = /\?[\S]+/;
-    const link = window.location.href.toString().match(regexp);
+  const linkMatchArray = window.location.href.toString().match(regexp);
+  const link: string = linkMatchArray ? (linkMatchArray[0] as string) : "";
 
-    if (link) dispatch(getProducts(link[0]));
-    else dispatch(getProducts(""));
+  const handleScroll = (e: UIEvent<HTMLDivElement>) => {
+    const el = e.target as HTMLDivElement;
+
+    if (el && !fetchDelay && shouldFetch && el.scrollTop + el.clientHeight >= el.scrollHeight) {
+      setFetchDelay(true);
+      setTimeout(() => setFetchDelay(false), 400);
+      dispatch(addProducts(`${link}&index=${lastIndex}`));
+    }
+  };
+
+  useEffect(() => {
+    dispatch(getProducts(link));
+    dispatch(changeShouldFetchState(true));
   }, []);
 
   const toggleFiltersVisability = () => {
@@ -54,8 +70,8 @@ const Offers = () => {
         <Filtres />
       </div>
       <main ref={productsRef} className="offers__main">
-        {products.length > 0 ? (
-          <div className="offers__products">
+        {products.length > 0 && productStatus !== "loading" ? (
+          <div onScroll={handleScroll} className="offers__products">
             {products.map((product, index) => (
               <ProductCard key={index} product={product} />
             ))}

@@ -2,10 +2,11 @@ import "./account.styles.sass";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectUser } from "../../store/user/user.selectors";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { deleteUserFetch } from "../../utils/fetchFunctions";
 import { logOut } from "../../store/user/user.reducer";
 import { useTranslation } from "react-i18next";
+import Button, { BUTTON_CLASSES } from "../../components/button/button.component";
 
 const Account = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const Account = () => {
 
   const { t } = useTranslation();
   const user = useAppSelector(selectUser);
+
+  const [deleteAlert, setDeleteAlert] = useState(false);
 
   useEffect(() => {
     if (!user) navigate("/");
@@ -27,6 +30,8 @@ const Account = () => {
         console.log(res.message);
       }
     }
+
+    setDeleteAlert(false);
   };
 
   return (
@@ -47,8 +52,8 @@ const Account = () => {
               <li className="account__aside__profileActions-link">
                 <Link to="history">{t("history of orders")}</Link>
               </li>
-              <li className="account__aside__profileActions-action">
-                <button onClick={deleteAccount}>{t("delete account")}</button>
+              <li className="account__aside__profileActions-link">
+                <button onClick={() => setDeleteAlert(true)}>{t("delete account")}</button>
               </li>
             </ul>
           </aside>
@@ -58,6 +63,16 @@ const Account = () => {
           </main>
         </div>
       </div>
+      {deleteAlert && (
+        <div className="account__deleteAlert">
+          <div className="account__deleteAlert__container">
+            <h2 className="account__deleteAlert__title">{t("delete alert")}</h2>
+            <Button buttonType={BUTTON_CLASSES.red} onClick={deleteAccount}>
+              {t("delete account")}
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

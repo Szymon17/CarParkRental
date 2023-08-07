@@ -31,7 +31,7 @@ const Summary = () => {
 
       if (status === "ok") {
         dispatch(saveUserOrder({ car: product, data: order }));
-        toast(t("ordered"));
+        toast.success(t("ordered"));
         navigate("/");
       }
     }

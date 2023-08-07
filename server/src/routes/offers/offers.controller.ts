@@ -29,7 +29,7 @@ const createFilters = (query: queryBasicData): aditionalfilters => {
   if (query.fuel_type) filters.fuel_type = query.fuel_type;
   if (query.number_of_seats) filters.number_of_seats = query.number_of_seats;
   if (query.brand) filters.brand = query.brand;
-  if (query.car_type) filters.car_type = query.car_type;
+  if (query.type) filters.type = query.type;
 
   return filters;
 };

@@ -14,4 +14,6 @@ const selectLastIndex = createSelector([selectProductsReducer], ({ products }) =
 
 const selectProductsStatus = createSelector([selectProductsReducer], ({ status }) => status);
 
-export { selectProducts, selectLastIndex, selectProductByIndex, selectProductsStatus };
+const selectProductFetchState = createSelector([selectProductsReducer], ({ shouldFetch }) => shouldFetch);
+
+export { selectProducts, selectLastIndex, selectProductByIndex, selectProductsStatus, selectProductFetchState };

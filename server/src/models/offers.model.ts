@@ -1,7 +1,6 @@
 import ordersMongo from "./orders.mongo.js";
 import carsMongo from "./offers.mongo.js";
 import { aditionalfilters, dataToGetoffers, order } from "../types/basicTypes.js";
-import { ObjectId, mongo } from "mongoose";
 
 async function getUnvilableCars(receiptDate: Date, returnDate: Date) {
   return (await ordersMongo.find(
@@ -54,16 +53,7 @@ async function saveOrder(order: order) {
 }
 
 async function getOrders(ordersId: string[]) {
-  const orders = await ordersMongo.find({ _id: { $in: ordersId } }, "-__v -_user_id");
-
-  const sortedOrders = [];
-
-  ordersId.forEach(orderID => {
-    const item = orders.find(order => String(order._id) === orderID);
-    sortedOrders.push(item);
-  });
-
-  return sortedOrders;
+  return await ordersMongo.find({ _id: { $in: ordersId } }, "-__v -_id -_user_id").sort({ _id: -1 });
 }
 
 export { getAvilableCars, getOfferByIndex, saveOrder, getOrders, getOffersById };

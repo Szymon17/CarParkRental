@@ -1,17 +1,6 @@
-const polishLetters = ["ą", "ć", "ę", "ł", "ń", "ó", "ś", "ź", "ż"];
-const polishReplacement = ["a", "c", "e", "l", "n", "o", "s", "z", "z"];
-
 export const today = new Date();
 export const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
 export const dayAfterTomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2);
-
-export const replacePolishLterals = (text: string): string => {
-  for (let i = 0; i < polishLetters.length; i++) {
-    text = text.replaceAll(polishLetters[i], polishReplacement[i]);
-  }
-
-  return text;
-};
 
 export const dateToLocalString = (date: Date): string => {
   const year = date.getFullYear();
@@ -61,4 +50,12 @@ export const calculatePrice = (productPrice: number | undefined, date_of_receipt
 
   const rentDays = calculateRentDays(date_of_receipt, date_of_return);
   return productPrice * rentDays;
+};
+
+export const isDateError = (date_of_receipt: Date, date_of_return: Date) => {
+  if (date_of_receipt < tomorrow) return "back date alert";
+  else if (date_of_receipt > date_of_return) return "receipt date is earlier than return date";
+  else if (date_of_receipt.toDateString() === date_of_return.toDateString()) return "same dates alert";
+  else if (!maxDaysTimeDifferenceIsValid(date_of_receipt.getTime(), date_of_return.getTime())) return "max different dates time alert";
+  else return false;
 };

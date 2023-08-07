@@ -1,5 +1,5 @@
 type locationsInitialState = {
-  locations: String[];
+  locations: string[];
   status: "idle" | "loading" | "failed";
 };
 

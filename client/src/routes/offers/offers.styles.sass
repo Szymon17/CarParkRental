@@ -6,6 +6,8 @@
     @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:flex-start )
     padding: 10px 20px
     background-color: vars.$container-color
+    height: calc( 100vh - vars.$navHeight)
+    overflow: hidden
 
     @media (max-width:bp.$large)
         flex-direction: column
@@ -13,13 +15,10 @@
         padding: 50px 10px 0 10px
 
     &__filters-box
-        flex-basis: 20%
-        min-width: 350px
+        width: 30%
+        
 
         @media (max-width: bp.$extra-large)
-            min-width: 250px
-
-        @media (max-width:bp.$large)
             width: 100%
             display: none
 
@@ -33,8 +32,10 @@
     &__products
         margin: 0 auto
         max-width: 1000px
-        padding: 0 20px 0 40px
+        padding: 0 10px 0 40px
         flex-basis: 80%
+        height: calc( 100vh - vars.$navHeight)
+        overflow: scroll
 
         @media (max-width:bp.$huge)
             padding-right: 20px

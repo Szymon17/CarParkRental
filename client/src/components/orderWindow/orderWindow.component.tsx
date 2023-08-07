@@ -1,7 +1,7 @@
 import "./orderWindow.styles.sass";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dateToLocalString, dayAfterTomorrow, maxDaysTimeDifferenceIsValid, tomorrow } from "../../utils/basicFunctions";
+import { dateToLocalString, dayAfterTomorrow, isDateError, tomorrow } from "../../utils/basicFunctions";
 import { useAppDispatch } from "../../store/hooks";
 import { saveOrderData } from "../../store/order/order.reducer";
 import { useTranslation } from "react-i18next";
@@ -24,12 +24,10 @@ const OrderWindow = () => {
   };
 
   const search = () => {
-    if (date_of_receipt < tomorrow) toast.error(t("back date alert"));
-    else if (date_of_receipt > date_of_return) toast.error(t("high return alert date"));
-    else if (date_of_receipt.toDateString() === date_of_return.toDateString()) toast.error(t("same date alert"));
-    else if (!place_of_receipt || !place_of_return) toast.error(t("no location alert"));
-    else if (!maxDaysTimeDifferenceIsValid(date_of_receipt.getTime(), date_of_return.getTime()))
-      toast.error(t("receipt date earlier than return date"));
+    const dateError = isDateError(date_of_receipt, date_of_return);
+
+    if (!place_of_receipt || !place_of_return) toast.error(t("no location alert"));
+    else if (dateError) toast.error(t(dateError));
     else {
       dispatch(saveOrderData({ place_of_receipt, place_of_return, date_of_receipt, date_of_return }));
       navigate(
@@ -44,11 +42,11 @@ const OrderWindow = () => {
         <div className="orderWindow__item">
           <div className="orderWindow__inputContainer">
             <label className="orderWindow__inputLabel">{t("pick up location")}</label>
-            <SelectLocations changeHandler={e => inputsHandler(e.target.value, set_place_of_receipt)} />
+            <SelectLocations changeState={set_place_of_receipt} />
           </div>
           <div className="orderWindow__inputContainer">
             <label className="orderWindow__inputLabel">{t("return location")}</label>
-            <SelectLocations changeHandler={e => inputsHandler(e.target.value, set_place_of_return)} />
+            <SelectLocations changeState={set_place_of_return} />
           </div>
         </div>
         <div className="orderWindow__item">

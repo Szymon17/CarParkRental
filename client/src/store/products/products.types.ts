@@ -20,6 +20,7 @@ type product = {
 type initialStateTypes = {
   products: product[];
   status: "idle" | "loading" | "failed";
+  shouldFetch: boolean;
 };
 
 export { product, initialStateTypes };

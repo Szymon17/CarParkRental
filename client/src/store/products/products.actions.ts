@@ -7,4 +7,10 @@ const getProducts = createAsyncThunk("getProducts", async (params: string) => {
   return products;
 });
 
-export { getProducts };
+const addProducts = createAsyncThunk("addProducts", async (params: string) => {
+  const products = await getProductsFetch(params);
+
+  return products;
+});
+
+export { getProducts, addProducts };

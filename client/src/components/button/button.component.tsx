@@ -5,6 +5,7 @@ export enum BUTTON_CLASSES {
   black = "button__black",
   green = "button__green",
   reverse = "button__reverse",
+  red = "button__red",
   disable = "button__disable",
 }
 
@@ -16,7 +17,7 @@ type buttonTypes = ButtonHTMLAttributes<HTMLButtonElement> & {
 const Button: FC<buttonTypes> = ({ children, buttonType = BUTTON_CLASSES.black, ...otherProps }) => {
   return (
     <button className={`button ${buttonType}`} {...otherProps}>
-      {children}
+      <span className="button__text">{children}</span>
     </button>
   );
 };

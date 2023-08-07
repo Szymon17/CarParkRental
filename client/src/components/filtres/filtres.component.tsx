@@ -1,7 +1,7 @@
 import "./filtres.styles.sass";
 import { useState, ChangeEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { dateToLocalString, dayAfterTomorrow, tomorrow } from "../../utils/basicFunctions";
+import { dateToLocalString, dayAfterTomorrow, isDateError, today, tomorrow } from "../../utils/basicFunctions";
 import { useAppDispatch } from "../../store/hooks";
 import { getProducts } from "../../store/products/products.actions";
 import { saveOrderData } from "../../store/order/order.reducer";
@@ -9,13 +9,15 @@ import { useTranslation } from "react-i18next";
 import SelectLocations from "../select-locations/select-locations.component";
 import Button from "../button/button.component";
 import FormInput from "../formInput/formInput.component";
+import { toast } from "react-toastify";
+import { changeShouldFetchState } from "../../store/products/products.reducer";
 
 const Filtres = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const maxValueForInput = 500;
+  const maxValueForInput = 1000;
   const maxAmountDifference = 50;
 
   const [searchParams] = useSearchParams();
@@ -69,6 +71,9 @@ const Filtres = () => {
   };
 
   const filterHendler = () => {
+    const dateError = isDateError(date_of_receipt, date_of_return);
+    if (dateError) return toast.error(t(dateError));
+
     let i = 0;
 
     const link = filters.reduce((acc, filter) => {
@@ -86,6 +91,7 @@ const Filtres = () => {
       navigate(link);
       dispatch(getProducts(link));
       dispatch(saveOrderData({ date_of_receipt, date_of_return, place_of_receipt, place_of_return }));
+      dispatch(changeShouldFetchState(true));
     }
   };
 
@@ -106,6 +112,7 @@ const Filtres = () => {
           <span className="filtres__price__box-minValue">{minValue}ZŁ</span>
           <span className="filtres__price__box-maxValue">{maxValue}ZŁ</span>
           <div style={progressBarStyles} className="filtres__price__box-progress"></div>
+          <div className="filtres__price__box-tumb"></div>
           <input
             type="range"
             min={0}
@@ -128,21 +135,13 @@ const Filtres = () => {
         <h2 className="filtres__section__title">{t("data")}</h2>
         <div className="filtres__section__body">
           <div className="filtres__data__locations">
-            <SelectLocations defaultValue={place_of_receipt} changeHandler={e => set_place_of_receipt(e.target.value)} />
-            <SelectLocations defaultValue={place_of_return} changeHandler={e => set_place_of_return(e.target.value)} />
+            <SelectLocations defaultValue={place_of_receipt} changeState={set_place_of_receipt} />
+            <SelectLocations defaultValue={place_of_return} changeState={set_place_of_return} />
           </div>
         </div>
         <div className="filtres__data__dates">
-          <FormInput
-            onChange={e => new Date(e.target.value) < date_of_return && set_date_of_receipt(new Date(e.target.value))}
-            value={dateToLocalString(date_of_receipt)}
-            type="date"
-          ></FormInput>
-          <FormInput
-            onChange={e => new Date(e.target.value) > date_of_receipt && set_date_of_return(new Date(e.target.value))}
-            value={dateToLocalString(date_of_return)}
-            type="date"
-          ></FormInput>
+          <FormInput onChange={e => set_date_of_receipt(new Date(e.target.value))} value={dateToLocalString(date_of_receipt)} type="date"></FormInput>
+          <FormInput onChange={e => set_date_of_return(new Date(e.target.value))} value={dateToLocalString(date_of_return)} type="date"></FormInput>
         </div>
       </section>
       <section className="filtres__numberOfSits filtres__section">

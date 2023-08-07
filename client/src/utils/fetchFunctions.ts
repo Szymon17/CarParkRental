@@ -100,7 +100,6 @@ const getProductsFetch = async (params: string): Promise<product[] | void> => {
     const status: fetchType<product[]> = await res.json();
 
     if (status.status === "ok") return status.payload;
-    else console.log("Get request to server failed");
   } catch (error) {
     console.log(error);
   }
@@ -159,7 +158,7 @@ const saveOrderFetch = async (data: orderInitialState) => {
 
 const getUserOrders = async (lastOrderIndex: number, itemsCount: number) => {
   try {
-    const res = await fetch(`${serverUrl}/user_orders?index=${lastOrderIndex}&count=${itemsCount}`, { credentials: "include" });
+    const res = await fetch(`${serverUrl}/user_orders?index=${lastOrderIndex}&itemsCount=${itemsCount}`, { credentials: "include" });
     const status: fetchType<userOrder[]> = await res.json();
 
     if (status.status === "ok") return status.payload;

@@ -34,7 +34,11 @@ const OrderHistory = () => {
   return (
     <div onScroll={scrollHandler} ref={historyRef} className="order-history">
       {orders && orders?.map((order, index) => <OrderHistoryItem key={index} order={order} />)}
-      {(!orders || !shouldFetchOrders) && <CustomError>{t("there is nothing to display")}</CustomError>}
+      {!orders && (
+        <div className="order-history__box">
+          <CustomError>{t("there is nothing to display")}</CustomError>
+        </div>
+      )}
     </div>
   );
 };

@@ -48,15 +48,11 @@ const Home = () => {
         </div>
         <div className="home__filtersContainer">
           <FiltersSnapshot
-            links={["Warszawa", "Łódź", "Kraków", "Gdańsk", "Toruń", "Wrocław"]}
-            title={t("often checked locations")}
-            filterClass="location"
-          />
-          <FiltersSnapshot
             links={["Chevrolet", "Opel", "Renault", "Toyota", "Ford", "Dodge"]}
             title={t("often checked brands")}
             filterClass="brand"
           />
+          <FiltersSnapshot links={["Warszawa", "Wrocław", "Kraków"]} title={t("avilable localizations")} filterClass="location" />
         </div>
       </div>
       <div className="home__baner">
@@ -67,7 +63,7 @@ const Home = () => {
           </div>
           <div className="home__baner__item">
             <FontAwesomeIcon className="home__baner__icon" icon={faLocationDot} />
-            <span className="home__baner__text">51</span>
+            <span className="home__baner__text">3</span>
           </div>
           <div className="home__baner__item">
             <FontAwesomeIcon className="home__baner__icon" icon={faUserGroup} />
@@ -78,7 +74,7 @@ const Home = () => {
       <div className="container">
         <div className="home__offtenChosenFiltres">
           <FiltersSnapshot
-            links={["Sport", "SUV", "Offroad", "Hatchback", "Kombi", "Sedan"]}
+            links={["SUV", "Coupe", "Hatchback", "Combi", "Sedan"]}
             title={t("often checked car types")}
             filterClass="type"
             horizontal={true}

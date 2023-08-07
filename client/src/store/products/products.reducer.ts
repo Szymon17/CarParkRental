@@ -1,10 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { getProducts } from "./products.actions";
+import { addProducts, getProducts } from "./products.actions";
 import { initialStateTypes, product } from "./products.types";
 
 const initialState: initialStateTypes = {
   products: [],
   status: "idle",
+  shouldFetch: true,
 };
 
 const productsSlice = createSlice({
@@ -15,6 +16,12 @@ const productsSlice = createSlice({
       const { payload } = action;
 
       state.products = payload;
+    },
+
+    changeShouldFetchState: (state, action: PayloadAction<boolean>) => {
+      const { payload } = action;
+
+      if (payload) state.shouldFetch = payload;
     },
   },
   extraReducers: builder => {
@@ -33,9 +40,20 @@ const productsSlice = createSlice({
           state.status = "failed";
         }
       });
+    builder.addCase(addProducts.fulfilled, (state, action) => {
+      const { payload } = action;
+
+      if (payload) {
+        state.products = [...state.products, ...payload];
+        state.status = "idle";
+      } else {
+        state.status = "failed";
+        state.shouldFetch = false;
+      }
+    });
   },
 });
 
-export const { replaceProducts } = productsSlice.actions;
+export const { replaceProducts, changeShouldFetchState } = productsSlice.actions;
 
 export default productsSlice.reducer;

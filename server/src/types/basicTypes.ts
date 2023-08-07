@@ -48,7 +48,7 @@ type aditionalfilters = {
   fuel_type?: string;
   drive_type?: string;
   brand?: string;
-  car_type?: string;
+  type?: string;
 };
 
 type queryBasicData = aditionalfilters & {

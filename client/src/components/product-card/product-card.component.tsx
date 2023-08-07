@@ -3,7 +3,7 @@ import { FC } from "react";
 import { product } from "../../store/products/products.types";
 import Button from "../button/button.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faGasPump, faGauge, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faClock, faGasPump, faGauge, faMoneyBill1, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { saveOrderIndex } from "../../store/order/order.reducer";
@@ -35,11 +35,11 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
           </div>
           <div className="product-card__description__icons-box">
             <FontAwesomeIcon icon={faGauge} className="product-card__description__icons-icon"></FontAwesomeIcon>
-            <span className="product-card__description__icons-value">{product.power}</span>
+            <span className="product-card__description__icons-value">{product.power}KM</span>
           </div>
           <div className="product-card__description__icons-box">
-            <FontAwesomeIcon icon={faClock} className="product-card__description__icons-icon"></FontAwesomeIcon>
-            <span className="product-card__description__icons-value">{product.year}</span>
+            <FontAwesomeIcon icon={faMoneyBill1} className="product-card__description__icons-icon"></FontAwesomeIcon>
+            <span className="product-card__description__icons-value">{product.daily_price}ZŁ</span>
           </div>
         </div>
         <Button onClick={goToProduct}>{t("check")}</Button>
