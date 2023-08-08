@@ -47,6 +47,8 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
   const price_from = Number(req.query.price_from) || 0;
   const price_to = Number(req.query.price_to) || 500;
 
+  const count = req.query.count ? (Number(req.query.count) >= 7 ? 4 : Number(req.query.count)) : 4;
+
   const filters = createFilters(req.query);
 
   if (validateGetOffersData(receiptDate, returnDate) && receiptLocation !== null && returnLocation !== null) {
@@ -54,7 +56,7 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 
     if (timeDiff > tenDaysInMs) return res.status(404).json({ status: "error", message: "your rent time is too long" });
 
-    const avilableCars = await getAvilableCars(lastIndex, filters, { returnDate, receiptLocation, receiptDate, price_from, price_to });
+    const avilableCars = await getAvilableCars(lastIndex, filters, count, { returnDate, receiptLocation, receiptDate, price_from, price_to });
 
     if (avilableCars.length === 0) return res.status(404).json({ status: "error", message: "your filtres propably are too demanding" });
     else return res.status(200).json({ status: "ok", message: "Send avilable cars", payload: avilableCars });

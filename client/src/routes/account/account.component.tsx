@@ -7,6 +7,8 @@ import { deleteUserFetch } from "../../utils/fetchFunctions";
 import { logOut } from "../../store/user/user.reducer";
 import { useTranslation } from "react-i18next";
 import Button, { BUTTON_CLASSES } from "../../components/button/button.component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Account = () => {
   const navigate = useNavigate();
@@ -70,6 +72,7 @@ const Account = () => {
             <Button buttonType={BUTTON_CLASSES.red} onClick={deleteAccount}>
               {t("delete account")}
             </Button>
+            <FontAwesomeIcon onClick={() => setDeleteAlert(false)} icon={faXmark} className="account__deleteAlert__cancel" />
           </div>
         </div>
       )}

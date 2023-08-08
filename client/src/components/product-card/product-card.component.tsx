@@ -1,13 +1,13 @@
 import "./product-card.styles.sass";
 import { FC } from "react";
-import { product } from "../../store/products/products.types";
-import Button from "../button/button.component";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faGasPump, faGauge, faMoneyBill1, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faGasPump, faGauge, faMoneyBill1, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { saveOrderIndex } from "../../store/order/order.reducer";
 import { useAppDispatch } from "../../store/hooks";
+import { product } from "../../store/products/products.types";
+import Button from "../button/button.component";
 
 const ProductCard: FC<{ product: product }> = ({ product }) => {
   const dispatch = useAppDispatch();

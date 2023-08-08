@@ -1,6 +1,6 @@
 import "./select-locations.styles.sass";
 import { useAppSelector } from "../../store/hooks";
-import { FC, MouseEvent, useEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { selectLocations } from "../../store/locations/locations.selector";
 
 type selectLocationsTypes = { defaultValue?: string; changeState: Function };

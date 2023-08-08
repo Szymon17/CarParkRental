@@ -59,6 +59,7 @@ type queryBasicData = aditionalfilters & {
   index?: string;
   price_from?: string;
   price_to?: string;
+  count?: string;
 };
 
 type orderData = {

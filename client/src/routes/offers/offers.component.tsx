@@ -34,7 +34,7 @@ const Offers = () => {
   const handleScroll = (e: UIEvent<HTMLDivElement>) => {
     const el = e.target as HTMLDivElement;
 
-    if (el && !fetchDelay && shouldFetch && el.scrollTop + el.clientHeight >= el.scrollHeight) {
+    if (el && !fetchDelay && shouldFetch && el.scrollTop + el.clientHeight + 3 >= el.scrollHeight) {
       setFetchDelay(true);
       setTimeout(() => setFetchDelay(false), 400);
       dispatch(addProducts(`${link}&index=${lastIndex}`));
@@ -72,9 +72,11 @@ const Offers = () => {
       <main ref={productsRef} className="offers__main">
         {products.length > 0 && productStatus !== "loading" ? (
           <div onScroll={handleScroll} className="offers__products">
-            {products.map((product, index) => (
-              <ProductCard key={index} product={product} />
-            ))}
+            <div className="offers__products-cnt">
+              {products.map((product, index) => (
+                <ProductCard key={index} product={product} />
+              ))}
+            </div>
           </div>
         ) : productStatus === "loading" ? (
           <Spinner />

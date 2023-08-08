@@ -18,6 +18,7 @@ import Profile from "./components/profile/profile.component";
 import OrderHistory from "./components/order-history/order-history.component";
 import { getLocations } from "./store/locations/locations.actions";
 import { selectLocations } from "./store/locations/locations.selector";
+import About from "./routes/about/about.component";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -54,6 +55,7 @@ function App() {
           <Route path="/offers" element={<Offers />} />
           <Route path="/product" element={<Product />} />
           <Route path="/summary" element={<Summary />} />
+          <Route path="/about" element={<About />} />
         </Route>
       </Routes>
       <ToastContainer />

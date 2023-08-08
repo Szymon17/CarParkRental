@@ -82,6 +82,9 @@
     "finished": "zakończono",
     "canceled": "anulowano",
     "pending": "oczekujące",
-    "ordered": "Auto zostało zamówione"
+    "ordered": "Auto zostało zamówione",
+    "who are we?": "Kim jesteśmy?",
+    "about company": " Grupa CarRentPark została założona w 2023 roku, składamy się z pasjonatów motoryzacji chcących zapewnić najlepszą jakość usług wypożyczając samochody osobowe lub firmowe. W swojej ofercie mamy ponad 100 różnych aut oraz 3 lokalizacje. Z dnia na dzień poszeżamy swój obszar działania jak i staramy się zapewnić jeszcze lepszą jakość usług. Cieszymy cię już ponad 3 tysiącami zadowolonych klientów którym zapewniliśmy stały kontakt oraz pomoc w razie jakichkolwiek niedogodności.",
+    "location": "Miejscowość"
   }
 }

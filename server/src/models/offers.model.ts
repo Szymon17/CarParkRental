@@ -14,7 +14,7 @@ async function getUnvilableCars(receiptDate: Date, returnDate: Date) {
   )) as { car_id: string }[];
 }
 
-async function getAvilableCars(lastIndex: number, filters: aditionalfilters, basicFiltersData: dataToGetoffers) {
+async function getAvilableCars(lastIndex: number, filters: aditionalfilters, count: number, basicFiltersData: dataToGetoffers) {
   const { receiptDate, returnDate, receiptLocation, price_from, price_to } = basicFiltersData;
 
   let unvilableCars: { car_id: string }[] = await getUnvilableCars(receiptDate, returnDate);
@@ -33,7 +33,7 @@ async function getAvilableCars(lastIndex: number, filters: aditionalfilters, bas
       "-_id -__v"
     )
     .sort({ index: -1 })
-    .limit(4);
+    .limit(count);
 }
 
 async function getOfferByIndex(index: number) {
