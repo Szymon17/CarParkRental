@@ -65,6 +65,7 @@
     "already logged-in": "You are already logged in",
     "succesful login": "Login syccesfuly",
     "check your login data": "Check your email or password",
+    "email already use": "Email already use",
     "invalid email": "Your email is invalid",
     "invalid password": "Your password is invalid",
     "invalid name": "Invalid name",

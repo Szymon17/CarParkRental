@@ -21,6 +21,8 @@ async function getAvilableCars(lastIndex: number, filters: aditionalfilters, cou
 
   const orders = unvilableCars.map(order => order.car_id);
 
+  if (count >= 7) count = 6;
+
   return await carsMongo
     .find(
       {

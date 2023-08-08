@@ -49,6 +49,7 @@ const Register = () => {
 
       const createStatus = await registerUserFetch(user);
       if (createStatus && createStatus.status === "ok") navigate("/");
+      else if (createStatus && createStatus.status === "error") toast.error(t(createStatus.message));
     }
   };
 

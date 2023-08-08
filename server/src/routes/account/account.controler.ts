@@ -57,8 +57,8 @@ async function httpAddUser(req: CustomRequest<userData>, res: Response) {
 
   if (!isError) {
     generateToken(res, user.email);
-    res.status(201).json({ status: "ok", message: "Created user" });
-  } else res.status(409).json({ status: "error", message: "Email already used" });
+    res.status(201).json({ status: "ok", message: "created user" });
+  } else res.status(409).json({ status: "error", message: "email already use" });
 }
 
 async function httpGetUserOrderedProducts(req: UserRequest & RequestWithQuery<{ idnex: string; itemsCount: string }>, res: Response) {
@@ -69,9 +69,9 @@ async function httpGetUserOrderedProducts(req: UserRequest & RequestWithQuery<{ 
   if (index !== -1 && user && itemsCount) {
     const payload = await getUserOrders(user.orders, index, itemsCount);
 
-    if (payload.length > 0) return res.status(200).json({ status: "ok", message: "Responsed user orders", payload });
+    if (payload.length > 0) return res.status(200).json({ status: "ok", message: "responsed user orders", payload });
     else return res.status(404).json({ status: "error", message: "lastIndex is poprably invalid" });
-  } else return res.status(404).json({ status: "error", message: "There is no user" });
+  } else return res.status(404).json({ status: "error", message: "there is no user" });
 }
 
 export { updateProfile, deleteProfile, httpLogInWithToken, logoutUser, httpAddUser, httpGetUserOrderedProducts };
