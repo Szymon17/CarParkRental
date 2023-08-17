@@ -6,11 +6,11 @@ import { useAppDispatch } from "../../store/hooks";
 import { getProducts } from "../../store/products/products.actions";
 import { saveOrderData } from "../../store/order/order.reducer";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import { changeShouldFetchState } from "../../store/products/products.reducer";
 import SelectLocations from "../select-locations/select-locations.component";
 import Button from "../button/button.component";
 import FormInput from "../formInput/formInput.component";
-import { toast } from "react-toastify";
-import { changeShouldFetchState } from "../../store/products/products.reducer";
 
 const Filtres = () => {
   const { t } = useTranslation();
@@ -70,41 +70,41 @@ const Filtres = () => {
     else setPrpertyHandler(null);
   };
 
+  const fetchProducts = (link: string) => {
+    navigate(link);
+    dispatch(getProducts(link));
+    dispatch(saveOrderData({ date_of_receipt, date_of_return, place_of_receipt, place_of_return }));
+    dispatch(changeShouldFetchState(true));
+  };
+
   const filterHendler = () => {
     const dateError = isDateError(date_of_receipt, date_of_return);
     if (dateError) return toast.error(t(dateError));
 
-    let i = 0;
-
-    const link = filters.reduce((acc, filter) => {
+    const link = filters.reduce((acc, filter, i) => {
       if (filter.value) {
         if (i === 0) acc += `?${filter.name}=${filter.value}`;
         else acc += `&${filter.name}=${filter.value}`;
-
-        i++;
       }
 
       return acc;
     }, "");
 
-    if (link) {
-      navigate(link);
-      dispatch(getProducts(link));
-      dispatch(saveOrderData({ date_of_receipt, date_of_return, place_of_receipt, place_of_return }));
-      dispatch(changeShouldFetchState(true));
-    }
+    fetchProducts(link);
+  };
+
+  const clearFilters = () => {
+    const link = `?pul=Warszawa&rl=Warszawa&rd=${dateToLocalString(date_of_receipt)}&rtd=${dateToLocalString(date_of_return)}`;
+    fetchProducts(link);
   };
 
   return (
     <aside className="filtres">
       <section className="filtres__header">
         <h1 className="filtres__header-title">{t("filters")}</h1>
-        <Link
-          to={`/offers?rd=${dateToLocalString(date_of_receipt)}&rtd=${dateToLocalString(date_of_return)}`}
-          className="filtres__header-clearFiltres"
-        >
+        <button onClick={clearFilters} className="filtres__header-clearFiltres">
           {t("clear filters")}
-        </Link>
+        </button>
       </section>
       <section className="filtres__price filtres__section">
         <h2 className="filtres__section__title">{t("price")}</h2>

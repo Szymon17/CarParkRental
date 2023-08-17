@@ -2,6 +2,8 @@ import "./select-locations.styles.sass";
 import { useAppSelector } from "../../store/hooks";
 import { FC, useEffect, useRef, useState } from "react";
 import { selectLocations } from "../../store/locations/locations.selector";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 type selectLocationsTypes = { defaultValue?: string; changeState: Function };
 
@@ -38,6 +40,7 @@ const SelectLocations: FC<selectLocationsTypes> = ({ defaultValue, changeState }
       <div onClick={() => setExtendState(!extend)} className="selectLocations__selected">
         {selectedLocation}
       </div>
+      <FontAwesomeIcon className="selectLocations__icon" icon={faCaretDown} />
       <ul className="selectLocations__selectBox">
         {locations.map((location, key) => (
           <li key={key} onClick={() => selectLocationHandler(location)} className="selectLocations__option">
