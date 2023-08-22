@@ -1,21 +1,22 @@
 import "dotenv/config";
-import cors from "cors/lib/index.js";
-import express from "express";
+import { mongoConnet } from "./services/mongo.js";
+import { __dirname } from "./utils/paths.js";
+import express, { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import api from "./routes/api.js";
-import { mongoConnet } from "./services/mongo.js";
+import path from "path";
 
 const app = express();
 
-app.use(
-  cors({
-    credentials: true,
-    origin: "http://localhost:3000",
-  })
-);
 app.use(express.json());
 app.use(cookieParser());
 app.use(api);
+
+app.use(express.static(path.join(__dirname, "..", "..", "public")));
+
+app.get("/", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "..", "..", "public", "index.html"));
+});
 
 async function startServer() {
   await mongoConnet();
