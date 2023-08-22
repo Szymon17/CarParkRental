@@ -7,8 +7,10 @@
     "start_client": "npm start --prefix client",
     "start_server": "npm start --prefix server",
     "start": "concurrently \"npm run start_server\" \"npm run start_client\"",
-    "build": "npm run build --prefix client && npm run build --prefix server",
-    "install": "npm install --prefix client && npm install --prefix server"
+    "windows_build": "npm run windows_build --prefix client && npm run build --prefix server",
+    "linux_build": "npm run linux_build --prefix client && npm run build --prefix server",
+    "install": "npm install --prefix client && npm install --prefix server",
+    "startPM2": "npm run startPM2 -prefix server"
   },
   "keywords": [],
   "author": "",
