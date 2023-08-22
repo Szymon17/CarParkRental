@@ -30,7 +30,7 @@
   "scripts": {
     "start": "react-scripts start",
     "windows_build": "set BUILD_PATH=../server/public&& react-scripts build",
-    "linux_build": "BUILD_PATH=../server/public react-scripts build",
+    "linux_build": "react-scripts build && mv build ../server/public",
     "test": "react-scripts test"
   },
   "eslintConfig": {
