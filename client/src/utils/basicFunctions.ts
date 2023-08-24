@@ -53,9 +53,9 @@ export const calculatePrice = (productPrice: number | undefined, date_of_receipt
 };
 
 export const isDateError = (date_of_receipt: Date, date_of_return: Date) => {
-  if (date_of_receipt < tomorrow) return "back date alert";
-  else if (date_of_receipt > date_of_return) return "receipt date is earlier than return date";
-  else if (date_of_receipt.toDateString() === date_of_return.toDateString()) return "same dates alert";
-  else if (!maxDaysTimeDifferenceIsValid(date_of_receipt.getTime(), date_of_return.getTime())) return "max different dates time alert";
+  if (date_of_receipt < tomorrow) return "Back date alert";
+  else if (date_of_receipt > date_of_return) return "Receipt date is earlier than return date";
+  else if (date_of_receipt.toDateString() === date_of_return.toDateString()) return "Same dates alert";
+  else if (!maxDaysTimeDifferenceIsValid(date_of_receipt.getTime(), date_of_return.getTime())) return "Max different dates time alert";
   else return false;
 };

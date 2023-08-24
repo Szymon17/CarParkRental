@@ -101,13 +101,13 @@ const Filtres = () => {
   return (
     <aside className="filtres">
       <section className="filtres__header">
-        <h1 className="filtres__header-title">{t("filters")}</h1>
+        <h1 className="filtres__header-title">{t("Filters")}</h1>
         <button onClick={clearFilters} className="filtres__header-clearFiltres">
-          {t("clear filters")}
+          {t("Clear filters")}
         </button>
       </section>
       <section className="filtres__price filtres__section">
-        <h2 className="filtres__section__title">{t("price")}</h2>
+        <h2 className="filtres__section__title">{t("Price")}</h2>
         <div className="filtres__price__box filtres__section__body">
           <span className="filtres__price__box-minValue">{minValue}ZŁ</span>
           <span className="filtres__price__box-maxValue">{maxValue}ZŁ</span>
@@ -132,7 +132,7 @@ const Filtres = () => {
         </div>
       </section>
       <section className="filtres__data filtres__section">
-        <h2 className="filtres__section__title">{t("data")}</h2>
+        <h2 className="filtres__section__title">{t("Data")}</h2>
         <div className="filtres__section__body">
           <div className="filtres__data__locations">
             <SelectLocations defaultValue={place_of_receipt} changeState={set_place_of_receipt} />
@@ -145,7 +145,7 @@ const Filtres = () => {
         </div>
       </section>
       <section className="filtres__numberOfSits filtres__section">
-        <h2 className="filtres__section__title">{t("number_of_sits")}</h2>
+        <h2 className="filtres__section__title">{t("Number of sits")}</h2>
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
@@ -160,7 +160,7 @@ const Filtres = () => {
         </div>
       </section>
       <section className="filtres__FuelType filtres__section">
-        <h2 className="filtres__section__title">{t("fuel_type")}</h2>
+        <h2 className="filtres__section__title">{t("Fuel type")}</h2>
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
@@ -179,7 +179,7 @@ const Filtres = () => {
         </div>
       </section>
       <section className="filtres__driveType filtres__section">
-        <h2 className="filtres__section__title">{t("drive_type")}</h2>
+        <h2 className="filtres__section__title">{t("Drive type")}</h2>
         <div className="filtres__section__body">
           <ul className="filtres__section__list">
             <li className="filtres__section__list__item">
@@ -197,7 +197,7 @@ const Filtres = () => {
           </ul>
         </div>
       </section>
-      <Button onClick={filterHendler}>{t("filter")}</Button>
+      <Button onClick={filterHendler}>{t("Filter")}</Button>
     </aside>
   );
 };

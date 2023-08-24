@@ -36,7 +36,7 @@ const OrderHistory = () => {
       {orders && orders?.map((order, index) => <OrderHistoryItem key={index} order={order} />)}
       {!orders && (
         <div className="order-history__box">
-          <CustomError>{t("there is nothing to display")}</CustomError>
+          <CustomError>{t("There is nothing to display")}</CustomError>
         </div>
       )}
     </div>

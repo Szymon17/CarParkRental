@@ -57,7 +57,7 @@ const Navigation = () => {
           </li>
           <li className="navigation__link">
             <div className="navigation__link-container">
-              <Link to="about"> {t("about")}</Link>
+              <Link to="about"> {t("About")}</Link>
               <div className="navigation__link-underline"></div>
             </div>
           </li>
@@ -67,7 +67,7 @@ const Navigation = () => {
                 onClick={saveData}
                 to={`offers?rd=${dateToLocalString(tomorrow)}&rtd=${dateToLocalString(dayAfterTomorrow)}&pul=Warszawa&rl=Warszawa`}
               >
-                {t("offers")}
+                {t("Offers")}
               </Link>
               <div className="navigation__link-underline"></div>
             </div>
@@ -81,7 +81,7 @@ const Navigation = () => {
                   icon={faUser}
                 />
               ) : (
-                <Link to="log-in">{t("log-in")}</Link>
+                <Link to="log-in">{t("Log-in")}</Link>
               )}
               <div className="navigation__link-underline"></div>
             </div>

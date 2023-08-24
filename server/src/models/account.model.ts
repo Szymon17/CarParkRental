@@ -5,19 +5,22 @@ import bcrypt from "bcrypt";
 
 async function findUserWithEmailAndPassword(email: string, password: string) {
   const user = await usersMongo.findOne({ email: email }, "-__v -_id -createdAt");
-  const orders = await getUserOrders(user.orders, 0);
 
-  if (user && orders) {
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (user) {
+    const orders = await getUserOrders(user.orders, 0);
 
-    if (isPasswordValid)
-      return {
-        email: user.email,
-        name: user.name,
-        surname: user.surname,
-        phoneNumber: user.phoneNumber,
-        orders,
-      };
+    if (orders) {
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (isPasswordValid)
+        return {
+          email: user.email,
+          name: user.name,
+          surname: user.surname,
+          phoneNumber: user.phoneNumber,
+          orders,
+        };
+    }
   }
 }
 

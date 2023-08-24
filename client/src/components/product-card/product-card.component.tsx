@@ -26,23 +26,23 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
         <h2 className="product-card__description__title">{`${product.brand} ${product.model}`}</h2>
         <div className="product-card__description__icons">
           <div className="product-card__description__icons-box">
-            <FontAwesomeIcon icon={faUserGroup} className="product-card__description__icons-icon"></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faUserGroup} className="product-card__description__icons-icon" />
             <span className="product-card__description__icons-value">{product.number_of_seats}</span>
           </div>
           <div className="product-card__description__icons-box">
-            <FontAwesomeIcon icon={faGasPump} className="product-card__description__icons-icon"></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faGasPump} className="product-card__description__icons-icon" />
             <span className="product-card__description__icons-value"> {t(product.fuel_type)}</span>
           </div>
           <div className="product-card__description__icons-box">
-            <FontAwesomeIcon icon={faGauge} className="product-card__description__icons-icon"></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faGauge} className="product-card__description__icons-icon" />
             <span className="product-card__description__icons-value">{product.power}KM</span>
           </div>
           <div className="product-card__description__icons-box">
-            <FontAwesomeIcon icon={faMoneyBill1} className="product-card__description__icons-icon"></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faMoneyBill1} className="product-card__description__icons-icon" />
             <span className="product-card__description__icons-value">{product.daily_price}ZŁ</span>
           </div>
         </div>
-        <Button onClick={goToProduct}>{t("check")}</Button>
+        <Button onClick={goToProduct}>{t("Check")}</Button>
       </div>
     </div>
   );

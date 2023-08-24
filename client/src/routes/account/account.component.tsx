@@ -27,10 +27,7 @@ const Account = () => {
     if (user) {
       const res = await deleteUserFetch(user.email);
 
-      if (res && res.status === "ok") {
-        dispatch(logOut());
-        console.log(res.message);
-      }
+      if (res && res.status === "ok") dispatch(logOut());
     }
 
     setDeleteAlert(false);
@@ -49,13 +46,13 @@ const Account = () => {
             </div>
             <ul className="account__aside__profileActions">
               <li className="account__aside__profileActions-link">
-                <Link to="">{t("profile")}</Link>
+                <Link to="">{t("Profile")}</Link>
               </li>
               <li className="account__aside__profileActions-link">
-                <Link to="history">{t("history of orders")}</Link>
+                <Link to="history">{t("History of orders")}</Link>
               </li>
               <li className="account__aside__profileActions-link">
-                <button onClick={() => setDeleteAlert(true)}>{t("delete account")}</button>
+                <button onClick={() => setDeleteAlert(true)}>{t("Delete account")}</button>
               </li>
             </ul>
           </aside>
@@ -68,9 +65,9 @@ const Account = () => {
       {deleteAlert && (
         <div className="account__deleteAlert">
           <div className="account__deleteAlert__container">
-            <h2 className="account__deleteAlert__title">{t("delete alert")}</h2>
+            <h2 className="account__deleteAlert__title">{t("Delete alert")}</h2>
             <Button buttonType={BUTTON_CLASSES.red} onClick={deleteAccount}>
-              {t("delete account")}
+              {t("Delete account")}
             </Button>
             <FontAwesomeIcon onClick={() => setDeleteAlert(false)} icon={faXmark} className="account__deleteAlert__cancel" />
           </div>

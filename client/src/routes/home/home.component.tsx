@@ -15,7 +15,7 @@ const Home = () => {
   return (
     <div className="home">
       <header className="home__header">
-        <h1 className="home__header_title">{t("home baner")}</h1>
+        <h1 className="home__header_title">{t("Home baner")}</h1>
         <div className="home__header__orderBox">
           <OrderWindow />
         </div>
@@ -27,32 +27,32 @@ const Home = () => {
           <div className="home__beneffits__item">
             <img className="home__beneffits__item__icon" src={calendarImg} alt="calendarImg" />
             <div className="home__beneffits__item__descriptionContainer">
-              <h2 className="home__beneffits__item__title">{t("dates")}</h2>
-              <p className="home__beneffits__item__text">{t("dates description")}</p>
+              <h2 className="home__beneffits__item__title">{t("Dates")}</h2>
+              <p className="home__beneffits__item__text">{t("Dates description")}</p>
             </div>
           </div>
           <div className="home__beneffits__item">
             <img className="home__beneffits__item__icon" src={lockImg} alt="calendarImg" />
             <div className="home__beneffits__item__descriptionContainer">
-              <h2 className="home__beneffits__item__title">{t("safety")}</h2>
-              <p className="home__beneffits__item__text">{t("safety description")}</p>
+              <h2 className="home__beneffits__item__title">{t("Safety")}</h2>
+              <p className="home__beneffits__item__text">{t("Safety description")}</p>
             </div>
           </div>
           <div className="home__beneffits__item">
             <img className="home__beneffits__item__icon" src={moneyImg} alt="calendarImg" />
             <div className="home__beneffits__item__descriptionContainer">
-              <h2 className="home__beneffits__item__title">{t("payments")}</h2>
-              <p className="home__beneffits__item__text">{t("payments description")}</p>
+              <h2 className="home__beneffits__item__title">{t("Payments")}</h2>
+              <p className="home__beneffits__item__text">{t("Payments description")}</p>
             </div>
           </div>
         </div>
         <div className="home__filtersContainer">
           <FiltersSnapshot
             links={["Chevrolet", "Opel", "Renault", "Toyota", "Ford", "Dodge"]}
-            title={t("often checked brands")}
+            title={t("Often checked brands")}
             filterClass="brand"
           />
-          <FiltersSnapshot links={["Warszawa", "Wrocław", "Kraków"]} title={t("avilable localizations")} filterClass="location" />
+          <FiltersSnapshot links={["Warszawa", "Wrocław", "Kraków"]} title={t("Available localizations")} filterClass="location" />
         </div>
       </div>
       <div className="home__baner">
@@ -75,7 +75,7 @@ const Home = () => {
         <div className="home__offtenChosenFiltres">
           <FiltersSnapshot
             links={["SUV", "Coupe", "Hatchback", "Combi", "Sedan"]}
-            title={t("often checked car types")}
+            title={t("Often checked car types")}
             filterClass="type"
             horizontal={true}
           />

@@ -7,7 +7,7 @@ import { faAnglesDown } from "@fortawesome/free-solid-svg-icons";
 import ProductDetails from "../product-details/product-details.component";
 import { useTranslation } from "react-i18next";
 
-type status = "pending" | "finished" | "canceled";
+type status = "Pending" | "Finished" | "Canceled";
 
 const OrderHistoryItem: FC<{ order: userOrder }> = ({ order }) => {
   const { car, data } = order;
@@ -16,7 +16,7 @@ const OrderHistoryItem: FC<{ order: userOrder }> = ({ order }) => {
   const itemRef = useRef<HTMLDivElement | null>(null);
 
   const [extended, setExtendState] = useState(false);
-  const [status, setStatus] = useState<status>("pending");
+  const [status, setStatus] = useState<status>("Pending");
 
   const extend = () => {
     const itemCard = itemRef.current;
@@ -28,9 +28,9 @@ const OrderHistoryItem: FC<{ order: userOrder }> = ({ order }) => {
   };
 
   useEffect(() => {
-    if (today < new Date(data.date_of_receipt)) setStatus("pending");
-    else if (data.canclel) setStatus("canceled");
-    else setStatus("finished");
+    if (today < new Date(data.date_of_receipt)) setStatus("Pending");
+    else if (data.canclel) setStatus("Canceled");
+    else setStatus("Finished");
   }, []);
 
   return (
@@ -40,16 +40,16 @@ const OrderHistoryItem: FC<{ order: userOrder }> = ({ order }) => {
         <div className="orderHistoryItem__description">
           <h2 className="orderHistoryItem__title">{`${car.brand} ${car.model}`}</h2>
           <div className="orderHistoryItem__basicData">
-            <span className="orderHistoryItem__basicData__item">{dateToLocalString(new Date(data.date_of_receipt))}</span>
-            <span className="orderHistoryItem__basicData__item">{data.place_of_receipt}</span>
-            <span className="orderHistoryItem__basicData__item">{dateToLocalString(new Date(data.date_of_return))}</span>
-            <span className="orderHistoryItem__basicData__item">{data.place_of_return}</span>
+            <span className="orderHistoryItem__basicData__item">{`${t("Pick up date")}: ${dateToLocalString(new Date(data.date_of_receipt))}`}</span>
+            <span className="orderHistoryItem__basicData__item">{`${t("Pick up location")}: ${data.place_of_receipt}`}</span>
+            <span className="orderHistoryItem__basicData__item">{`${t("Return date")}: ${dateToLocalString(new Date(data.date_of_return))}`}</span>
+            <span className="orderHistoryItem__basicData__item">{`${t("Return location")}: ${data.place_of_return}`}</span>
           </div>
           <FontAwesomeIcon onClick={extend} className="orderHistoryItem__extendIcon" icon={faAnglesDown} />
         </div>
       </div>
       <div className="orderHistoryItem__body">
-        <h3 className="orderHistoryItem__price">{`${t("amount")}: ${calculatePrice(
+        <h3 className="orderHistoryItem__price">{`${t("Amount")}: ${calculatePrice(
           car.daily_price,
           data.date_of_receipt,
           data.date_of_return
@@ -57,8 +57,8 @@ const OrderHistoryItem: FC<{ order: userOrder }> = ({ order }) => {
         {<ProductDetails product={car} />}
       </div>
       <div className="orderHistoryItem__statusBox">
-        <span>status:</span>
-        <span className={`orderHistoryItem__${status}`}>{t(status)}</span>
+        <span>Status:</span>
+        <span className={`orderHistoryItem__${status.toLowerCase()}`}>{t(status)}</span>
       </div>
     </div>
   );

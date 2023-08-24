@@ -26,18 +26,18 @@ const AccountDropdow = () => {
       <ul className="account-dropdown__linksCnt">
         <li className="account-dropdown__link">
           <Link onClick={() => dispatch(changeUserDropdown(false))} to="/account">
-            {t("profile")}
+            {t("Profile")}
           </Link>
         </li>
         <li className="account-dropdown__link">
           <Link onClick={() => dispatch(changeUserDropdown(false))} to="/account/history">
-            {t("history of orders")}
+            {t("History of orders")}
           </Link>
         </li>
       </ul>
       <div className="account-dropdown__button-container">
         <Button buttonType={BUTTON_CLASSES.reverse} onClick={logout}>
-          {t("logout")}
+          {t("Logout")}
         </Button>
       </div>
     </div>

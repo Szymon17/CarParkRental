@@ -22,7 +22,7 @@ const LogIn = () => {
   useEffect(() => {
     if (user) {
       navigate("/");
-      toast.error(t("already logged-in"));
+      toast.error(t("You are already logged in."));
     }
   }, []);
 
@@ -36,8 +36,8 @@ const LogIn = () => {
         logInUser({
           email,
           password,
-          succesHandler: () => toast.success(t("succesful login")),
-          errorHandler: () => toast.error(t("check your login data")),
+          succesHandler: () => toast.success(t("Login successful")),
+          errorHandler: () => toast.error(t("Check your login data")),
         })
       );
   };
@@ -45,16 +45,16 @@ const LogIn = () => {
   return (
     <div className="log-in">
       <div className="log-in__container">
-        <SingInPanel action={tryLogIn} title={t("log-in")} linkText={t("register")} link="/register">
+        <SingInPanel action={tryLogIn} title={t("Log-in")} linkText={t("Register")} link="/register">
           <>
             <FormInput label="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
-            <FormInput label={t("password")} type="password" value={password} onChange={e => setPassword(e.target.value)} />
+            <FormInput label={t("Password")} type="password" value={password} onChange={e => setPassword(e.target.value)} />
           </>
         </SingInPanel>
       </div>
       <footer className="log-in__footer">
         <p className="log-in__footer__text">Email: Test@gmaill.com</p>
-        <p className="log-in__footer__text">{t("password")}: 123456</p>
+        <p className="log-in__footer__text">{t("Password")}: 123456</p>
       </footer>
     </div>
   );

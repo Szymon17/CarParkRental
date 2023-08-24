@@ -60,7 +60,7 @@ const Register = () => {
   return (
     <div className="register">
       <div className="register__container">
-        <SingInPanel title={t("register")} linkText={t("log-in")} link="/log-in" action={registerUser}>
+        <SingInPanel title={t("Register")} linkText={t("Log-in")} link="/log-in" action={registerUser}>
           <>
             <FormInput
               label="Email"
@@ -70,35 +70,35 @@ const Register = () => {
               onChange={e => changeEvent(e, setEmail)}
             />
             <FormInput
-              label={t("password")}
+              label={t("Password")}
               invalid={invalidSend && !validate.password(password, confirmPassword)}
               type="password"
               value={password}
               onChange={e => changeEvent(e, setPassword)}
             />
             <FormInput
-              label={t("repeat password")}
+              label={t("Repeat password")}
               invalid={invalidSend && !validate.password(password, confirmPassword)}
               type="password"
               value={confirmPassword}
               onChange={e => changeEvent(e, setConfirmPassword)}
             />
             <FormInput
-              label={t("name")}
+              label={t("Name")}
               type="text"
               invalid={invalidSend && !validate.name(name)}
               value={name}
               onChange={e => changeEvent(e, setName)}
             />
             <FormInput
-              label={t("surname")}
+              label={t("Surname")}
               type="text"
               invalid={invalidSend && !validate.name(surname)}
               value={surname}
               onChange={e => changeEvent(e, setSurname)}
             />
             <FormInput
-              label={t("phone number")}
+              label={t("Phone number")}
               type="text"
               invalid={invalidSend && !validate.phoneNumber(phoneNumber)}
               value={phoneNumber}

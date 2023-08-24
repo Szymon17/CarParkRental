@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const uri = `mongodb+srv://my-api:${process.env.DB_PASSWORD}@${process.env.DB_NAME}.mongodb.net/?retryWrites=true&w=majority`;
 
-mongoose.connection.once("open", () => {
+mongoose.connection.on("open", () => {
   console.log("mongoDB is ready");
 });
 

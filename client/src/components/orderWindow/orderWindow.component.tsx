@@ -26,7 +26,7 @@ const OrderWindow = () => {
   const search = () => {
     const dateError = isDateError(date_of_receipt, date_of_return);
 
-    if (!place_of_receipt || !place_of_return) toast.error(t("no location alert"));
+    if (!place_of_receipt || !place_of_return) toast.error(t("No location alert"));
     else if (dateError) toast.error(t(dateError));
     else {
       dispatch(saveOrderData({ place_of_receipt, place_of_return, date_of_receipt, date_of_return }));
@@ -41,17 +41,17 @@ const OrderWindow = () => {
       <div className="orderWindow__container">
         <div className="orderWindow__item">
           <div className="orderWindow__inputContainer">
-            <label className="orderWindow__inputLabel">{t("pick up location")}</label>
+            <label className="orderWindow__inputLabel">{t("Pick up location")}</label>
             <SelectLocations changeState={set_place_of_receipt} />
           </div>
           <div className="orderWindow__inputContainer">
-            <label className="orderWindow__inputLabel">{t("return location")}</label>
+            <label className="orderWindow__inputLabel">{t("Return location")}</label>
             <SelectLocations changeState={set_place_of_return} />
           </div>
         </div>
         <div className="orderWindow__item">
           <div className="orderWindow__inputContainer">
-            <label className="orderWindow__inputLabel">{t("pick up date")}</label>
+            <label className="orderWindow__inputLabel">{t("Pick up date")}</label>
             <input
               type="date"
               value={dateToLocalString(date_of_receipt)}
@@ -60,7 +60,7 @@ const OrderWindow = () => {
             ></input>
           </div>
           <div className="orderWindow__inputContainer">
-            <label className="orderWindow__inputLabel">{t("return date")}</label>
+            <label className="orderWindow__inputLabel">{t("Return date")}</label>
             <input
               type="date"
               value={dateToLocalString(date_of_return)}
@@ -72,7 +72,7 @@ const OrderWindow = () => {
       </div>
       <div className="orderWindow__buttonContainer">
         <Button buttonType={BUTTON_CLASSES.green} onClick={search}>
-          {t("check")}
+          {t("Check")}
         </Button>
       </div>
     </div>

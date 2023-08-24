@@ -39,16 +39,16 @@ const Product = () => {
             <img className="product__header__img" src={productInStorage.img_url} alt="car image" />
             <div className="product__header__description">
               <h2 className="product__header__description__title">{`${productInStorage.brand} ${productInStorage.model} `}</h2>
-              <span className="product__header__description__price">{`${productInStorage.daily_price}Zł/${t("day")}`}</span>
-              <Button onClick={() => navigate("/summary")}>{t("order")}</Button>
+              <span className="product__header__description__price">{`${productInStorage.daily_price}Zł/${t("Day")}`}</span>
+              <Button onClick={() => navigate("/summary")}>{t("Order")}</Button>
             </div>
           </header>
           <section className="product__details product__section">
+            <h2 className="product__section-title">{t("Details")}</h2>
             <ProductDetails product={productInStorage} />
-            <h2 className="product__section-title">{t("details")}</h2>
           </section>
           <section className="product__addons product__section">
-            <h2 className="product__section-title">{t("addons")}</h2>
+            <h2 className="product__section-title">{t("Addons")}</h2>
             <ul className="product__addons__list">
               {productInStorage.addons.map((addon, index) => (
                 <li key={index} className="product__addons__list__item">
