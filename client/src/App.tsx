@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { selectExpireTime, selectUser, selectUserDropdownState } from "./store/user/user.selectors";
 import { changeUserDropdown, logOut } from "./store/user/user.reducer";
 import { ToastContainer } from "react-toastify";
+import { getLocations } from "./store/locations/locations.actions";
+import { selectLocations } from "./store/locations/locations.selector";
 import Navigation from "./routes/navigation/navigation.component";
 import Home from "./routes/home/home.component";
 import LogIn from "./routes/log-in/log-in.component";
@@ -16,8 +18,6 @@ import Product from "./routes/product/product.component";
 import Summary from "./routes/summary/summary.component";
 import Profile from "./components/profile/profile.component";
 import OrderHistory from "./components/order-history/order-history.component";
-import { getLocations } from "./store/locations/locations.actions";
-import { selectLocations } from "./store/locations/locations.selector";
 import About from "./routes/about/about.component";
 
 function App() {

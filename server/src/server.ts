@@ -4,6 +4,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import api from "./routes/api.js";
 import cors from "cors";
+import helmet from "helmet";
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(helmet());
 app.use(api);
 
 async function startServer() {

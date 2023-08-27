@@ -11,7 +11,7 @@ const SelectLocations: FC<selectLocationsTypes> = ({ defaultValue, changeState }
   const locations = useAppSelector(selectLocations);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const [selectedLocation, setSelectedLocation] = useState(defaultValue ? defaultValue : locations[0]);
+  const [selectedLocation, setSelectedLocation] = useState(defaultValue);
   const [extend, setExtendState] = useState(false);
 
   useEffect(() => {
@@ -28,6 +28,10 @@ const SelectLocations: FC<selectLocationsTypes> = ({ defaultValue, changeState }
       }
     } else setExtendState(false);
   }, [extend, setExtendState]);
+
+  useEffect(() => {
+    setSelectedLocation(locations[0]);
+  }, [locations, setSelectedLocation]);
 
   const selectLocationHandler = (location: string) => {
     setSelectedLocation(location);
