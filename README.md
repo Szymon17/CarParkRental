@@ -1,7 +1,8 @@
-<pre>
 # CarRentPark
-The car online rental application allows you to create an account, log in, browse, order products and has a small panel denoting a user account that can be used for user data and can even be deleted from the account. 
 
+The car online rental application allows you to create an account, log in, browse, order products and has a small panel denoting a user account that can be used for user data and can even be deleted from the account. <br>
+
+<pre>
 Link to the demo: https://carrentpark.szymon17.warszawa.pl 
 
 -How to install? 
