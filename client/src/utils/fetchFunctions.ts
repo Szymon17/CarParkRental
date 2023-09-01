@@ -22,7 +22,6 @@ const registerUserFetch = async (user: userData): Promise<fetchType<undefined> |
 
     return await res.json();
   } catch (err) {
-    console.log(err);
     return;
   }
 };
@@ -41,7 +40,7 @@ const getTokenByEmailAndPassword = async (email: string, password: string): Prom
     const data: userCall = await res.json();
     if (data.user && data.expire) return data;
   } catch (error) {
-    console.error(error);
+    return;
   }
 };
 
@@ -52,7 +51,7 @@ const logOutUser = async () => {
       credentials: "include",
     });
   } catch (error) {
-    console.log(error);
+    return;
   }
 };
 
