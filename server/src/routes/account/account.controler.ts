@@ -1,10 +1,9 @@
 import { Response, Request } from "express";
-import asyncHandler from "express-async-handler";
 import { CustomRequest, UserRequest, update, logInWithToken, userData, RequestWithQuery } from "../../types/basicTypes.js";
-import { addUserToDB, deleteUser, findUserWithEmailAndPassword, getUserOrders, updateUser } from "../../models/account.model.js";
+import { addUserToDB, deleteUser, findUserWithEmailAndPassword, getUserOrders, updateUser, validateRegister } from "../../models/account.model.js";
 import { generateToken } from "../../utils/generateToken.js";
 
-const updateProfile = asyncHandler(async (req: CustomRequest<update> & UserRequest, res: Response) => {
+async function updateProfile(req: CustomRequest<update> & UserRequest, res: Response) {
   const user = req.user;
 
   if (user) {
@@ -21,7 +20,7 @@ const updateProfile = asyncHandler(async (req: CustomRequest<update> & UserReque
       res.json({ status: "ok", message: "Updated user", nextUpdateTime });
     } else res.status(404).json({ status: "error", message: "not found" });
   } else res.status(404).json({ status: "error", message: "not found" });
-});
+}
 
 async function deleteProfile(req: UserRequest, res: Response) {
   const user = await deleteUser(req.user.email);
@@ -51,8 +50,11 @@ function logoutUser(req: Request, res: Response) {
   res.status(200).json({ message: "Logged out successfully" });
 }
 
-async function httpAddUser(req: CustomRequest<userData>, res: Response) {
+async function httpRegisterUser(req: CustomRequest<userData>, res: Response) {
   const user = req.body;
+
+  if (!validateRegister(user)) return res.status(422).json({ status: "error", message: "your user data is not valid" });
+
   const isError = await addUserToDB(user);
 
   if (!isError) {
@@ -74,4 +76,4 @@ async function httpGetUserOrderedProducts(req: UserRequest & RequestWithQuery<{ 
   } else return res.status(404).json({ status: "error", message: "there is no user" });
 }
 
-export { updateProfile, deleteProfile, httpLogInWithToken, logoutUser, httpAddUser, httpGetUserOrderedProducts };
+export { updateProfile, deleteProfile, httpLogInWithToken, logoutUser, httpRegisterUser, httpGetUserOrderedProducts };

@@ -1,7 +1,16 @@
 import { userSnapshot, update, user, userData, userOrder } from "../types/basicTypes.js";
+import { validate } from "../utils/validate.js";
 import { getOffersById, getOrders } from "./offers.model.js";
 import usersMongo from "./users.mongo.js";
 import bcrypt from "bcrypt";
+
+function validateRegister(user: userData): boolean {
+  const { email, password, name, surname, phoneNumber } = user;
+
+  if (validate.email(email) && validate.password(password) && validate.name(name) && validate.name(surname) && validate.phoneNumber(phoneNumber))
+    return true;
+  else return false;
+}
 
 async function findUserWithEmailAndPassword(email: string, password: string) {
   const user = await usersMongo.findOne({ email: email }, "-__v -_id -createdAt");
@@ -27,10 +36,12 @@ async function findUserWithEmailAndPassword(email: string, password: string) {
 async function updateUser(updateValues: update, user: userSnapshot) {
   const orginalEmail = user.email;
 
-  user.name = updateValues.name || user.name;
-  user.surname = updateValues.surname || user.surname;
-  user.email = updateValues.newEmail || user.email;
-  user.phoneNumber = updateValues.phoneNumber || user.phoneNumber;
+  const { name, surname, newEmail, phoneNumber } = updateValues;
+
+  user.name = name && validate.name(name) ? name : user.name;
+  user.surname = surname && validate.name(surname) ? surname : user.surname;
+  user.email = newEmail && validate.email(newEmail) ? newEmail : user.email;
+  user.phoneNumber = phoneNumber && validate.phoneNumber(String(phoneNumber)) ? String(phoneNumber) : user.phoneNumber;
 
   const isEmailInUse = await usersMongo.findOne({ email: user.email });
 
@@ -117,4 +128,4 @@ async function getUserOrders(userOrders: userOrder[], index: number, itemsCount:
   });
 }
 
-export { updateUser, deleteUser, findUser, updateUserOrders, findUserWithEmailAndPassword, addUserToDB, getUserOrders };
+export { updateUser, deleteUser, findUser, updateUserOrders, findUserWithEmailAndPassword, addUserToDB, getUserOrders, validateRegister };

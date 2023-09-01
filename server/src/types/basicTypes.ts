@@ -39,7 +39,7 @@ interface user extends userData {
   orders: string[];
 }
 
-type update = { newEmail?: string; name?: string; surname?: string; phoneNumber?: string };
+type update = { newEmail?: string; name?: string; surname?: string; phoneNumber?: number };
 
 type RequestWithQuery<Q> = Request<unknown, unknown, unknown, Q>;
 
