@@ -6,7 +6,7 @@ Link to the demo: https://carrentpark.szymon17.warszawa.pl <br><br>
 
 Login data for test account: <br>
 Login: Test@gmail.com <br>
-Hasło: 123456 <br>
+Password: 123456 <br>
 
 <pre>
 -How to install? 
