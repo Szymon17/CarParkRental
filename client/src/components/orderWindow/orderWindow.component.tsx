@@ -42,11 +42,11 @@ const OrderWindow = () => {
         <div className="orderWindow__item">
           <div className="orderWindow__inputContainer">
             <label className="orderWindow__inputLabel">{t("Pick up location")}</label>
-            <SelectLocations changeState={set_place_of_receipt} />
+            <SelectLocations value={place_of_receipt} changeState={set_place_of_receipt} />
           </div>
           <div className="orderWindow__inputContainer">
             <label className="orderWindow__inputLabel">{t("Return location")}</label>
-            <SelectLocations changeState={set_place_of_return} />
+            <SelectLocations value={place_of_return} changeState={set_place_of_return} />
           </div>
         </div>
         <div className="orderWindow__item">
