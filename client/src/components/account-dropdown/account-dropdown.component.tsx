@@ -2,12 +2,17 @@ import "./account-dropdown.styles.sass";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { selectUser } from "../../store/user/user.selectors";
 import { Link, useNavigate } from "react-router-dom";
-import { changeUserDropdown, logOut } from "../../store/user/user.reducer";
+import { logOut } from "../../store/user/user.reducer";
 import { logOutUser } from "../../utils/fetchFunctions";
 import Button, { BUTTON_CLASSES } from "../button/button.component";
 import { useTranslation } from "react-i18next";
+import { FC } from "react";
 
-const AccountDropdow = () => {
+type AccountDropdownState = {
+  setState: Function;
+};
+
+const AccountDropdow: FC<AccountDropdownState> = ({ setState }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -15,7 +20,6 @@ const AccountDropdow = () => {
 
   const logout = async () => {
     await logOutUser();
-    dispatch(changeUserDropdown(false));
     dispatch(logOut());
     navigate("/");
   };
@@ -25,12 +29,12 @@ const AccountDropdow = () => {
       <h1 className="account-dropdown__name">{user?.name}</h1>
       <ul className="account-dropdown__linksCnt">
         <li className="account-dropdown__link">
-          <Link onClick={() => dispatch(changeUserDropdown(false))} to="/account">
+          <Link onClick={() => setState(false)} to="/account">
             {t("Profile")}
           </Link>
         </li>
         <li className="account-dropdown__link">
-          <Link onClick={() => dispatch(changeUserDropdown(false))} to="/account/history">
+          <Link onClick={() => setState(false)} to="/account/history">
             {t("History of orders")}
           </Link>
         </li>

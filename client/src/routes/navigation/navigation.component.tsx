@@ -5,22 +5,28 @@ import { faCarRear, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { selectUser, selectUserDropdownState } from "../../store/user/user.selectors";
-import { changeUserDropdown } from "../../store/user/user.reducer";
+import { selectUser } from "../../store/user/user.selectors";
 import { dateToLocalString, dayAfterTomorrow, tomorrow } from "../../utils/basicFunctions";
 import { saveOrderData } from "../../store/order/order.reducer";
 import { useTranslation } from "react-i18next";
 import PLflag from "../../assets/pl-flag.png";
 import ENflag from "../../assets/en-flag.png";
 import AccountDropdown from "../../components/account-dropdown/account-dropdown.component";
+import { getAppEvent } from "../../store/app/app.selectors";
 
 const Navigation = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
-  const userDropdownState = useAppSelector(selectUserDropdownState);
+  const appEvent = useAppSelector(getAppEvent);
+
+  const [userDropdownState, setUserDropdownState] = useState(false);
 
   const [language, setLanguage] = useState("pl");
+
+  useEffect(() => {
+    if (userDropdownState) setUserDropdownState(false);
+  }, [appEvent]);
 
   useEffect(() => {
     i18n.changeLanguage(language);
@@ -76,7 +82,10 @@ const Navigation = () => {
             <div className="navigation__link-container">
               {user ? (
                 <FontAwesomeIcon
-                  onClick={() => dispatch(changeUserDropdown(!userDropdownState))}
+                  onClick={e => {
+                    e.stopPropagation();
+                    setUserDropdownState(!userDropdownState);
+                  }}
                   className="navigation__link-container__userIcon"
                   icon={faUser}
                 />
@@ -87,7 +96,7 @@ const Navigation = () => {
             </div>
           </li>
         </ul>
-        {userDropdownState && user && <AccountDropdown />}
+        {userDropdownState && user && <AccountDropdown setState={setUserDropdownState} />}
       </nav>
       <Outlet />
     </>

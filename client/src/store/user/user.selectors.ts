@@ -9,8 +9,6 @@ export const selectUserStatus = createSelector([selectUserState], ({ userStatus 
 
 export const selectNextUpdateTime = createSelector([selectUserState], ({ nextUpdateTime }) => nextUpdateTime);
 
-export const selectUserDropdownState = createSelector([selectUserState], ({ userDropdown }) => userDropdown);
-
 export const selectUserOrders = createSelector([selectUserState], ({ user }) => user?.orders);
 
 export const selectOrdersCount = createSelector([selectUserState], ({ user }) => user?.orders.length || 0);

@@ -9,7 +9,6 @@ const initialState: userInitialStateTypes = {
   userStatus: "idle",
   ordersStatus: "idle",
   shouldFetchOrders: true,
-  userDropdown: false,
 };
 
 const userSlice = createSlice({
@@ -26,12 +25,6 @@ const userSlice = createSlice({
       state.user = null;
       state.expireTime = null;
       state.shouldFetchOrders = true;
-    },
-
-    changeUserDropdown: (state, action: PayloadAction<boolean>) => {
-      const { payload } = action;
-
-      state.userDropdown = payload;
     },
 
     saveUserOrder: (state, action: PayloadAction<userOrder>) => {
@@ -73,6 +66,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logOut, updateUserState, changeUserDropdown, saveUserOrder } = userSlice.actions;
+export const { logOut, updateUserState, saveUserOrder } = userSlice.actions;
 
 export default userSlice.reducer;
