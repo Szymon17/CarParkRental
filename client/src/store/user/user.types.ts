@@ -49,7 +49,6 @@ type userInitialStateTypes = {
   userStatus: "idle" | "loading" | "failed";
   ordersStatus: "idle" | "loading" | "failed";
   shouldFetchOrders: boolean;
-  userDropdown: boolean;
 };
 
 export { userSnapshot, userCall, userInitialStateTypes, userPayload, userData, userUpdate, userPutResponse, userOrder };

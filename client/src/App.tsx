@@ -3,8 +3,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
-import { selectExpireTime, selectUser, selectUserDropdownState } from "./store/user/user.selectors";
-import { changeUserDropdown, logOut } from "./store/user/user.reducer";
+import { selectExpireTime, selectUser } from "./store/user/user.selectors";
+import { logOut } from "./store/user/user.reducer";
 import { ToastContainer } from "react-toastify";
 import { getLocations } from "./store/locations/locations.actions";
 import { selectLocations } from "./store/locations/locations.selector";
@@ -19,12 +19,12 @@ import Summary from "./routes/summary/summary.component";
 import Profile from "./components/profile/profile.component";
 import OrderHistory from "./components/order-history/order-history.component";
 import About from "./routes/about/about.component";
+import { registerAppEvent } from "./store/app/app.reducer";
 
 function App() {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const locations = useAppSelector(selectLocations);
-  const userDropdownState = useAppSelector(selectUserDropdownState);
   const expireTime = useAppSelector(selectExpireTime);
 
   useEffect(() => {
@@ -37,12 +37,12 @@ function App() {
     }
   }, [dispatch, user]);
 
-  const changeDropdownState = () => {
-    if (userDropdownState) dispatch(changeUserDropdown(false));
+  const appClick = () => {
+    dispatch(registerAppEvent());
   };
 
   return (
-    <div className="app" onClick={changeDropdownState}>
+    <div className="app" onClick={appClick}>
       <Routes>
         <Route path="/" element={<Navigation />}>
           <Route index element={<Home />} />
