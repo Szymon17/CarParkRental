@@ -1,6 +1,6 @@
 import "./filtres.styles.sass";
 import { useState, ChangeEvent } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { dateToLocalString, dayAfterTomorrow, isDateError, today, tomorrow } from "../../utils/basicFunctions";
 import { useAppDispatch } from "../../store/hooks";
 import { getProducts } from "../../store/products/products.actions";
@@ -94,7 +94,19 @@ const Filtres = () => {
   };
 
   const clearFilters = () => {
-    const link = `?pul=Warszawa&rl=Warszawa&rd=${dateToLocalString(date_of_receipt)}&rtd=${dateToLocalString(date_of_return)}`;
+    const newTommorow = new Date(tomorrow);
+    const newDayAfterTommorow = new Date(dayAfterTomorrow);
+
+    setNumberOfSits(null);
+    setFuelType(null);
+    setDriveType(null);
+
+    set_place_of_receipt("Warszawa");
+    set_place_of_return("Warszawa");
+    set_date_of_receipt(newTommorow);
+    set_date_of_return(newDayAfterTommorow);
+
+    const link = `?pul=Warszawa&rl=Warszawa&rd=${dateToLocalString(newTommorow)}&rtd=${dateToLocalString(newDayAfterTommorow)}`;
     fetchProducts(link);
   };
 
@@ -135,8 +147,8 @@ const Filtres = () => {
         <h2 className="filtres__section__title">{t("Data")}</h2>
         <div className="filtres__section__body">
           <div className="filtres__data__locations">
-            <SelectLocations defaultValue={place_of_receipt} changeState={set_place_of_receipt} />
-            <SelectLocations defaultValue={place_of_return} changeState={set_place_of_return} />
+            <SelectLocations value={place_of_receipt} changeState={set_place_of_receipt} />
+            <SelectLocations value={place_of_return} changeState={set_place_of_return} />
           </div>
         </div>
         <div className="filtres__data__dates">
