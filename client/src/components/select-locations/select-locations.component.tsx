@@ -5,13 +5,12 @@ import { selectLocations } from "../../store/locations/locations.selector";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
-type selectLocationsTypes = { defaultValue?: string; changeState: Function };
+type selectLocationsTypes = { value: string; changeState: Function };
 
-const SelectLocations: FC<selectLocationsTypes> = ({ defaultValue, changeState }) => {
+const SelectLocations: FC<selectLocationsTypes> = ({ value, changeState }) => {
   const locations = useAppSelector(selectLocations);
   const selectRef = useRef<HTMLDivElement>(null);
 
-  const [selectedLocation, setSelectedLocation] = useState(defaultValue);
   const [extend, setExtendState] = useState(false);
 
   useEffect(() => {
@@ -29,12 +28,7 @@ const SelectLocations: FC<selectLocationsTypes> = ({ defaultValue, changeState }
     } else setExtendState(false);
   }, [extend, setExtendState]);
 
-  useEffect(() => {
-    setSelectedLocation(locations[0]);
-  }, [locations, setSelectedLocation]);
-
   const selectLocationHandler = (location: string) => {
-    setSelectedLocation(location);
     changeState(location);
     setExtendState(false);
   };
@@ -42,7 +36,7 @@ const SelectLocations: FC<selectLocationsTypes> = ({ defaultValue, changeState }
   return (
     <div ref={selectRef} className="selectLocations">
       <div onClick={() => setExtendState(!extend)} className="selectLocations__selected">
-        {selectedLocation}
+        {value}
       </div>
       <FontAwesomeIcon className="selectLocations__icon" icon={faCaretDown} />
       <ul className="selectLocations__selectBox">
