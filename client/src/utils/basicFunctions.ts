@@ -10,6 +10,9 @@ export const dateToLocalString = (date: Date): string => {
   return `${year}-${month > 9 ? month : "0" + month}-${day > 9 ? day : "0" + day}`;
 };
 
+export const countDateFromToday = (days: number = 0, months: number = 0): string =>
+  dateToLocalString(new Date(today.getFullYear(), today.getMonth() + months, today.getDate() + days));
+
 export const validate = {
   email: (email: string): boolean => {
     const regExp = /^([\S]+)@([\w]+)\.([\w]+)$/;

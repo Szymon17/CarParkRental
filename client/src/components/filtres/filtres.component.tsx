@@ -1,7 +1,7 @@
 import "./filtres.styles.sass";
 import { useState, ChangeEvent } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { dateToLocalString, dayAfterTomorrow, isDateError, today, tomorrow } from "../../utils/basicFunctions";
+import { dateToLocalString, countDateFromToday, dayAfterTomorrow, isDateError, today, tomorrow } from "../../utils/basicFunctions";
 import { useAppDispatch } from "../../store/hooks";
 import { getProducts } from "../../store/products/products.actions";
 import { saveOrderData } from "../../store/order/order.reducer";
@@ -152,8 +152,20 @@ const Filtres = () => {
           </div>
         </div>
         <div className="filtres__data__dates">
-          <FormInput onChange={e => set_date_of_receipt(new Date(e.target.value))} value={dateToLocalString(date_of_receipt)} type="date"></FormInput>
-          <FormInput onChange={e => set_date_of_return(new Date(e.target.value))} value={dateToLocalString(date_of_return)} type="date"></FormInput>
+          <FormInput
+            onChange={e => set_date_of_receipt(new Date(e.target.value))}
+            value={dateToLocalString(date_of_receipt)}
+            type="date"
+            min={countDateFromToday(1)}
+            max={countDateFromToday(0, 3)}
+          />
+          <FormInput
+            onChange={e => set_date_of_return(new Date(e.target.value))}
+            value={dateToLocalString(date_of_return)}
+            type="date"
+            min={countDateFromToday(2)}
+            max={countDateFromToday(10, 3)}
+          />
         </div>
       </section>
       <section className="filtres__numberOfSits filtres__section">

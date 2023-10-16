@@ -1,7 +1,7 @@
 import "./orderWindow.styles.sass";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { dateToLocalString, dayAfterTomorrow, isDateError, tomorrow } from "../../utils/basicFunctions";
+import { dateToLocalString, countDateFromToday, dayAfterTomorrow, isDateError, tomorrow } from "../../utils/basicFunctions";
 import { useAppDispatch } from "../../store/hooks";
 import { saveOrderData } from "../../store/order/order.reducer";
 import { useTranslation } from "react-i18next";
@@ -57,6 +57,8 @@ const OrderWindow = () => {
               value={dateToLocalString(date_of_receipt)}
               onChange={e => inputsHandler(new Date(e.target.value), set_date_of_receipt)}
               className="orderWindow__dateInput"
+              min={countDateFromToday(1)}
+              max={countDateFromToday(0, 3)}
             ></input>
           </div>
           <div className="orderWindow__inputContainer">
@@ -66,6 +68,8 @@ const OrderWindow = () => {
               value={dateToLocalString(date_of_return)}
               onChange={e => inputsHandler(new Date(e.target.value), set_date_of_return)}
               className="orderWindow__dateInput"
+              min={countDateFromToday(2)}
+              max={countDateFromToday(10, 3)}
             ></input>
           </div>
         </div>
