@@ -22,6 +22,15 @@ input::-webkit-calendar-picker-indicator
   margin: 0 auto
   width: vars.$containerWidth
 
+  @media (max-width:bp.$huge) 
+    width: 85%
+
+  @media (max-width:bp.$large) 
+    width: 90%
+
+  @media (max-width:bp.$medium) 
+    width: 100%
+
 ::-webkit-scrollbar 
   width: 8px
   background-color: transparent
@@ -32,12 +41,5 @@ input::-webkit-calendar-picker-indicator
 ::-webkit-scrollbar-thumb
   background-color: #25252583
 
-  @media (max-width:bp.$large) 
-    width: 95%
 
-  @media (max-width:bp.$large) 
-    width: 95%
-
-  @media (max-width:bp.$huge) 
-    width: 85%
   
