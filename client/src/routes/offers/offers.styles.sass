@@ -9,6 +9,9 @@
     height: calc( 100vh - vars.$navHeight)
     overflow: hidden
 
+    @media (max-width:bp.$extra-large)
+        width: 95%
+
     @media (max-width:bp.$large)
         flex-direction: column
         width: 100%
@@ -18,7 +21,7 @@
         width: 30%
         padding-top: 20px
 
-        @media (max-width: bp.$extra-large)
+        @media (max-width: bp.$large)
             width: 100%
             display: none
 
