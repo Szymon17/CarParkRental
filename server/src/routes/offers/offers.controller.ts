@@ -51,7 +51,14 @@ async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Respons
 
   const filters = createFilters(req.query);
 
-  if (validateGetOffersData(receiptDate, returnDate) && receiptLocation !== null && returnLocation !== null) {
+  if (
+    receiptLocation &&
+    receiptDate &&
+    returnDate &&
+    validateGetOffersData(receiptDate, returnDate) &&
+    receiptLocation !== null &&
+    returnLocation !== null
+  ) {
     const timeDiff = returnDate.getTime() - receiptDate.getTime();
 
     if (timeDiff > tenDaysInMs) return res.status(404).json({ status: "error", message: "your rent time is too long" });
@@ -76,7 +83,7 @@ async function httpPostOrder(req: UserRequest & CustomRequest<{ userData: orderD
 
       const orderResult = await saveOrder(order);
 
-      if (orderResult) {
+      if (orderResult && product.index) {
         const userResult = await updateUserOrders(orderResult._id.toString(), product.index, req.user.email);
         if (userResult) res.status(202).json({ status: "ok", message: "Created order" });
         else res.status(404).json({ status: "error", message: "This order is unvilable" });

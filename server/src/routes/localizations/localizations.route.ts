@@ -1,4 +1,4 @@
-import express from "express";
+import express = require("express");
 import { httpGetLocalizations } from "./localizations.controller.js";
 
 const localizationsRoute = express.Router();

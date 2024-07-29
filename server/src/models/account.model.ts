@@ -1,8 +1,9 @@
+import client from "../services/pg.js";
 import { userSnapshot, update, user, userData, userOrder } from "../types/basicTypes.js";
 import { validate } from "../utils/validate.js";
 import { getOffersById, getOrders } from "./offers.model.js";
+import bcrypt = require("bcrypt");
 import usersMongo from "./users.mongo.js";
-import bcrypt from "bcrypt";
 
 function validateRegister(user: userData): boolean {
   const { email, password, name, surname, phoneNumber } = user;
@@ -76,28 +77,21 @@ async function updateUserOrders(orderID: string, index: number, email: string) {
   }
 }
 
-async function saveUser(user: user) {
-  await usersMongo.create(user);
-}
-
 async function addUserToDB(user: userData): Promise<void | Error> {
-  const emailInUse = Boolean(
-    await usersMongo.findOne({
-      email: user.email,
-    })
-  );
+  const emailInUse = await client.query("SELECT user_id from users WHERE email = $1", [user.email]);
 
   if (emailInUse) return new Error("this email is already used");
 
-  const encryptedPassword = await bcrypt.hash(user.password, 10);
+  const { email, password, name, surname, phoneNumber } = user;
 
-  const fullUser = Object.assign(user, {
-    orders: [],
-    createdAt: new Date(),
-    password: encryptedPassword,
-  });
+  const encryptedPassword = await bcrypt.hash(password, 10);
 
-  await saveUser(fullUser);
+  const res = await client.query(
+    `INSERT INTO users (email, password, name, surname, phoneNumber, orders, "createdAt") VALUES ($1,$2,$3,$4,5,$6,$7)`,
+    [email, encryptedPassword, name, surname, phoneNumber, [], new Date()]
+  );
+
+  console.log(res);
 }
 
 async function getUserOrders(userOrders: userOrder[], index: number, itemsCount: number = 4) {
@@ -111,7 +105,7 @@ async function getUserOrders(userOrders: userOrder[], index: number, itemsCount:
   const orders = await getOrders(ordersId);
 
   const cars_id = orders.map(order => order.car_id);
-  const cars = await getOffersById(cars_id);
+  const cars = await getOffersById(cars_id as any);
 
   return orders.map(orderData => {
     const car = JSON.parse(JSON.stringify(cars.find(car => car.id === orderData.car_id)));
