@@ -10,6 +10,7 @@
 
 # production
 /build
+/public/Eksport
 
 # misc
 .DS_Store

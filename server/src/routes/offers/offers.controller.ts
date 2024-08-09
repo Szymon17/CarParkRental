@@ -36,7 +36,7 @@ const createFilters = (query: queryBasicData): aditionalfilters => {
 
 async function httpGetOffers(req: RequestWithQuery<queryBasicData>, res: Response) {
   const tenDaysInMs = 864000000;
-  const lastIndex = req.query.index ? Number(req.query.index) : Infinity;
+  const lastIndex = req.query.index ? Number(req.query.index) : 2147483647;
 
   const receiptDate = req.query.rd ? new Date(req.query.rd) : null;
   const returnDate = req.query.rtd ? new Date(req.query.rtd) : null;

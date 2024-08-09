@@ -14,7 +14,7 @@ function validateRegister(user: userData): boolean {
 }
 
 async function findUserWithEmailAndPassword(email: string, password: string) {
-  const user = await usersMongo.findOne({ email: email }, "-__v -_id -createdAt");
+  const user = (await client.query("SELECT * from users WHERE email = $1", [email])).rows[0];
 
   if (user) {
     const orders = await getUserOrders(user.orders, 0);
@@ -78,7 +78,7 @@ async function updateUserOrders(orderID: string, index: number, email: string) {
 }
 
 async function addUserToDB(user: userData): Promise<void | Error> {
-  const emailInUse = await client.query("SELECT user_id from users WHERE email = $1", [user.email]);
+  const emailInUse = (await client.query("SELECT user_id from users WHERE email = $1", [user.email])).rowCount;
 
   if (emailInUse) return new Error("this email is already used");
 
@@ -86,12 +86,14 @@ async function addUserToDB(user: userData): Promise<void | Error> {
 
   const encryptedPassword = await bcrypt.hash(password, 10);
 
-  const res = await client.query(
-    `INSERT INTO users (email, password, name, surname, phoneNumber, orders, "createdAt") VALUES ($1,$2,$3,$4,5,$6,$7)`,
-    [email, encryptedPassword, name, surname, phoneNumber, [], new Date()]
-  );
-
-  console.log(res);
+  await client.query(`INSERT INTO users (email, password, name, surname, phoneNumber, orders, "createdAt") VALUES ($1,$2,$3,$4,$5,$6,NOW())`, [
+    email,
+    encryptedPassword,
+    name,
+    surname,
+    phoneNumber,
+    JSON.stringify([]),
+  ]);
 }
 
 async function getUserOrders(userOrders: userOrder[], index: number, itemsCount: number = 4) {
@@ -104,8 +106,10 @@ async function getUserOrders(userOrders: userOrder[], index: number, itemsCount:
 
   const orders = await getOrders(ordersId);
 
+  if (!Array.isArray(orders)) return [];
+
   const cars_id = orders.map(order => order.car_id);
-  const cars = await getOffersById(cars_id as any);
+  const cars = await getOffersById(cars_id);
 
   return orders.map(orderData => {
     const car = JSON.parse(JSON.stringify(cars.find(car => car.id === orderData.car_id)));
