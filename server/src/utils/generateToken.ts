@@ -2,7 +2,12 @@ import { Response } from "express";
 import jwt = require("jsonwebtoken");
 
 export const generateToken = (res: Response, email: string) => {
-  const token = jwt.sign({ email }, process.env.SECRET_KEY || "SecretKey", { expiresIn: "30d" });
+  if (!process.env.SECRET_KEY) {
+    console.error("SECRET_KEY not provided as a env variable");
+    return;
+  }
+
+  const token = jwt.sign({ email }, process.env.SECRET_KEY, { expiresIn: "30d" });
 
   res.cookie("jwt", token, {
     httpOnly: true,

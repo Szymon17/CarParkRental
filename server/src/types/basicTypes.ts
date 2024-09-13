@@ -1,5 +1,4 @@
 import { Request } from "express";
-import { ObjectId } from "mongoose";
 
 type userOrder = {
   carIndex: number;
@@ -10,9 +9,9 @@ type userSnapshot = {
   email: string;
   name: string;
   surname: string;
-  phoneNumber: string;
+  phonenumber: string;
   orders: userOrder[];
-  _id?: ObjectId;
+  user_id: number;
 };
 
 type logInWithToken = {
@@ -31,7 +30,7 @@ type userData = {
   email: string;
   name: string;
   surname: string;
-  phoneNumber: string;
+  phonenumber: string;
 };
 
 interface user extends userData {
@@ -39,7 +38,7 @@ interface user extends userData {
   orders: string[];
 }
 
-type update = { newEmail?: string; name?: string; surname?: string; phoneNumber?: number };
+type update = { newEmail?: string; name?: string; surname?: string; phonenumber?: number };
 
 type RequestWithQuery<Q> = Request<unknown, unknown, unknown, Q>;
 

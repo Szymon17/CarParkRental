@@ -50,13 +50,13 @@ function logoutUser(req: Request, res: Response) {
   res.status(200).json({ message: "Logged out successfully" });
 }
 
-async function httpRegisterUser(req: CustomRequest<userData>, res: Response) {
+async function httpRegisterUser(req: CustomRequest<userData & { phoneNumber: string }>, res: Response) {
   const user = req.body;
+  user.phonenumber = user.phoneNumber;
 
   if (!validateRegister(user)) return res.status(422).json({ status: "error", message: "your user data is not valid" });
 
   const isError = await addUserToDB(user);
-
   if (!isError) {
     generateToken(res, user.email);
     res.status(201).json({ status: "ok", message: "created user" });

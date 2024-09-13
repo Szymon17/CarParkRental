@@ -4,7 +4,6 @@ import { deleteProfile, httpLogInWithToken, updateProfile, logoutUser, httpRegis
 
 const accountRoute = express.Router();
 
-accountRoute.get("/test", (req, res) => res.json({ test: "test" }));
 accountRoute.post("/log-in", httpLogInWithToken);
 accountRoute.post("/logout", logoutUser);
 accountRoute.post("/register", httpRegisterUser);

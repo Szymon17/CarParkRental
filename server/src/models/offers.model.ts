@@ -1,5 +1,3 @@
-import ordersMongo from "./orders.mongo.js";
-import carsMongo from "./offers.mongo.js";
 import client from "../services/pg.js";
 import { aditionalfilters, dataToGetoffers, order } from "../types/basicTypes.js";
 
@@ -15,7 +13,7 @@ async function getUnvilableCars(receiptDate: Date, returnDate: Date) {
 `;
 
   try {
-    const result = await client.query(query, [receiptDate, returnDate]);
+    const result = await client.query<{ car_id: string }>(query, [receiptDate, returnDate]);
     return result.rows;
   } catch (error) {
     console.error("Geting unvilable cars error", error);
@@ -29,7 +27,7 @@ async function getAvilableCars(lastIndex: number, filters: aditionalfilters, cou
   let unvilableCars: { car_id: string }[] = await getUnvilableCars(receiptDate, returnDate);
 
   const orders = unvilableCars.map(order => order.car_id);
-  console.log(orders);
+
   if (count >= 7) count = 6;
 
   const filterConditions = [];
@@ -42,11 +40,9 @@ async function getAvilableCars(lastIndex: number, filters: aditionalfilters, cou
     }
   }
 
-  const ordersPlaceholders = orders.map((_, index) => `$${filterValues.length + index + 1}`).join(", ");
-
   const query = `
   SELECT * FROM cars WHERE 
-  ${ordersPlaceholders.length > 0 ? `AND id NOT IN (${ordersPlaceholders}) AND` : ""}
+  ${orders.length > 0 ? `id NOT IN (${orders.join(",")}) AND` : ""}
   index < $1
   AND daily_price BETWEEN $2 AND $3
   AND localisation = $4
@@ -66,7 +62,7 @@ async function getAvilableCars(lastIndex: number, filters: aditionalfilters, cou
 
 async function getOfferByIndex(index: number) {
   try {
-    const res = await client.query(`SELECT * WHERE id = $1`, [index]);
+    const res = await client.query(`SELECT * FROM cars WHERE id = $1`, [index]);
     return res.rows[0];
   } catch (error) {
     console.error("Błąd podczas wykonywania zapytania:", error);
@@ -80,10 +76,29 @@ async function getOffersById(carsId: string[]) {
 
 async function saveOrder(order: order) {
   const unvilableCars = await getUnvilableCars(new Date(order.date_of_receipt), new Date(order.date_of_return));
-  const matchCar = unvilableCars.find(car => car.car_id === order.car_id);
+  const matchCar = unvilableCars.find(car => car.car_id === order.car_id.toString());
 
   if (matchCar) return;
-  else return await ordersMongo.create(order);
+  else {
+    const query = `
+    INSERT INTO orders (car_id, user_id, date_of_receipt, date_of_return, place_of_receipt, place_of_return, cancel)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+    RETURNING *;
+  `;
+
+    const values = [
+      order.car_id,
+      order.user_id,
+      order.date_of_receipt,
+      order.date_of_return,
+      order.place_of_receipt,
+      order.place_of_return,
+      order.cancel,
+    ];
+    const result = await client.query<order>(query, values);
+
+    return result.rows[0];
+  }
 }
 
 async function getOrders(ordersId: string[]) {
