@@ -3,15 +3,15 @@
 @use '../../sass/break_points' as bp
     
 .product-card
-    padding: 20px
+    padding: 30px 20px
     display: flex
     align-items: center
     margin-bottom: 30px
     width: 100%
-    height: calc( (100vh - vars.$navHeight) / 4 - 30px)
-    box-shadow: 0 6px 8px 4px #0000004f
-    border-radius: 5px
+    height: calc((100vh - vars.$navHeight) / 4 - 30px)
+    border: 1px solid black
     background-color: darken(vars.$container-color, 1%)
+    font-size: 0.8em
 
     @media (max-width: bp.$large)
         padding: 5px 5px
@@ -31,17 +31,36 @@
             height: 50%
 
     &__description
-        @include mixins.flexDisplay($primarySetting:space-between , $secondarySetting:center , $direction:column)
-        flex-grow: 1
         height: 100%
+        width: 100%
+        padding-left: 30px
+
+        &__title
+            text-align: center
+
+        &__box
+            @include mixins.flexDisplay($primarySetting: space-between)
+            margin-top: 15px
+            gap: 0 20px
+
+            &__right
+                @include mixins.flexDisplay($primarySetting:flex-end, $secondarySetting: flex-end, $direction: column)
+
+        &__dailyPrice
+            font-weight: 800
+            font-size: 1.2rem
+
+            &-text
+                font-size: 1.2rem
 
         &__icons
-            @include mixins.flexDisplay($primarySetting: space-around )
-            width: 100%
+            max-width: 200px
+            display: grid
+            grid-template-columns: repeat(2, 1fr)
+            gap: 20px 0
             font-size: 1.3em
 
             @media (max-width: bp.$medium)
-                flex-wrap: wrap
                 gap: 10px 0
 
         &__icons-box
@@ -50,7 +69,9 @@
                 padding-left: 10%
 
             &-icon
-                margin-right: 10px
+                margin-right: 4px
+                font-weight: 500
+                font-size: 0.9em
 
     & .button
         @media (max-width: bp.$medium)

@@ -15,6 +15,7 @@ type product = {
   img_url: string;
   index: number;
   addons: string[];
+  mileage: string;
 };
 
 type initialStateTypes = {

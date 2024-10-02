@@ -21,28 +21,35 @@ const ProductCard: FC<{ product: product }> = ({ product }) => {
 
   return (
     <div className="product-card">
-      <img className="product-card__img" src={product.img_url} />
+      {/* <img className="product-card__img" src={product.img_url} /> */}
+      <img className="product-card__img" src={"/Eksport/Golf.png"} />
       <div className="product-card__description">
         <h2 className="product-card__description__title">{`${product.brand} ${product.model}`}</h2>
-        <div className="product-card__description__icons">
-          <div className="product-card__description__icons-box">
-            <FontAwesomeIcon icon={faUserGroup} className="product-card__description__icons-icon" />
-            <span className="product-card__description__icons-value">{product.number_of_seats}</span>
+        <div className="product-card__description__box">
+          <div className="product-card__description__icons">
+            <div className="product-card__description__icons-box">
+              <FontAwesomeIcon icon={faUserGroup} className="product-card__description__icons-box-icon" />
+              <span className="product-card__description__icons-value">{product.number_of_seats}</span>
+            </div>
+            <div className="product-card__description__icons-box">
+              <FontAwesomeIcon icon={faGasPump} className="product-card__description__icons-box-icon" />
+              <span className="product-card__description__icons-value"> {t(product.fuel_type)}</span>
+            </div>
+            <div className="product-card__description__icons-box">
+              <FontAwesomeIcon icon={faGauge} className="product-card__description__icons-box-icon" />
+              <span className="product-card__description__icons-value">{product.power}KM</span>
+            </div>
+            <div className="product-card__description__icons-box">
+              <FontAwesomeIcon icon={faMoneyBill1} className="product-card__description__icons-box-icon" />
+              <span className="product-card__description__icons-value">{product.mileage}</span>
+            </div>
           </div>
-          <div className="product-card__description__icons-box">
-            <FontAwesomeIcon icon={faGasPump} className="product-card__description__icons-icon" />
-            <span className="product-card__description__icons-value"> {t(product.fuel_type)}</span>
-          </div>
-          <div className="product-card__description__icons-box">
-            <FontAwesomeIcon icon={faGauge} className="product-card__description__icons-icon" />
-            <span className="product-card__description__icons-value">{product.power}KM</span>
-          </div>
-          <div className="product-card__description__icons-box">
-            <FontAwesomeIcon icon={faMoneyBill1} className="product-card__description__icons-icon" />
-            <span className="product-card__description__icons-value">{product.daily_price}ZŁ</span>
+          <div className="product-card__description__box__right">
+            <span className="product-card__description__dailyPrice-text">{t("Daily price")}</span>
+            <span className="product-card__description__dailyPrice">{product.daily_price}ZŁ</span>
+            <Button onClick={goToProduct}>{t("Check")}</Button>
           </div>
         </div>
-        <Button onClick={goToProduct}>{t("Check")}</Button>
       </div>
     </div>
   );
